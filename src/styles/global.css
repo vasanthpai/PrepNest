@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Design tokens: use as bg-brand-600, text-brand-700, etc. */
+@theme {
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+  --color-brand-900: #312e81;
+
+  /* System fonts: zero download, fast on cheap phones and slow data */
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial,
+    sans-serif;
+}
