@@ -1,0 +1,36 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  // Top level = local development (npm run dev)
+  "name": "prepnest",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+  },
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    "APP_ENV": "local",
+  },
+
+  // Deployed environments. Selected at BUILD time: CLOUDFLARE_ENV=staging npm run build
+  // Note: "vars" are NOT inherited from the top level, so each env repeats them.
+  "env": {
+    "staging": {
+      "name": "prepnest-staging",
+      "vars": {
+        "APP_ENV": "staging",
+      },
+    },
+    "production": {
+      "name": "prepnest-production",
+      "vars": {
+        "APP_ENV": "production",
+      },
+    },
+  },
+}

@@ -4,12 +4,12 @@ How to get PrepNest running on a new machine.
 
 ## 1. Prerequisites
 
-| Tool    | Version         | Check with        |
-| ------- | --------------- | ----------------- |
-| Node.js | 24 LTS (`.nvmrc`) | `node -v`       |
-| npm     | 11+             | `npm -v`          |
-| Git     | 2.4x+           | `git --version`   |
-| GitHub CLI (optional) | 2.x | `gh --version` |
+| Tool                  | Version           | Check with      |
+| --------------------- | ----------------- | --------------- |
+| Node.js               | 24 LTS (`.nvmrc`) | `node -v`       |
+| npm                   | 11+               | `npm -v`        |
+| Git                   | 2.4x+             | `git --version` |
+| GitHub CLI (optional) | 2.x               | `gh --version`  |
 
 ### Install (Windows)
 
@@ -55,11 +55,26 @@ npm run dev        # http://localhost:4321
 
 ## 3. Useful scripts
 
-| Command           | What it does                         |
-| ----------------- | ------------------------------------ |
-| `npm run dev`     | Start the dev server with hot reload |
-| `npm run build`   | Production build into `dist/`        |
-| `npm run preview` | Serve the production build locally   |
+| Command           | What it does                                                    |
+| ----------------- | --------------------------------------------------------------- |
+| `npm run dev`     | Dev server with hot reload, running on Cloudflare's `workerd` runtime |
+| `npm run build`   | Production build into `dist/`                                   |
+| `npm run preview` | Serve the production build locally on `workerd`                 |
+
+## 4. How Cloudflare fits in
+
+- The app is deployed as a **Cloudflare Worker** using `@astrojs/cloudflare`.
+- `wrangler.jsonc` defines three environments:
+
+  | Environment | Worker name           | Selected by                        |
+  | ----------- | --------------------- | ---------------------------------- |
+  | local       | `prepnest`            | default (`npm run dev`)            |
+  | staging     | `prepnest-staging`    | `CLOUDFLARE_ENV=staging` at build  |
+  | production  | `prepnest-production` | `CLOUDFLARE_ENV=production` at build |
+
+- The environment is chosen at **build** time, not deploy time. CI builds once per environment.
+- Local secrets go in `.dev.vars` (git-ignored). Deployed secrets are set with
+  `npx wrangler secret put <NAME> --env <staging|production>`.
 
 ## Troubleshooting
 
