@@ -11,6 +11,5 @@
 
   /* System fonts: zero download, fast on cheap phones and slow data */
   --font-sans:
-    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial,
-    sans-serif;
+    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
 }
