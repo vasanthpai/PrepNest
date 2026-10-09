@@ -11,8 +11,8 @@ GitHub Actions workflows live in `.github/workflows/`. CI is the gate in the
 | **PR title**          | `pr-title.yml`          | PR opened / edited / updated   | Title follows Conventional Commits        | v0.1         |
 | **Deploy staging**    | `deploy-staging.yml`    | Push to `main`                 | Build, migrate, deploy, smoke test        | v0.1 step 15 |
 | **Deploy production** | `deploy-production.yml` | Tag `v*`                       | Approval, migrate, deploy, smoke, release | v0.1 step 16 |
-| **CodeQL**            | GitHub default setup    | PRs, `main`, weekly            | Security analysis of the code             | v0.1 step 13 |
-| **Dependabot**        | `dependabot.yml`        | Weekly                         | PRs for dependency and action updates     | v0.1 step 13 |
+| **CodeQL**            | GitHub default setup    | PRs, `main`, weekly            | Security analysis of the code             | v0.1         |
+| **Dependabot**        | `dependabot.yml`        | Weekly                         | PRs for dependency and action updates     | v0.1         |
 
 ## CI: what each check catches
 
@@ -53,3 +53,15 @@ The README shows the CI status of `main`:
 ```markdown
 [![CI](https://github.com/vasanthpai/PrepNest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vasanthpai/PrepNest/actions/workflows/ci.yml)
 ```
+
+## Required checks and protection
+
+`main` is protected by a ruleset: changes only through pull requests, both CI checks required and
+the branch up to date, rebase merge only. Details and every other repository setting:
+[github-setup.md](github-setup.md).
+
+## Dependabot PRs
+
+Every Monday 06:00 IST, Dependabot opens grouped PRs (`chore(deps): …`, `ci(deps): …`). They run
+CI like any other PR. If green: read the changelog of anything major, then **Rebase and merge**.
+TypeScript major updates are held back on purpose ([ADR 0008](decisions/0008-pin-typescript-6.md)).
