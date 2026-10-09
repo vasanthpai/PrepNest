@@ -36,10 +36,28 @@ procedure.
 | Last section followed by link references                    | Fixed: extraction stops at `[x.y.z]: …` lines                 |
 | `wrangler rollback --name`, `deployments list --name`       | Both exist in the installed Wrangler; staging versions listed |
 
+## Release (2026-10-09)
+
+| Step                                   | Result                                                                                                |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| PR #19 (production workflow) merged    | ✅ staging redeployed automatically                                                                   |
+| PR #20 `chore(release): v0.1.0` merged | ✅ staging reported `version: 0.1.0` (release candidate)                                              |
+| Tag `v0.1.0`                           | ✅ annotated, by Vasantha Pai, on `ff631b9 chore(release): v0.1.0`                                    |
+| Verify release                         | ✅ tag on `main`, version matches, CHANGELOG section present                                          |
+| Approval                               | ✅ approved by @vasanthpai: "v0.1.0 checked on staging"                                               |
+| Deploy + smoke test                    | ✅ health `env=production version=0.1.0`, home indexable, favicon                                     |
+| GitHub Release                         | ✅ [v0.1.0](https://github.com/vasanthpai/PrepNest/releases/tag/v0.1.0), latest, notes from CHANGELOG |
+| Independent check                      | No banner, no robots meta, footer `v0.1.0 · production`, 200 in 0.57 s                                |
+| Milestone v0.1                         | ✅ closed (17/17)                                                                                     |
+
+**Caught by the process:** the first `git log` before tagging showed the PR #19 commit, not the
+release commit (PR #20 wasn't merged yet). Checking before tagging, plus the workflow's
+version check, mean a wrong tag can't reach production.
+
 ## Validation
 
 - [x] Notes extraction and verify checks tested locally
-- [ ] Production waits for approval, then deploys; smoke test `env=production`, `version=0.1.0`
-- [ ] Production page: no banner, indexable
-- [ ] GitHub Release `v0.1.0` published with CHANGELOG notes
-- [ ] Milestone v0.1 closed
+- [x] Production waits for approval, then deploys; smoke test `env=production`, `version=0.1.0`
+- [x] Production page: no banner, indexable
+- [x] GitHub Release `v0.1.0` published with CHANGELOG notes
+- [x] Milestone v0.1 closed

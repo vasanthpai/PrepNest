@@ -24,6 +24,8 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 15  | Deploy staging with smoke test                   | [#16](https://github.com/vasanthpai/PrepNest/issues/16) | [15](v0.1/15-deploy-staging.md)     |
 | 16  | Production deploy workflow and v0.1.0 release    | [#18](https://github.com/vasanthpai/PrepNest/issues/18) | [16](v0.1/16-release.md)            |
 
+**Retrospective:** [what went well, what we learned](v0.1/retrospective.md)
+
 ## Template for a new step log
 
 ```markdown
