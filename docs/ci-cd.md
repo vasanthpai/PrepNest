@@ -64,3 +64,40 @@ the branch up to date, rebase merge only. Details and every other repository set
 Every Monday 06:00 IST, Dependabot opens grouped PRs (`chore(deps): …`, `ci(deps): …`). They run
 CI like any other PR. If green: read the changelog of anything major, then **Rebase and merge**.
 TypeScript major updates are held back on purpose ([ADR 0008](decisions/0008-pin-typescript-6.md)).
+
+## Deploy staging
+
+`deploy-staging.yml` runs when **CI succeeds on a push to `main`** (or by hand: Actions → Deploy
+staging → Run workflow).
+
+```
+merge to main ──► CI (on main) ──success──► Deploy staging
+                                              ├─ check out the exact commit CI tested
+                                              ├─ npm ci → build (CLOUDFLARE_ENV=staging)
+                                              ├─ (v0.3) migrate the staging database
+                                              ├─ wrangler deploy → live URL
+                                              ├─ smoke test the live URL
+                                              └─ summary + GitHub deployment record
+```
+
+| Design choice                             | Why                                                                             |
+| ----------------------------------------- | ------------------------------------------------------------------------------- |
+| Triggered by `workflow_run` after CI      | Never deploys a commit that failed CI, and never runs in parallel with it       |
+| Only for `push` events in this repository | A fork PR from a branch named `main` would otherwise match and get our secrets  |
+| Checks out `workflow_run.head_sha`        | Deploys exactly the commit CI tested, even if `main` moved since                |
+| `cancel-in-progress: false`               | Deploys queue; a half-finished deploy is never cancelled                        |
+| `environment: staging`                    | Supplies the Cloudflare credentials; records the deployment and URL             |
+| Smoke test with retries                   | A deploy is done when the live site answers correctly, not when the upload ends |
+
+### Smoke test
+
+`npm run smoke -- --url <base-url> --env <env> --version <x.y.z>` checks:
+
+| Check              | Passes when                                                                     |
+| ------------------ | ------------------------------------------------------------------------------- |
+| `GET /api/health`  | 200, `status: ok`, the expected `env` and `version`, `cache-control: no-store`  |
+| `GET /`            | 200, home content present, `noindex` outside production (and not in production) |
+| `GET /favicon.svg` | 200                                                                             |
+
+It retries up to 10 times, 3 seconds apart, while the new version reaches every Cloudflare location.
+Run it against any environment by hand, e.g. after a rollback.
