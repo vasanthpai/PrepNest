@@ -59,20 +59,21 @@ in the keys listed in [environments.md](environments.md).
 
 ## 3. Useful scripts
 
-| Command                | What it does                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `npm run dev`          | Dev server with hot reload, running on Cloudflare's `workerd`                     |
-| `npm run build`        | Production build into `dist/`                                                     |
-| `npm run preview`      | Serve the production build locally on `workerd`                                   |
-| `npm run lint`         | ESLint: bugs, bad patterns, accessibility (a11y) issues                           |
-| `npm run lint:fix`     | ESLint with auto-fix                                                              |
-| `npm run format`       | Prettier: rewrite all files in the project style                                  |
-| `npm run format:check` | Prettier: fail if any file is not formatted (used in CI)                          |
-| `npm run typecheck`    | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro`                    |
-| `npm test`             | Vitest: run all unit tests once (used in CI)                                      |
-| `npm run test:watch`   | Vitest in watch mode: re-runs tests as you edit                                   |
-| `npm run cf-typegen`   | Regenerate `worker-configuration.d.ts` (also runs automatically on `npm install`) |
-| `npm run check`        | All checks CI runs except the build, in one command                               |
+| Command                                                      | What it does                                                                      |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| `npm run dev`                                                | Dev server with hot reload, running on Cloudflare's `workerd`                     |
+| `npm run build`                                              | Production build into `dist/`                                                     |
+| `npm run preview`                                            | Serve the production build locally on `workerd`                                   |
+| `npm run lint`                                               | ESLint: bugs, bad patterns, accessibility (a11y) issues                           |
+| `npm run lint:fix`                                           | ESLint with auto-fix                                                              |
+| `npm run format`                                             | Prettier: rewrite all files in the project style                                  |
+| `npm run format:check`                                       | Prettier: fail if any file is not formatted (used in CI)                          |
+| `npm run typecheck`                                          | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro`                    |
+| `npm test`                                                   | Vitest: run all unit tests once (used in CI)                                      |
+| `npm run test:watch`                                         | Vitest in watch mode: re-runs tests as you edit                                   |
+| `npm run cf-typegen`                                         | Regenerate `worker-configuration.d.ts` (also runs automatically on `npm install`) |
+| `npm run check`                                              | All checks CI runs except the build, in one command                               |
+| `npm run smoke -- --url <url> --env <env> --version <x.y.z>` | Smoke test a running site (see ci-cd.md)                                          |
 
 **Before every commit:** `npm run check` (lint, formatting, generated types, type check, unit tests: the same checks CI runs, minus the build).
 
@@ -116,6 +117,10 @@ Add `C:\Program Files\Git\cmd` to your user PATH, then restart the terminal.
 
 **`EPERM: Permission denied ... dist\client` during build (Windows).**
 A dev or preview server is still running and has `dist/` open. Stop it (Ctrl+C), then rebuild.
+
+**`Cannot find module 'cloudflare:workers'` in `npm run typecheck` or VS Code.**
+`worker-configuration.d.ts` is missing. It's generated, not committed (ADR 0010), so a fresh clone
+or a `git pull` that crossed that change won't have it. Run `npm run cf-typegen` (or `npm install`).
 
 **`prettier --check` fails on files you did not change.**
 Usually CRLF line endings. Run `npm run format`, and make sure VS Code shows `LF`

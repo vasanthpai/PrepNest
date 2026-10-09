@@ -52,6 +52,12 @@ export default defineConfig([
     },
   },
 
+  // Command-line scripts print their results
+  {
+    files: ["scripts/**"],
+    rules: { "no-console": "off" },
+  },
+
   // Must be last: turns off rules that conflict with Prettier
   prettier,
 ]);
