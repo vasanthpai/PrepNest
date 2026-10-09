@@ -1,0 +1,8 @@
+# Who is responsible for which files. GitHub requests their review on PRs automatically.
+# (Required reviews are off: GitHub doesn't let you approve your own PR. See ADR 0009.)
+*                   @vasanthpai
+
+# Changes here affect deployment and security: review with extra care.
+/.github/           @vasanthpai
+/wrangler.jsonc     @vasanthpai
+/src/config/env.ts  @vasanthpai
