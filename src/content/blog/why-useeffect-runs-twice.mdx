@@ -1,0 +1,107 @@
+---
+title: Why useEffect runs twice in development
+description: React Strict Mode mounts your component twice in development on purpose. Here's what it is checking for, and how to write effects that pass.
+topic: react
+tags: [hooks, strict-mode]
+publishedAt: 2026-09-28
+---
+
+You add a `console.log` inside `useEffect`, open the browser, and it prints **twice**. Your API
+gets two requests. Nothing changed in production, but in development everything seems to happen
+twice. It isn't a bug.
+
+## What React is doing
+
+When your app is wrapped in `<StrictMode>` (Vite, Next.js and most templates add it for you),
+React does something unusual **in development only**: after a component mounts, React immediately
+unmounts it and mounts it again.
+
+So for an effect like this:
+
+```jsx
+useEffect(() => {
+  console.log("connect");
+  return () => console.log("disconnect");
+}, []);
+```
+
+you see, in order:
+
+```text
+connect
+disconnect
+connect
+```
+
+Setup, cleanup, setup. In a production build, you only see `connect`.
+
+## Why React does this
+
+Real users unmount and remount components all the time: they navigate away and back, a tab gets
+hidden and restored, a list item scrolls out and back in. If your effect starts something (a
+subscription, a timer, a socket) and the cleanup doesn't stop it, you get leaks and duplicate work
+that only shows up in odd situations.
+
+Strict Mode makes that situation happen **on every mount, while you're developing**, so the
+missing cleanup is obvious immediately instead of becoming a bug report months later.
+
+## The fix: a cleanup that undoes the setup
+
+The rule of thumb: **after setup → cleanup → setup, the app should behave exactly as if setup ran
+once.**
+
+A timer:
+
+```jsx
+useEffect(() => {
+  const id = setInterval(tick, 1000);
+  return () => clearInterval(id);
+}, []);
+```
+
+A subscription:
+
+```jsx
+useEffect(() => {
+  const unsubscribe = store.subscribe(render);
+  return unsubscribe;
+}, []);
+```
+
+## Fetching data
+
+Two requests in development are harmless if the first response is ignored. Use an
+`AbortController` so the first request is cancelled by the cleanup:
+
+```jsx
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(`/api/posts/${id}`, { signal: controller.signal })
+    .then((response) => response.json())
+    .then(setPost)
+    .catch((error) => {
+      if (error.name !== "AbortError") setError(error);
+    });
+
+  return () => controller.abort();
+}, [id]);
+```
+
+This also fixes a real production bug: if `id` changes quickly, a slow old response can no longer
+overwrite the newer one.
+
+## What not to do
+
+- **Don't remove `<StrictMode>`** to make the double run go away. You'd only hide the bug.
+- **Don't add a `useRef` flag** to skip the second run. Effects should be safe to re-run; the flag
+  just makes the code fragile in the cases Strict Mode is simulating.
+
+## Summary
+
+| Question                      | Answer                                   |
+| ----------------------------- | ---------------------------------------- |
+| Does it happen in production? | No, only in development with Strict Mode |
+| Why?                          | To expose effects without proper cleanup |
+| What should I change?         | Return a cleanup that undoes the setup   |
+| Duplicate fetches?            | Abort the first one in the cleanup       |

@@ -1,0 +1,79 @@
+---
+title: "Why ['1', '7', '11'].map(parseInt) returns [1, NaN, 3]"
+description: A classic JavaScript interview question. The answer is in what map passes to its callback, and what parseInt does with a second argument.
+topic: javascript
+tags: [arrays, gotchas]
+publishedAt: 2026-10-02
+---
+
+Try this in your browser console:
+
+```js
+["1", "7", "11"].map(parseInt);
+// [1, NaN, 3]
+```
+
+Three strings that are obviously numbers, and only the first one comes out right. Two facts
+explain it.
+
+## Fact 1: `map` passes three arguments
+
+`map` calls your callback with **(element, index, array)**, not just the element:
+
+```js
+["1", "7", "11"].map((element, index, array) => /* … */);
+```
+
+When you pass `parseInt` directly, it receives all three.
+
+## Fact 2: `parseInt` takes a second argument, the radix
+
+`parseInt(string, radix)` reads `string` as a number in base `radix` (2 to 36). So our `map` is
+really doing:
+
+| Call                | Meaning                                | Result |
+| ------------------- | -------------------------------------- | ------ |
+| `parseInt("1", 0)`  | Radix `0` means "work it out": base 10 | `1`    |
+| `parseInt("7", 1)`  | Base 1 isn't valid                     | `NaN`  |
+| `parseInt("11", 2)` | "11" in binary                         | `3`    |
+
+The third argument (the array) is ignored by `parseInt`.
+
+## The fix
+
+Say exactly what you mean:
+
+```js
+["1", "7", "11"].map((s) => parseInt(s, 10)); // [1, 7, 11]
+["1", "7", "11"].map(Number); // [1, 7, 11]
+```
+
+`Number` takes only one argument, so passing it directly is safe.
+
+## `Number` and `parseInt` aren't the same
+
+They disagree on messy input, so pick deliberately:
+
+| Input    | `Number(x)` | `parseInt(x, 10)` | Why                                     |
+| -------- | ----------- | ----------------- | --------------------------------------- |
+| `"42"`   | `42`        | `42`              | Same for clean input                    |
+| `"12px"` | `NaN`       | `12`              | `parseInt` stops at the first non-digit |
+| `""`     | `0`         | `NaN`             | An empty string is `0` to `Number`      |
+| `"3.9"`  | `3.9`       | `3`               | `parseInt` only reads the integer part  |
+| `" 7 "`  | `7`         | `7`               | Both ignore surrounding spaces          |
+
+For user input like form fields, `Number` plus a check is usually what you want: it rejects
+`"12px"` instead of quietly accepting part of it.
+
+```js
+const value = Number(input.trim());
+if (input.trim() === "" || !Number.isFinite(value)) {
+  // show "Enter a number"
+}
+```
+
+## The general lesson
+
+Passing a function reference to `map`, `forEach` or `filter` is only safe when that function
+expects **exactly** the arguments those methods pass. When in doubt, wrap it in an arrow function
+and pass only what you need.
