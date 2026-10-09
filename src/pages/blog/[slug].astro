@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import { isFeatureEnabled } from "@/config/features";
+import { type BlogEntry, getAllPosts, postsToBuild, readingTimeMinutes } from "@/features/blog";
+import PostHeader from "@/features/blog/components/PostHeader.astro";
+import PostTags from "@/features/blog/components/PostTags.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getConfig } from "@/lib/runtime-env";
+
+// Pre-rendered at build time: one HTML file per visible post in this environment.
+export const getStaticPaths = (async () => {
+  const { APP_ENV } = getConfig();
+  const posts = postsToBuild(
+    await getAllPosts(),
+    APP_ENV,
+    new Date(),
+    isFeatureEnabled("blog", APP_ENV),
+  );
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: BlogEntry;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="mx-auto flex max-w-3xl flex-col gap-10 px-4 pt-10 pb-20 sm:pt-16">
+    <PostHeader data={post.data} readingMinutes={readingTimeMinutes(post.body)} />
+    <div class="prose-pn prose max-w-none">
+      <Content />
+    </div>
+    <footer class="border-t border-line pt-6">
+      <PostTags tags={post.data.tags} />
+    </footer>
+  </article>
+</BaseLayout>

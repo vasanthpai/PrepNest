@@ -53,10 +53,15 @@ src/
 
 ## Pre-rendered vs per-request
 
-| Route         | When it runs                           | Why                                                          |
-| ------------- | -------------------------------------- | ------------------------------------------------------------ |
-| `/`           | Once, at build time                    | Same for everyone: served as a static file, free and instant |
-| `/api/health` | On every request (`prerender = false`) | Must prove the Worker itself is running                      |
+| Route          | When it runs                             | Why                                                                   |
+| -------------- | ---------------------------------------- | --------------------------------------------------------------------- |
+| `/`            | Once, at build time                      | Same for everyone: served as a static file, free and instant          |
+| `/api/health`  | On every request (`prerender = false`)   | Must prove the Worker itself is running                               |
+| `/blog/<slug>` | At build time, one file per visible post | Content changes only on deploy; built only when the `blog` flag is on |
+
+**URLs have no trailing slash** (`trailingSlash: "never"`, `build.format: "file"`): pages are built
+as `blog/my-post.html` and Cloudflare serves them at `/blog/my-post` directly. `/blog/my-post/`
+redirects to it, so each page has one canonical URL and normal links never pay for a redirect.
 
 New pages are pre-rendered by default. Only pages that depend on the visitor (login, quizzes,
 checkout) or must be live opt out with `export const prerender = false`.

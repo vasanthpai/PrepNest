@@ -39,7 +39,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | #   | Step                                                            | Status |
 | --- | --------------------------------------------------------------- | ------ |
 | 1   | Content collection (MDX + schema), blog helpers, 3 sample posts | ✅     |
-| 2   | Post page: article layout, typography, code highlighting        | ⏳     |
+| 2   | Post page: article layout, typography, code highlighting        | ✅     |
 | 3   | Blog index with pagination, topic and tag pages                 | ⏳     |
 | 4   | SEO: `<Seo>` component, canonical, Open Graph, structured data  | ⏳     |
 | 5   | Sitemap, robots.txt, RSS                                        | ⏳     |

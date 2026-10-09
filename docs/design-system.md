@@ -64,6 +64,39 @@ Opacity works too: `bg-keyword/12` is a 12% tint for chips and selected states.
 | `Logo`        | `src/components/Logo.astro`        | `prep{nest}` wordmark; screen readers hear "PrepNest" |
 | `.btn`        | `src/styles/global.css`            | `.btn-primary` (ink) and `.btn-ghost` (outlined)      |
 
+## Articles (`prose-pn`)
+
+Blog posts use Tailwind's typography plugin (`prose`) with PrepNest's tokens (`prose-pn` in
+`src/styles/global.css`). Because the tokens switch with the theme, articles need no `prose-invert`.
+
+| Element     | Treatment                                                            |
+| ----------- | -------------------------------------------------------------------- |
+| Body        | 17px, line height 1.75, `fg` colour                                  |
+| `h2`, `h3`  | Bricolage Grotesque; anchor-friendly scroll margin                   |
+| Links       | `function` blue, underline offset 3px                                |
+| Inline code | `code` background chip, no backticks                                 |
+| Code blocks | `code` background, 1px `line` border, rounded, 14px, scroll sideways |
+| Tables      | Scroll sideways inside their own box on phones                       |
+| Quotes      | `keyword` left border                                                |
+
+## Code highlighting
+
+Code blocks use Shiki's **`css-variables`** theme (`astro.config.mjs`). Each token type is mapped to
+a design token, so highlighting follows light/dark mode with no JavaScript:
+
+| Shiki variable                                    | Design token  |
+| ------------------------------------------------- | ------------- |
+| `--astro-code-token-keyword`                      | `keyword`     |
+| `--astro-code-token-function`, `-link`            | `function`    |
+| `--astro-code-token-string`, `-string-expression` | `string`      |
+| `--astro-code-token-constant`                     | `number`      |
+| `--astro-code-token-comment`                      | `comment`     |
+| `--astro-code-token-punctuation`                  | `muted`       |
+| `--astro-code-foreground` / `-background`         | `fg` / `code` |
+
+**Ligatures are off** in all code (`font-variant-ligatures: none`). Some monospace fonts draw `=>`
+as `⇒` and `===` as `≡`; on a learning site, readers must see exactly what to type.
+
 ## Light and dark mode
 
 ```
