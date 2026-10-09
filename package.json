@@ -15,7 +15,9 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.1",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.2.1",
@@ -45,6 +48,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "~6.0",
     "typescript-eslint": "^8.71.1",
+    "vitest": "^5.0.3",
     "wrangler": "^4.147.0"
   }
 }
