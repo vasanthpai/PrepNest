@@ -101,3 +101,17 @@ merge to main ──► CI (on main) ──success──► Deploy staging
 
 It retries up to 10 times, 3 seconds apart, while the new version reaches every Cloudflare location.
 Run it against any environment by hand, e.g. after a rollback.
+
+## Deploy production
+
+`deploy-production.yml` runs when a **release tag** `vX.Y.Z` is pushed (see
+[release-process.md](release-process.md)), or by hand on a tag for a rollback.
+
+| Job                        | What it does                                                                                                            |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Verify release**         | Fails unless: it's a tag, the tag commit is on `main`, `package.json` version = tag, CHANGELOG has `## [X.Y.Z]`         |
+| **Deploy to production**   | Waits for **approval** (environment `production`), then build → deploy → smoke test (`env=production`, `version=X.Y.Z`) |
+| **Publish GitHub Release** | Creates the release from the CHANGELOG section. Skipped for manual redeploys (rollbacks)                                |
+
+The production token is only released to the deploy job **after** approval, and the environment
+only accepts runs from `v*` tags, so a branch can never deploy to production.

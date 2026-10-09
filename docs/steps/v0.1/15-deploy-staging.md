@@ -42,10 +42,22 @@ proves the live site works. PrepNest's first live URL.
 | Smoke test with wrong env/version                            | ✗ `env=local (want production)`, ✗ `noindex in production` → exit 1 |
 | `CLOUDFLARE_ENV=staging` build + `wrangler deploy --dry-run` | Bindings `ASSETS`, `APP_ENV="staging"` only; 150 KiB gzip upload    |
 
+## First live deploy (PR #17 merged, 2026-10-09)
+
+| Check                                   | Result                                                          |
+| --------------------------------------- | --------------------------------------------------------------- |
+| CI on `main` → Deploy staging triggered | ✅ automatically, run `37932900719`                             |
+| Steps                                   | ✅ checkout, install, build, deploy, smoke test, summary        |
+| Live URL                                | **https://prepnest-staging.prepnest.workers.dev**               |
+| Smoke test (in the workflow)            | ✓ health `env=staging version=0.0.1`, ✓ home noindex, ✓ favicon |
+| `/api/health` (checked independently)   | `{"status":"ok","env":"staging","version":"0.0.1",…}`           |
+| Home page                               | HTTP 200, 10.5 KB, 0.7 s; staging banner; `noindex, nofollow`   |
+| `wrangler deployments list`             | Version recorded by Cloudflare (usable for emergency rollback)  |
+
 ## Validation
 
 - [x] Smoke test passes and fails correctly (local)
 - [x] Dry run shows the staging config
-- [ ] Merging deploys staging automatically after CI passes
-- [ ] Smoke test passes against the live staging URL
-- [ ] Environments panel shows `staging` with the live URL
+- [x] Merging deploys staging automatically after CI passes
+- [x] Smoke test passes against the live staging URL
+- [x] Environments panel shows `staging` with the live URL

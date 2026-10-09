@@ -90,14 +90,30 @@ From v0.3, release-please drafts it from commit messages.
 
 Use the lightest option that fixes the problem:
 
-| Situation                   | Action                                                                   | Time    |
-| --------------------------- | ------------------------------------------------------------------------ | ------- |
-| A new feature misbehaves    | Set its flag to `false` for production → PR → release a patch            | ~10 min |
-| The whole release is broken | Re-run `deploy-production.yml` for the **previous tag** (manual run)     | ~5 min  |
-| Emergency, CI unavailable   | `npx wrangler rollback --env production` (Cloudflare's previous version) | ~1 min  |
+| Situation                   | Action                                                                | Time    |
+| --------------------------- | --------------------------------------------------------------------- | ------- |
+| A new feature misbehaves    | Set its flag to `false` for production → PR → release a patch         | ~10 min |
+| The whole release is broken | Re-run `deploy-production.yml` for the **previous tag** (manual run)  | ~5 min  |
+| Emergency, CI unavailable   | `npx wrangler rollback --name prepnest-production` (previous version) | ~1 min  |
 
 **Never roll back a database migration in production.** Migrations are written so the previous
 release still works against the new schema (see below), so code can roll back on its own.
+
+### Redeploy the previous tag (step by step)
+
+1. GitHub → **Actions** → **Deploy production** → **Run workflow**.
+2. **Use workflow from** → **Tags** → choose the previous good tag (e.g. `v0.1.0`).
+3. **Run workflow** → open the run → **Review deployments** → `production` → **Approve and deploy**.
+4. The smoke test checks that production reports the **old** version. No new GitHub Release is created.
+5. Fix forward on a `fix/` branch, then release a patch.
+
+### Emergency rollback without CI
+
+```bash
+npx wrangler deployments list --name prepnest-production   # find the previous version
+npx wrangler rollback --name prepnest-production            # roll back to it
+npm run smoke -- --url https://prepnest-production.prepnest.workers.dev --env production --version <old-version>
+```
 
 ## 7. Hotfix
 
