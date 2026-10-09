@@ -1,0 +1,23 @@
+# Local secrets for `npm run dev` / `npm run preview`.
+#
+#   1. Copy this file to `.dev.vars` (git-ignored, never committed).
+#   2. Fill in real values from each provider's dashboard.
+#
+# Non-secret settings (like APP_ENV) live in wrangler.jsonc "vars", not here.
+# Staging/production secrets are set with: npx wrangler secret put <NAME> --env <staging|production>
+# Full list and where each value comes from: docs/environments.md
+#
+# No secrets are needed yet (v0.1). Uncomment as each version adds them.
+
+# --- v0.3 Database + auth ---
+# DATABASE_URL=postgresql://<user>:<password>@<host>/<db>?sslmode=require
+# CLERK_SECRET_KEY=sk_test_...
+# CLERK_WEBHOOK_SIGNING_SECRET=whsec_...
+
+# --- v0.4 Email capture ---
+# RESEND_API_KEY=re_...
+# TURNSTILE_SECRET_KEY=...
+
+# --- v0.6 Payments (Razorpay TEST mode only) ---
+# RAZORPAY_KEY_SECRET=...
+# RAZORPAY_WEBHOOK_SECRET=...
