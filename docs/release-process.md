@@ -32,7 +32,7 @@ git switch -c feature/v0.2-blog
   `chore:`, `docs:`, `test:`, `ci:`, `refactor:`. Breaking changes: `feat!:`.
 - Reference the ticket in the commit body: `Closes #12`. The issue closes when the commit reaches `main`.
 - New features start **behind a feature flag** (off in staging and production).
-- Before pushing: `npm run lint && npm run format:check && npm run typecheck && npm test`.
+- Before pushing: `npm run check` (the same checks CI runs).
 
 ## 3. Pull request
 

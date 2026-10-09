@@ -1,5 +1,7 @@
 # prep{nest}
 
+[![CI](https://github.com/vasanthpai/PrepNest/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vasanthpai/PrepNest/actions/workflows/ci.yml)
+
 **Learn it. Quiz it. Ship it.** A tech learning platform: free tech articles, hands-on quizzes
 and timed assessments, and practical courses for developers and students.
 

@@ -18,7 +18,9 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "cf-typegen:check": "wrangler types --check",
+    "check": "npm run lint && npm run format:check && npm run cf-typegen:check && npm run typecheck && npm test"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
