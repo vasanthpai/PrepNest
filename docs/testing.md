@@ -19,6 +19,12 @@ Most tests should be unit tests: they are fast (milliseconds) and pinpoint the b
 - One `describe` per function; test names read as sentences: `"rejects negative amounts"`.
 - Use `it.each` tables for many input/output pairs (see `src/lib/money.test.ts`).
 - Always test the **failure cases** (invalid input, edge cases), not only the happy path.
+- Use **fakes** from `src/lib/providers/fakes/` instead of real email, payment or storage
+  services (see [providers.md](providers.md)).
+- **Contract tests** (`*.contract.ts`) define behaviour every implementation of an interface must
+  have. They aren't run on their own; each implementation's test file calls them.
+- Type-level rules can be tested with `// @ts-expect-error`: `npm run typecheck` fails if the
+  line stops being an error.
 
 ## Running tests
 

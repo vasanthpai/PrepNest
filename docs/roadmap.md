@@ -25,7 +25,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 6   | Vitest and money helpers                                                       | ✅     |
 | 7   | Folder structure, `site.ts`, `features.ts` (feature flags)                     | ✅     |
 | 8   | Env validation (zod), `.dev.vars.example`, typed Cloudflare env                | ✅     |
-| 9   | Provider interfaces (Email, Payment, Storage) + fakes for tests                | ⏳     |
+| 9   | Provider interfaces (Email, Payment, Storage) + fakes for tests                | ✅     |
 | 10  | Design system (identity, tokens, light/dark), base layout, home, `/api/health` | ⏳     |
 | 11  | Docs: README, architecture, decision records, release process                  | ⏳     |
 | 12  | `ci.yml`, PR title check, first PR                                             | ⏳     |
