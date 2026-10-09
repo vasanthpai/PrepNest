@@ -17,7 +17,8 @@
     "format:check": "prettier --check .",
     "typecheck": "astro check",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
@@ -28,7 +29,8 @@
     "astro": "^7.3.5",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "zod": "^4.6.5"
   },
   "allowScripts": {
     "esbuild": true

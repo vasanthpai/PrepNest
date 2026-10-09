@@ -28,16 +28,19 @@ run code per request.
 src/
 ├─ config/        # App-wide configuration (no business logic)
 │  ├─ app-env.ts  #   AppEnv type: local | staging | production
+│  ├─ env.ts      #   zod schema for env vars and secrets
 │  ├─ features.ts #   Feature flags per environment
 │  └─ site.ts     #   Brand, navigation, links
 ├─ features/      # One folder per product feature (see src/features/README.md)
 ├─ lib/           # Shared, feature-independent helpers
-│  ├─ money.ts    #   Integer paise helpers
-│  └─ providers/  #   Interfaces for outside services (v0.1 step 9)
+│  ├─ money.ts        #   Integer paise helpers
+│  ├─ runtime-env.ts  #   getConfig(), featureEnabled(): validated config (server only)
+│  └─ providers/      #   Interfaces for outside services (v0.1 step 9)
 ├─ components/    # Shared UI components
 ├─ layouts/       # Page layouts (v0.1 step 10)
 ├─ pages/         # Routes: thin, call feature services
-└─ styles/        # Tailwind entry and design tokens
+├─ styles/        # Tailwind entry and design tokens
+└─ middleware.ts  # Runs before every route: config validation (later: auth, headers)
 ```
 
 ## Configuration
@@ -46,8 +49,11 @@ src/
 | ------------------------ | ---------------------------------- | ------------------------------------ |
 | `src/config/site.ts`     | Name, tagline, nav, links          | Branding or navigation changes       |
 | `src/config/features.ts` | On/off per feature per environment | A feature is released or rolled back |
+| `src/config/env.ts`      | Rules for every env var / secret   | A new variable is added              |
 | `wrangler.jsonc`         | Worker names, `APP_ENV`, bindings  | Infrastructure changes               |
-| `.dev.vars` / secrets    | API keys (never in Git)            | Keys rotate (v0.1 step 8)            |
+| `.dev.vars` / secrets    | API keys (never in Git)            | Keys rotate                          |
+
+Full variable reference and per-environment values: [environments.md](environments.md).
 
 ## Feature flags
 

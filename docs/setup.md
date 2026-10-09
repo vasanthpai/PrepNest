@@ -50,23 +50,28 @@ Astro, ESLint, Prettier, Tailwind CSS IntelliSense, GitHub Actions, Vitest.
 git clone https://github.com/vasanthpai/PrepNest.git
 cd PrepNest
 npm install
+cp .dev.vars.example .dev.vars   # Windows PowerShell: Copy-Item .dev.vars.example .dev.vars
 npm run dev        # http://localhost:4321
 ```
 
+`.dev.vars` holds local secrets and is git-ignored. In v0.1 it needs no values. From v0.3, fill
+in the keys listed in [environments.md](environments.md).
+
 ## 3. Useful scripts
 
-| Command                | What it does                                                   |
-| ---------------------- | -------------------------------------------------------------- |
-| `npm run dev`          | Dev server with hot reload, running on Cloudflare's `workerd`  |
-| `npm run build`        | Production build into `dist/`                                  |
-| `npm run preview`      | Serve the production build locally on `workerd`                |
-| `npm run lint`         | ESLint: bugs, bad patterns, accessibility (a11y) issues        |
-| `npm run lint:fix`     | ESLint with auto-fix                                           |
-| `npm run format`       | Prettier: rewrite all files in the project style               |
-| `npm run format:check` | Prettier: fail if any file is not formatted (used in CI)       |
-| `npm run typecheck`    | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro` |
-| `npm test`             | Vitest: run all unit tests once (used in CI)                   |
-| `npm run test:watch`   | Vitest in watch mode: re-runs tests as you edit                |
+| Command                | What it does                                                           |
+| ---------------------- | ---------------------------------------------------------------------- |
+| `npm run dev`          | Dev server with hot reload, running on Cloudflare's `workerd`          |
+| `npm run build`        | Production build into `dist/`                                          |
+| `npm run preview`      | Serve the production build locally on `workerd`                        |
+| `npm run lint`         | ESLint: bugs, bad patterns, accessibility (a11y) issues                |
+| `npm run lint:fix`     | ESLint with auto-fix                                                   |
+| `npm run format`       | Prettier: rewrite all files in the project style                       |
+| `npm run format:check` | Prettier: fail if any file is not formatted (used in CI)               |
+| `npm run typecheck`    | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro`         |
+| `npm test`             | Vitest: run all unit tests once (used in CI)                           |
+| `npm run test:watch`   | Vitest in watch mode: re-runs tests as you edit                        |
+| `npm run cf-typegen`   | Regenerate `worker-configuration.d.ts` after changing `wrangler.jsonc` |
 
 **Before every commit:** `npm run lint && npm run format:check && npm run typecheck && npm test`
 
