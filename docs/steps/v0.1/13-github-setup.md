@@ -52,9 +52,26 @@ merge the v0.1 foundation through the full process.
 | `GET /repos/…/rules/branches/main` | deletion, non_fast_forward, required_linear_history, pull_request (rebase), required_status_checks (2) |
 | Direct push of a commit to `main`  | ❌ `GH013 … Changes must be made through a pull request` (main unchanged)                              |
 
+## After the merge
+
+| Check                                | Result                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| PR #8 merged with "Rebase and merge" | ✅ 2026-10-09 by the maintainer; `main` linear, every step commit kept |
+| Issues #1–#7                         | ✅ Closed automatically by the `Closes #N` lines                       |
+| CI on `main` (`8daf9c4`)             | ✅ Passed                                                              |
+| CodeQL default setup                 | ✅ Enabled (JavaScript/TypeScript + Actions) once `main` had the code  |
+| Dependabot                           | Opened 2 PRs within minutes; both exposed problems (below)             |
+
+## Dependabot follow-ups ([#13](https://github.com/vasanthpai/PrepNest/issues/13))
+
+| PR                                                 | Problem                                                                      | Resolution                                                                                                            |
+| -------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| #12 `sharp`, `wrangler`, `@cloudflare/vite-plugin` | CI failed: committed `worker-configuration.d.ts` stale after Wrangler update | Generate types on `npm install`, stop committing them ([ADR 0010](../../decisions/0010-generate-cloudflare-types.md)) |
+| #11 `@types/node` 24 → 26                          | Types for a newer Node than we run                                           | Closed; Dependabot ignores `@types/node` majors (they follow `.nvmrc`)                                                |
+
 ## Validation
 
 - [x] `main` protected by the ruleset, both checks required
 - [x] Direct pushes to `main` rejected
-- [ ] PR #8 merged with "Rebase and merge" by the maintainer; issues #1–#7 closed
-- [ ] CI passes on `main` after the merge; CodeQL enabled
+- [x] PR #8 merged with "Rebase and merge" by the maintainer; issues #1–#7 closed
+- [x] CI passes on `main` after the merge; CodeQL enabled
