@@ -25,8 +25,8 @@ The environment is chosen at **build** time. Each environment gets its own build
 | Variable                       | Secret | Added | Where to get it                      | local       | staging           | production        |
 | ------------------------------ | ------ | ----- | ------------------------------------ | ----------- | ----------------- | ----------------- |
 | `APP_ENV`                      | no     | v0.1  | Fixed per environment                | `local`     | `staging`         | `production`      |
-| `CLOUDFLARE_API_TOKEN`         | yes    | v0.1  | Cloudflare → My Profile → API Tokens | —           | GitHub secret     | GitHub secret     |
-| `CLOUDFLARE_ACCOUNT_ID`        | no\*   | v0.1  | Cloudflare dashboard sidebar         | —           | GitHub secret     | GitHub secret     |
+| `CLOUDFLARE_API_TOKEN`         | yes    | v0.1  | Cloudflare → My Profile → API Tokens | —           | GitHub env secret | GitHub env secret |
+| `CLOUDFLARE_ACCOUNT_ID`        | no     | v0.1  | Cloudflare dashboard sidebar         | —           | GitHub env var    | GitHub env var    |
 | `DATABASE_URL`                 | yes    | v0.3  | Neon → branch → Connection string    | `.dev.vars` | wrangler + GitHub | wrangler + GitHub |
 | `CLERK_SECRET_KEY`             | yes    | v0.3  | Clerk → API keys                     | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `CLERK_WEBHOOK_SIGNING_SECRET` | yes    | v0.3  | Clerk → Webhooks → endpoint          | `.dev.vars` | wrangler secret   | wrangler secret   |
@@ -35,7 +35,7 @@ The environment is chosen at **build** time. Each environment gets its own build
 | `RAZORPAY_KEY_SECRET`          | yes    | v0.6  | Razorpay (test mode) → API Keys      | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `RAZORPAY_WEBHOOK_SECRET`      | yes    | v0.6  | Razorpay → Webhooks                  | `.dev.vars` | wrangler secret   | wrangler secret   |
 
-\* Not sensitive on its own, but kept with the token for convenience.
+"GitHub env secret / var" = stored on the GitHub **environment** (`staging`, `production`), so only jobs running in that environment can read it. Setup: [cloudflare-setup.md](cloudflare-setup.md).
 Rows from v0.3 onwards are planned; they are added to the schema when their version starts.
 
 ## How validation works
