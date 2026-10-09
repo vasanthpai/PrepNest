@@ -34,11 +34,20 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 15  | `deploy-staging.yml`, first staging deploy                                     | ✅     |
 | 16  | `deploy-production.yml`, CHANGELOG, tag `v0.1.0`, production deploy            | ✅     |
 
-## v0.2 Blog ⏳
+## v0.2 Blog 🚧
 
-MDX content collections (topic, tags, date) · list, post, topic and tag pages · SEO meta, Open Graph,
-JSON-LD · sitemap, robots.txt, RSS · Pagefind search · 3 sample tech posts · unit tests for helpers ·
-Playwright smoke test in CI · preview deploys per PR · Lighthouse CI
+| #   | Step                                                            | Status |
+| --- | --------------------------------------------------------------- | ------ |
+| 1   | Content collection (MDX + schema), blog helpers, 3 sample posts | ✅     |
+| 2   | Post page: article layout, typography, code highlighting        | ⏳     |
+| 3   | Blog index with pagination, topic and tag pages                 | ⏳     |
+| 4   | SEO: `<Seo>` component, canonical, Open Graph, structured data  | ⏳     |
+| 5   | Sitemap, robots.txt, RSS                                        | ⏳     |
+| 6   | Pagefind search                                                 | ⏳     |
+| 7   | Playwright e2e tests in CI                                      | ⏳     |
+| 8   | Preview deploy per PR                                           | ⏳     |
+| 9   | Lighthouse CI budgets                                           | ⏳     |
+| 10  | Blog flag on in staging → release v0.2.0                        | ⏳     |
 
 ## v0.3 Database & auth ⏳
 

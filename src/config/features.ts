@@ -13,7 +13,7 @@ import type { AppEnv } from "@/config/app-env";
 export type FlagTable = Record<string, Record<AppEnv, boolean>>;
 
 export const FEATURE_FLAGS = {
-  blog: { local: false, staging: false, production: false }, // v0.2
+  blog: { local: true, staging: false, production: false }, // v0.2: in development
   auth: { local: false, staging: false, production: false }, // v0.3
   newsletter: { local: false, staging: false, production: false }, // v0.4
   quizzes: { local: false, staging: false, production: false }, // v0.5

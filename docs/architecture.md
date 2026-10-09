@@ -34,7 +34,9 @@ src/
 │  ├─ site.ts     #   Brand, navigation, links
 │  ├─ topics.ts   #   Tech topics and their syntax colour
 │  └─ version.ts  #   App version from package.json
+├─ content/blog/  # Blog posts (MDX), validated by src/content.config.ts
 ├─ features/      # One folder per product feature (see src/features/README.md)
+│  └─ blog/       #   schema, service (tested), repo
 ├─ lib/           # Shared, feature-independent helpers
 │  ├─ health.ts       #   /api/health body
 │  ├─ money.ts        #   Integer paise helpers

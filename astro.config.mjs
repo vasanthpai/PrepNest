@@ -1,5 +1,6 @@
 // @ts-check
 import cloudflare from "@astrojs/cloudflare";
+import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
@@ -11,7 +12,7 @@ export default defineConfig({
     // with the Cloudflare Images binding (separate product with its own limits).
     imageService: "compile",
   }),
-  integrations: [react()],
+  integrations: [react(), mdx()],
   // Auth is handled by Clerk (v0.3), so we don't need Astro sessions.
   // Disabling them stops the adapter from requiring a SESSION KV namespace.
   session: false,

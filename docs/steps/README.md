@@ -26,6 +26,12 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 
 **Retrospective:** [what went well, what we learned](v0.1/retrospective.md)
 
+## v0.2 Blog
+
+| #   | Step                                      | Ticket                                                  | Log                                 |
+| --- | ----------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
+| 1   | Content collection, helpers, sample posts | [#22](https://github.com/vasanthpai/PrepNest/issues/22) | [01](v0.2/01-content-collection.md) |
+
 ## Template for a new step log
 
 ```markdown
