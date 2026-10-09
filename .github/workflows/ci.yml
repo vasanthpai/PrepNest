@@ -1,0 +1,56 @@
+# Quality gate: runs on every pull request and every push to main.
+# Nothing reaches main (and therefore staging/production) unless this passes.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch/PR cancels the older, now-outdated run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege: this workflow only needs to read the code.
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, types, tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # Actions are pinned to full commit SHAs (a tag can be moved; a SHA can't).
+      # Dependabot keeps them up to date.
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js (version from .nvmrc)
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies (exactly as locked)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Check generated Cloudflare types are up to date
+        run: npm run cf-typegen:check
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build

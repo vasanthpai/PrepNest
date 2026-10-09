@@ -35,7 +35,7 @@ Follow [docs/setup.md](docs/setup.md). You need Node.js 24 (see `.nvmrc`).
 ## Pull request checklist
 
 - [ ] Linked to an issue (`Closes #n`)
-- [ ] `npm run lint && npm run format:check && npm run typecheck && npm test` pass locally
+- [ ] `npm run check` passes locally (same checks as CI)
 - [ ] Tests added or updated for new logic (including failure cases)
 - [ ] New features are behind a flag in `src/config/features.ts`
 - [ ] New env variables added to `src/config/env.ts` and [docs/environments.md](docs/environments.md)
