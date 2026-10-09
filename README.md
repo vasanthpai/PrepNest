@@ -11,12 +11,13 @@ Neon Postgres + Drizzle · Clerk · Resend · Cloudflare R2 · Razorpay (test mo
 
 ## Docs
 
-| Doc                                  | What's inside                                     |
-| ------------------------------------ | ------------------------------------------------- |
-| [Setup](docs/setup.md)               | Run the project locally, scripts, troubleshooting |
-| [Architecture](docs/architecture.md) | How it fits together, folders, feature flags      |
-| [Environments](docs/environments.md) | Local / staging / production, every variable      |
-| [Providers](docs/providers.md)       | Email, payment, storage interfaces and fakes      |
-| [Testing](docs/testing.md)           | Test strategy and conventions                     |
-| [Roadmap](docs/roadmap.md)           | Versions v0.1 → v1.0 with status                  |
-| [Step logs](docs/steps/README.md)    | What changed in every build step, and why         |
+| Doc                                    | What's inside                                     |
+| -------------------------------------- | ------------------------------------------------- |
+| [Setup](docs/setup.md)                 | Run the project locally, scripts, troubleshooting |
+| [Architecture](docs/architecture.md)   | How it fits together, folders, feature flags      |
+| [Environments](docs/environments.md)   | Local / staging / production, every variable      |
+| [Design system](docs/design-system.md) | Colours, fonts, components, light/dark mode       |
+| [Providers](docs/providers.md)         | Email, payment, storage interfaces and fakes      |
+| [Testing](docs/testing.md)             | Test strategy and conventions                     |
+| [Roadmap](docs/roadmap.md)             | Versions v0.1 → v1.0 with status                  |
+| [Step logs](docs/steps/README.md)      | What changed in every build step, and why         |
