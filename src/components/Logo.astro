@@ -1,0 +1,17 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<span class:list={["font-display text-xl font-extrabold tracking-tight", className]}>
+  <span class="sr-only">PrepNest</span>
+  <!-- inline-flex: whitespace between the parts is ignored, so formatting can't add gaps -->
+  <span aria-hidden="true" class="inline-flex items-baseline">
+    <span>prep</span>
+    <span class="font-mono font-semibold text-keyword">{"{"}</span>
+    <span>nest</span>
+    <span class="font-mono font-semibold text-keyword">{"}"}</span>
+  </span>
+</span>

@@ -1,15 +1,144 @@
 @import "tailwindcss";
 
-/* Design tokens: use as bg-brand-600, text-brand-700, etc. */
-@theme {
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-900: #312e81;
+/*
+ * PrepNest design system: "Syntax".
+ * The interface is ink and paper; colour only carries meaning. Each tech topic owns one
+ * syntax colour (keyword, function, string, number) everywhere it appears.
+ * Full guide: docs/design-system.md
+ *
+ * Theme: follows the OS by default; <html data-theme="light|dark"> (set by ThemeToggle) overrides.
+ */
 
-  /* System fonts: zero download, fast on cheap phones and slow data */
+:root {
+  --pn-bg: #f4f5f7;
+  --pn-surface: #ffffff;
+  --pn-fg: #15171c;
+  --pn-muted: #5a606d;
+  --pn-line: #dfe2e8;
+  --pn-code: #eef0f4;
+  --pn-keyword: #6d3df2;
+  --pn-function: #0a6fc2;
+  --pn-string: #12784a;
+  --pn-number: #b05000;
+  --pn-comment: #666c78;
+  --pn-focus: #0a6fc2;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --pn-bg: #121419;
+    --pn-surface: #1b1e25;
+    --pn-fg: #eceef2;
+    --pn-muted: #a3a9b6;
+    --pn-line: #2c3039;
+    --pn-code: #0e1015;
+    --pn-keyword: #b39bff;
+    --pn-function: #6cb6ff;
+    --pn-string: #5fd39a;
+    --pn-number: #ffb26b;
+    --pn-comment: #858c9a;
+    --pn-focus: #6cb6ff;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --pn-bg: #121419;
+  --pn-surface: #1b1e25;
+  --pn-fg: #eceef2;
+  --pn-muted: #a3a9b6;
+  --pn-line: #2c3039;
+  --pn-code: #0e1015;
+  --pn-keyword: #b39bff;
+  --pn-function: #6cb6ff;
+  --pn-string: #5fd39a;
+  --pn-number: #ffb26b;
+  --pn-comment: #858c9a;
+  --pn-focus: #6cb6ff;
+  color-scheme: dark;
+}
+
+/* Semantic colours as Tailwind utilities: bg-bg, bg-surface, text-fg, text-muted, border-line,
+   text-keyword, bg-function/15, … They switch with the theme automatically, so `dark:` is rarely needed. */
+@theme inline {
+  --color-bg: var(--pn-bg);
+  --color-surface: var(--pn-surface);
+  --color-fg: var(--pn-fg);
+  --color-muted: var(--pn-muted);
+  --color-line: var(--pn-line);
+  --color-code: var(--pn-code);
+  --color-keyword: var(--pn-keyword);
+  --color-function: var(--pn-function);
+  --color-string: var(--pn-string);
+  --color-number: var(--pn-number);
+  --color-comment: var(--pn-comment);
+  --color-focus: var(--pn-focus);
+}
+
+@theme {
+  /* Self-hosted variable fonts: one file each covers every weight (2 font files total). */
+  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
   --font-sans:
-    system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+    "Atkinson Hyperlegible Next Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Code uses the device's own monospace font: zero download. */
+  --font-mono:
+    ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* `dark:` follows the same rules as the tokens: OS preference unless the toggle chose a theme. */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] px-4 py-2.5 text-sm font-bold transition-colors;
+  }
+  /* Ink on paper (inverts in dark mode). Colour is reserved for meaning, not for buttons. */
+  .btn-primary {
+    @apply bg-fg text-bg hover:opacity-90;
+  }
+  .btn-ghost {
+    @apply text-fg ring-1 ring-line ring-inset hover:bg-surface;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 2px solid var(--pn-focus);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--pn-keyword) 25%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

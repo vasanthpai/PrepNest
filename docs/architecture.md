@@ -30,18 +30,33 @@ src/
 │  ├─ app-env.ts  #   AppEnv type: local | staging | production
 │  ├─ env.ts      #   zod schema for env vars and secrets
 │  ├─ features.ts #   Feature flags per environment
-│  └─ site.ts     #   Brand, navigation, links
+│  ├─ site.ts     #   Brand, navigation, links
+│  ├─ topics.ts   #   Tech topics and their syntax colour
+│  └─ version.ts  #   App version from package.json
 ├─ features/      # One folder per product feature (see src/features/README.md)
 ├─ lib/           # Shared, feature-independent helpers
+│  ├─ health.ts       #   /api/health body
 │  ├─ money.ts        #   Integer paise helpers
 │  ├─ runtime-env.ts  #   getConfig(), featureEnabled(): validated config (server only)
 │  └─ providers/      #   Interfaces for email, payment, storage + fakes (see providers.md)
-├─ components/    # Shared UI components
-├─ layouts/       # Page layouts (v0.1 step 10)
+├─ components/    # Shared UI: header, footer, logo, theme toggle, topic chip
+├─ layouts/       # BaseLayout: meta tags, theme, header/footer around every page
 ├─ pages/         # Routes: thin, call feature services
-├─ styles/        # Tailwind entry and design tokens
+│  ├─ index.astro #   Home (pre-rendered at build time)
+│  └─ api/health.ts # Health check (rendered per request)
+├─ styles/        # Tailwind entry and design tokens (see design-system.md)
 └─ middleware.ts  # Runs before every route: config validation (later: auth, headers)
 ```
+
+## Pre-rendered vs per-request
+
+| Route         | When it runs                           | Why                                                          |
+| ------------- | -------------------------------------- | ------------------------------------------------------------ |
+| `/`           | Once, at build time                    | Same for everyone: served as a static file, free and instant |
+| `/api/health` | On every request (`prerender = false`) | Must prove the Worker itself is running                      |
+
+New pages are pre-rendered by default. Only pages that depend on the visitor (login, quizzes,
+checkout) or must be live opt out with `export const prerender = false`.
 
 ## Configuration
 

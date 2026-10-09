@@ -1,0 +1,56 @@
+---
+import "@fontsource-variable/bricolage-grotesque";
+import "@fontsource-variable/atkinson-hyperlegible-next";
+import "@/styles/global.css";
+import EnvBanner from "@/components/EnvBanner.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import { site } from "@/config/site";
+import { getConfig } from "@/lib/runtime-env";
+
+interface Props {
+  /** Page title; the site name is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const { APP_ENV } = getConfig();
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    {APP_ENV !== "production" && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Apply the saved theme before first paint, so there's no flash of the wrong theme. -->
+    <script is:inline>
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch {
+        // Storage blocked: follow the OS setting.
+      }
+    </script>
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main"
+      class="sr-only rounded-md bg-fg px-3 py-2 text-bg focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
+    >
+      Skip to content
+    </a>
+    <EnvBanner env={APP_ENV} />
+    <SiteHeader env={APP_ENV} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <SiteFooter env={APP_ENV} />
+  </body>
+</html>
