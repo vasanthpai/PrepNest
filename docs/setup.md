@@ -65,8 +65,12 @@ npm run dev        # http://localhost:4321
 | `npm run format`       | Prettier: rewrite all files in the project style               |
 | `npm run format:check` | Prettier: fail if any file is not formatted (used in CI)       |
 | `npm run typecheck`    | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro` |
+| `npm test`             | Vitest: run all unit tests once (used in CI)                   |
+| `npm run test:watch`   | Vitest in watch mode: re-runs tests as you edit                |
 
-**Before every commit:** `npm run lint && npm run format:check && npm run typecheck`
+**Before every commit:** `npm run lint && npm run format:check && npm run typecheck && npm test`
+
+See [testing.md](testing.md) for how tests are organised.
 
 ## 4. Code style
 
