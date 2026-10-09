@@ -34,6 +34,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
+      # Also runs the postinstall script, which generates worker-configuration.d.ts
+      # (Cloudflare env + runtime types) from wrangler.jsonc. See ADR 0010.
       - name: Install dependencies (exactly as locked)
         run: npm ci
 
@@ -42,9 +44,6 @@ jobs:
 
       - name: Check formatting
         run: npm run format:check
-
-      - name: Check generated Cloudflare types are up to date
-        run: npm run cf-typegen:check
 
       - name: Type check
         run: npm run typecheck

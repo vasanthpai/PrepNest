@@ -59,21 +59,20 @@ in the keys listed in [environments.md](environments.md).
 
 ## 3. Useful scripts
 
-| Command                    | What it does                                                           |
-| -------------------------- | ---------------------------------------------------------------------- |
-| `npm run dev`              | Dev server with hot reload, running on Cloudflare's `workerd`          |
-| `npm run build`            | Production build into `dist/`                                          |
-| `npm run preview`          | Serve the production build locally on `workerd`                        |
-| `npm run lint`             | ESLint: bugs, bad patterns, accessibility (a11y) issues                |
-| `npm run lint:fix`         | ESLint with auto-fix                                                   |
-| `npm run format`           | Prettier: rewrite all files in the project style                       |
-| `npm run format:check`     | Prettier: fail if any file is not formatted (used in CI)               |
-| `npm run typecheck`        | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro`         |
-| `npm test`                 | Vitest: run all unit tests once (used in CI)                           |
-| `npm run test:watch`       | Vitest in watch mode: re-runs tests as you edit                        |
-| `npm run cf-typegen`       | Regenerate `worker-configuration.d.ts` after changing `wrangler.jsonc` |
-| `npm run cf-typegen:check` | Fail if `worker-configuration.d.ts` is out of date (used in CI)        |
-| `npm run check`            | All checks CI runs except the build, in one command                    |
+| Command                | What it does                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| `npm run dev`          | Dev server with hot reload, running on Cloudflare's `workerd`                     |
+| `npm run build`        | Production build into `dist/`                                                     |
+| `npm run preview`      | Serve the production build locally on `workerd`                                   |
+| `npm run lint`         | ESLint: bugs, bad patterns, accessibility (a11y) issues                           |
+| `npm run lint:fix`     | ESLint with auto-fix                                                              |
+| `npm run format`       | Prettier: rewrite all files in the project style                                  |
+| `npm run format:check` | Prettier: fail if any file is not formatted (used in CI)                          |
+| `npm run typecheck`    | `astro check`: TypeScript errors in `.ts`, `.tsx` and `.astro`                    |
+| `npm test`             | Vitest: run all unit tests once (used in CI)                                      |
+| `npm run test:watch`   | Vitest in watch mode: re-runs tests as you edit                                   |
+| `npm run cf-typegen`   | Regenerate `worker-configuration.d.ts` (also runs automatically on `npm install`) |
+| `npm run check`        | All checks CI runs except the build, in one command                               |
 
 **Before every commit:** `npm run check` (lint, formatting, generated types, type check, unit tests: the same checks CI runs, minus the build).
 

@@ -16,15 +16,14 @@ GitHub Actions workflows live in `.github/workflows/`. CI is the gate in the
 
 ## CI: what each check catches
 
-| Step            | Command                    | Catches                                                             |
-| --------------- | -------------------------- | ------------------------------------------------------------------- |
-| Install         | `npm ci`                   | Lockfile out of sync with `package.json`                            |
-| Lint            | `npm run lint`             | Bugs, unused code, React hooks misuse, accessibility issues         |
-| Formatting      | `npm run format:check`     | Unformatted files, Windows line endings                             |
-| Generated types | `npm run cf-typegen:check` | `wrangler.jsonc` changed without `npm run cf-typegen`               |
-| Type check      | `npm run typecheck`        | Type errors in `.ts`, `.tsx`, `.astro`                              |
-| Unit tests      | `npm test`                 | Broken logic (money, flags, config, providers, …)                   |
-| Build           | `npm run build`            | Build errors, **invalid environment config** (fails the pre-render) |
+| Step       | Command                | Catches                                                                   |
+| ---------- | ---------------------- | ------------------------------------------------------------------------- |
+| Install    | `npm ci`               | Lockfile out of sync with `package.json`; also generates Cloudflare types |
+| Lint       | `npm run lint`         | Bugs, unused code, React hooks misuse, accessibility issues               |
+| Formatting | `npm run format:check` | Unformatted files, Windows line endings                                   |
+| Type check | `npm run typecheck`    | Type errors in `.ts`, `.tsx`, `.astro`                                    |
+| Unit tests | `npm test`             | Broken logic (money, flags, config, providers, …)                         |
+| Build      | `npm run build`        | Build errors, **invalid environment config** (fails the pre-render)       |
 
 Run the same checks locally with **`npm run check`** (everything except the build).
 

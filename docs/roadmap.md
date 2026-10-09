@@ -29,7 +29,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 10  | Design system (identity, tokens, light/dark), base layout, home, `/api/health` | ✅     |
 | 11  | Docs: README, architecture, decision records, release process                  | ✅     |
 | 12  | `ci.yml`, PR title check, first PR                                             | ✅     |
-| 13  | Branch protection, Dependabot, CodeQL, secret scanning, templates, merge       | 🚧     |
+| 13  | Branch protection, Dependabot, CodeQL, secret scanning, templates, merge       | ✅     |
 | 14  | Cloudflare token, GitHub Secrets and Environments                              | ⏳     |
 | 15  | `deploy-staging.yml`, first staging deploy                                     | ⏳     |
 | 16  | `deploy-production.yml`, CHANGELOG, tag `v0.1.0`, production deploy            | ⏳     |
