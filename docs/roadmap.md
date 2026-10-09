@@ -13,7 +13,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 → release PR (CHANGELOG) → tag vX.Y.0 → approval → production deploy → GitHub Release
 ```
 
-## v0.1 Foundation & pipeline 🚧
+## v0.1 Foundation & pipeline ✅ (released 2026-10-09)
 
 | #   | Step                                                                           | Status |
 | --- | ------------------------------------------------------------------------------ | ------ |
@@ -32,7 +32,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 13  | Branch protection, Dependabot, CodeQL, secret scanning, templates, merge       | ✅     |
 | 14  | Cloudflare token, GitHub Secrets and Environments                              | ✅     |
 | 15  | `deploy-staging.yml`, first staging deploy                                     | ✅     |
-| 16  | `deploy-production.yml`, CHANGELOG, tag `v0.1.0`, production deploy            | 🚧     |
+| 16  | `deploy-production.yml`, CHANGELOG, tag `v0.1.0`, production deploy            | ✅     |
 
 ## v0.2 Blog ⏳
 

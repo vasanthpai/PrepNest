@@ -5,21 +5,25 @@
 **Learn it. Quiz it. Ship it.** A tech learning platform: free tech articles, hands-on quizzes
 and timed assessments, and practical courses for developers and students.
 
+**Live:** [prepnest-production.prepnest.workers.dev](https://prepnest-production.prepnest.workers.dev) ·
+staging: [prepnest-staging.prepnest.workers.dev](https://prepnest-staging.prepnest.workers.dev) ·
+[releases](https://github.com/vasanthpai/PrepNest/releases)
+
 > 🚧 **Portfolio project, built in public.** Every step has a ticket, a reviewed commit and a
 > written log. The goal is a production-grade workflow on a free-tier budget.
 
 ## Status
 
-| Version  | Scope                                                    | Status         |
-| -------- | -------------------------------------------------------- | -------------- |
-| **v0.1** | Foundation, design system, CI/CD, staging and production | 🚧 In progress |
-| v0.2     | Blog: articles, topics, SEO, search                      | Planned        |
-| v0.3     | Database (Neon + Drizzle) and sign-in (Clerk)            | Planned        |
-| v0.4     | Newsletter and free downloads (Resend, R2)               | Planned        |
-| v0.5     | Quizzes and timed assessments                            | Planned        |
-| v0.6     | Payments (Razorpay, test mode)                           | Planned        |
-| v0.7     | Courses                                                  | Planned        |
-| v1.0     | Portfolio launch: monitoring, security review, drills    | Planned        |
+| Version  | Scope                                                    | Status      |
+| -------- | -------------------------------------------------------- | ----------- |
+| **v0.1** | Foundation, design system, CI/CD, staging and production | ✅ Released |
+| v0.2     | Blog: articles, topics, SEO, search                      | Planned     |
+| v0.3     | Database (Neon + Drizzle) and sign-in (Clerk)            | Planned     |
+| v0.4     | Newsletter and free downloads (Resend, R2)               | Planned     |
+| v0.5     | Quizzes and timed assessments                            | Planned     |
+| v0.6     | Payments (Razorpay, test mode)                           | Planned     |
+| v0.7     | Courses                                                  | Planned     |
+| v1.0     | Portfolio launch: monitoring, security review, drills    | Planned     |
 
 Details: [roadmap](docs/roadmap.md).
 
