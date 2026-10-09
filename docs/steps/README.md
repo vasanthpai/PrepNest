@@ -17,6 +17,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 8   | Environment validation, typed Cloudflare env     | [#3](https://github.com/vasanthpai/PrepNest/issues/3) | [08](v0.1/08-env-validation.md)     |
 | 9   | Provider interfaces and fakes                    | [#4](https://github.com/vasanthpai/PrepNest/issues/4) | [09](v0.1/09-providers.md)          |
 | 10  | Syntax design system, layout, home, health       | [#5](https://github.com/vasanthpai/PrepNest/issues/5) | [10](v0.1/10-design-system.md)      |
+| 11  | README, decision records, release process        | [#6](https://github.com/vasanthpai/PrepNest/issues/6) | [11](v0.1/11-docs.md)               |
 
 ## Template for a new step log
 

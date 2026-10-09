@@ -4,7 +4,8 @@ PrepNest is an Astro app deployed as a single **Cloudflare Worker**. Most pages 
 to static HTML at build time; only routes that need the server (APIs, login, quizzes, payments)
 run code per request.
 
-> This document grows with the project. Decision records (ADRs) are added in v0.1 step 11.
+> This document grows with the project. The reasons behind each major choice are in the
+> [decision records](decisions/README.md).
 
 ## Runtime overview
 
