@@ -15,6 +15,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 6   | Vitest and money helpers                         | [#1](https://github.com/vasanthpai/PrepNest/issues/1) | [06](v0.1/06-vitest.md)             |
 | 7   | Folder structure, site config, feature flags     | [#2](https://github.com/vasanthpai/PrepNest/issues/2) | [07](v0.1/07-config-flags.md)       |
 | 8   | Environment validation, typed Cloudflare env     | [#3](https://github.com/vasanthpai/PrepNest/issues/3) | [08](v0.1/08-env-validation.md)     |
+| 9   | Provider interfaces and fakes                    | [#4](https://github.com/vasanthpai/PrepNest/issues/4) | [09](v0.1/09-providers.md)          |
 
 ## Template for a new step log
 

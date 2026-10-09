@@ -35,7 +35,7 @@ src/
 ├─ lib/           # Shared, feature-independent helpers
 │  ├─ money.ts        #   Integer paise helpers
 │  ├─ runtime-env.ts  #   getConfig(), featureEnabled(): validated config (server only)
-│  └─ providers/      #   Interfaces for outside services (v0.1 step 9)
+│  └─ providers/      #   Interfaces for email, payment, storage + fakes (see providers.md)
 ├─ components/    # Shared UI components
 ├─ layouts/       # Page layouts (v0.1 step 10)
 ├─ pages/         # Routes: thin, call feature services
