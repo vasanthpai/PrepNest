@@ -1,0 +1,36 @@
+name: Feature or step
+description: A new feature, or one build step of a version
+labels: ["type: feature"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: One or two sentences. What will be true when this is done?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: The problem this solves or the rule it implements.
+    validations:
+      required: true
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Tasks
+      description: Checklist of the work.
+      value: |
+        - [ ]
+        - [ ] Tests
+        - [ ] Docs (step log, architecture or ADR)
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How we'll know it works. Make each one checkable.
+    validations:
+      required: true
