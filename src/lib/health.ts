@@ -20,3 +20,8 @@ export function buildHealth(input: { env: AppEnv; version: string; now: Date }):
     time: input.now.toISOString(),
   };
 }
+
+export function broken() {
+  const unused = 1;
+  return 2;
+}
