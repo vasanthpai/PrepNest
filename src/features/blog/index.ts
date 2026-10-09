@@ -1,5 +1,5 @@
 /** Public API of the blog feature. Other features and pages import from here. */
-export { getAllPosts } from "@/features/blog/repo";
+export { type BlogEntry, getAllPosts } from "@/features/blog/repo";
 export { type BlogPostData, blogPostSchema } from "@/features/blog/schema";
 export {
   type BlogPost,
@@ -7,6 +7,7 @@ export {
   newestFirst,
   postsByTag,
   postsByTopic,
+  postsToBuild,
   postUrl,
   publishedPosts,
   readingTimeMinutes,

@@ -5,6 +5,7 @@ import {
   isVisible,
   postsByTag,
   postsByTopic,
+  postsToBuild,
   postUrl,
   publishedPosts,
   readingTimeMinutes,
@@ -64,6 +65,18 @@ describe("publishedPosts", () => {
     const before = posts.map((p) => p.id);
     publishedPosts(posts, "production", NOW);
     expect(posts.map((p) => p.id)).toEqual(before);
+  });
+});
+
+describe("postsToBuild", () => {
+  it("builds no pages when the blog flag is off", () => {
+    expect(postsToBuild([live, draft], "local", NOW, false)).toEqual([]);
+  });
+
+  it("builds the visible posts when the flag is on", () => {
+    expect(postsToBuild([live, draft, scheduled], "staging", NOW, true).map((p) => p.id)).toEqual([
+      "live",
+    ]);
   });
 });
 

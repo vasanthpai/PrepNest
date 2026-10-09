@@ -1,0 +1,36 @@
+---
+import TopicChip from "@/components/TopicChip.astro";
+import { findTopic } from "@/config/topics";
+import type { BlogPostData } from "@/features/blog/schema";
+import { formatDate, isoDate } from "@/lib/dates";
+
+interface Props {
+  data: BlogPostData;
+  readingMinutes: number;
+}
+const { data, readingMinutes } = Astro.props;
+const topic = findTopic(data.topic);
+---
+
+<header class="flex flex-col gap-4">
+  {topic && (
+    <div>
+      <TopicChip topic={topic} />
+    </div>
+  )}
+  <h1 class="text-3xl leading-tight font-extrabold tracking-tight sm:text-5xl">{data.title}</h1>
+  <p class="text-lg text-muted">{data.description}</p>
+  <p class="flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-muted">
+    <time datetime={isoDate(data.publishedAt)}>{formatDate(data.publishedAt)}</time>
+    <span aria-hidden="true">·</span>
+    <span>{readingMinutes} min read</span>
+    {data.updatedAt && (
+      <>
+        <span aria-hidden="true">·</span>
+        <span>
+          Updated <time datetime={isoDate(data.updatedAt)}>{formatDate(data.updatedAt)}</time>
+        </span>
+      </>
+    )}
+  </p>
+</header>

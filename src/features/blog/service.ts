@@ -1,7 +1,11 @@
 import type { AppEnv } from "@/config/app-env";
 import type { BlogPostData } from "@/features/blog/schema";
 
-/** The shape of a post as Astro's content collection returns it (id = file name = URL slug). */
+/**
+ * The minimum a post needs for the logic below (id = file name = URL slug). Astro's
+ * CollectionEntry<"blog"> has this shape; functions are generic so they return the same,
+ * richer entries they were given.
+ */
 export interface BlogPost {
   id: string;
   data: BlogPostData;
@@ -19,19 +23,36 @@ export function isVisible(post: BlogPost, env: AppEnv, now: Date): boolean {
 }
 
 /** Visible posts, newest first. */
-export function publishedPosts(posts: readonly BlogPost[], env: AppEnv, now: Date): BlogPost[] {
+export function publishedPosts<T extends BlogPost>(
+  posts: readonly T[],
+  env: AppEnv,
+  now: Date,
+): T[] {
   return posts.filter((post) => isVisible(post, env, now)).sort(newestFirst);
+}
+
+/**
+ * Posts to build as pages. When the blog feature is off in this environment, nothing is built,
+ * so the URLs don't exist at all (not just hidden from the nav).
+ */
+export function postsToBuild<T extends BlogPost>(
+  posts: readonly T[],
+  env: AppEnv,
+  now: Date,
+  blogEnabled: boolean,
+): T[] {
+  return blogEnabled ? publishedPosts(posts, env, now) : [];
 }
 
 export function newestFirst(a: BlogPost, b: BlogPost): number {
   return b.data.publishedAt.getTime() - a.data.publishedAt.getTime() || a.id.localeCompare(b.id);
 }
 
-export function postsByTopic(posts: readonly BlogPost[], topic: string): BlogPost[] {
+export function postsByTopic<T extends BlogPost>(posts: readonly T[], topic: string): T[] {
   return posts.filter((post) => post.data.topic === topic);
 }
 
-export function postsByTag(posts: readonly BlogPost[], tag: string): BlogPost[] {
+export function postsByTag<T extends BlogPost>(posts: readonly T[], tag: string): T[] {
   return posts.filter((post) => post.data.tags.includes(tag));
 }
 

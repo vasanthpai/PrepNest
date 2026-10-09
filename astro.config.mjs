@@ -12,7 +12,16 @@ export default defineConfig({
     // with the Cloudflare Images binding (separate product with its own limits).
     imageService: "compile",
   }),
+  // URLs without a trailing slash (/blog/my-post), built as blog/my-post.html. Cloudflare serves
+  // that file at /blog/my-post directly, avoiding a redirect round-trip on every link.
+  trailingSlash: "never",
+  build: { format: "file" },
   integrations: [react(), mdx()],
+  markdown: {
+    // Code blocks use CSS variables instead of fixed colours, so they follow the Syntax design
+    // tokens and switch with light/dark mode (mapped in src/styles/global.css).
+    shikiConfig: { theme: "css-variables" },
+  },
   // Auth is handled by Clerk (v0.3), so we don't need Astro sessions.
   // Disabling them stops the adapter from requiring a SESSION KV namespace.
   session: false,
