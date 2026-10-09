@@ -22,6 +22,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 13  | Branch protection, security, templates, merge    | [#10](https://github.com/vasanthpai/PrepNest/issues/10) | [13](v0.1/13-github-setup.md)       |
 | 14  | Cloudflare account, token, GitHub environments   | [#15](https://github.com/vasanthpai/PrepNest/issues/15) | [14](v0.1/14-cloudflare-setup.md)   |
 | 15  | Deploy staging with smoke test                   | [#16](https://github.com/vasanthpai/PrepNest/issues/16) | [15](v0.1/15-deploy-staging.md)     |
+| 16  | Production deploy workflow and v0.1.0 release    | [#18](https://github.com/vasanthpai/PrepNest/issues/18) | [16](v0.1/16-release.md)            |
 
 ## Template for a new step log
 

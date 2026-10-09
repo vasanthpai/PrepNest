@@ -4,13 +4,13 @@ How PrepNest connects to Cloudflare, and how to recreate it on a new account.
 
 ## What exists
 
-| Item        | Value                                                                           |
-| ----------- | ------------------------------------------------------------------------------- |
-| Plan        | Workers **Free** (no card on file)                                              |
-| Workers     | `prepnest-staging`, `prepnest-production` (created by the first deploy of each) |
-| URLs        | `https://prepnest-<env>.<subdomain>.workers.dev`                                |
-| API token   | `prepnest-github-actions`, from the **Edit Cloudflare Workers** template        |
-| Local login | `npx wrangler login` (OAuth; stored in your user profile, not the repo)         |
+| Item        | Value                                                                                                                  |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Plan        | Workers **Free** (no card on file)                                                                                     |
+| Workers     | `prepnest-staging`, `prepnest-production` (created by the first deploy of each)                                        |
+| URLs        | staging <https://prepnest-staging.prepnest.workers.dev>, production <https://prepnest-production.prepnest.workers.dev> |
+| API token   | `prepnest-github-actions`, from the **Edit Cloudflare Workers** template                                               |
+| Local login | `npx wrangler login` (OAuth; stored in your user profile, not the repo)                                                |
 
 ## Credentials and where they live
 
