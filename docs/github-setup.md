@@ -71,6 +71,15 @@ what makes "redeploy the previous tag" a safe rollback.
 | `.github/CODEOWNERS`               | Review requests (sensitive paths listed explicitly)           |
 | `SECURITY.md`                      | How to report a vulnerability                                 |
 
+## Environments
+
+**Settings → Environments** (details: [cloudflare-setup.md](cloudflare-setup.md))
+
+| Environment  | Deploys allowed from | Protection rules                  | Secrets / variables                                                 |
+| ------------ | -------------------- | --------------------------------- | ------------------------------------------------------------------- |
+| `staging`    | branch `main`        | none                              | `CLOUDFLARE_API_TOKEN` (secret), `CLOUDFLARE_ACCOUNT_ID` (variable) |
+| `production` | tags `v*`            | Required reviewer **@vasanthpai** | same names, released to a job only after approval                   |
+
 ## Labels and milestones
 
 - **Type labels:** `type: feature`, `type: chore`, `type: test`, `type: ci`, `type: docs`,

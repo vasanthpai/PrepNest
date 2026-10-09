@@ -101,6 +101,7 @@ Requires Node.js 24. Full guide and troubleshooting: [setup](docs/setup.md).
 | [Decision records](docs/decisions/README.md) | Why each major choice was made                      |
 | [CI/CD](docs/ci-cd.md)                       | Workflows, what each check does, reading failures   |
 | [GitHub setup](docs/github-setup.md)         | Branch protection, security scanning, templates     |
+| [Cloudflare setup](docs/cloudflare-setup.md) | Account, API token, environments, rotation          |
 | [Release process](docs/release-process.md)   | Branches, PRs, staging, tags, rollback, hotfixes    |
 | [Environments](docs/environments.md)         | Local / staging / production, every variable        |
 | [Design system](docs/design-system.md)       | Colours, fonts, components, light/dark mode         |

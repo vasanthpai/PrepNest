@@ -20,6 +20,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 11  | README, decision records, release process        | [#6](https://github.com/vasanthpai/PrepNest/issues/6)   | [11](v0.1/11-docs.md)               |
 | 12  | CI workflow, PR title check, first PR            | [#7](https://github.com/vasanthpai/PrepNest/issues/7)   | [12](v0.1/12-ci.md)                 |
 | 13  | Branch protection, security, templates, merge    | [#10](https://github.com/vasanthpai/PrepNest/issues/10) | [13](v0.1/13-github-setup.md)       |
+| 14  | Cloudflare account, token, GitHub environments   | [#15](https://github.com/vasanthpai/PrepNest/issues/15) | [14](v0.1/14-cloudflare-setup.md)   |
 
 ## Template for a new step log
 
