@@ -3,13 +3,16 @@ import type { BlogPostData } from "@/features/blog/schema";
 import {
   type BlogPost,
   blogPageUrl,
+  blogSitemapEntries,
   isVisible,
+  lastChanged,
   postsByTag,
   postsByTopic,
   postsToBuild,
   postUrl,
   publishedPosts,
   readingTimeMinutes,
+  rssItems,
   tagCounts,
   tagUrl,
   topicsWithPosts,
@@ -148,6 +151,68 @@ describe("topicsWithPosts", () => {
     expect(topicsWithPosts(topicList, posts)).toEqual([
       { slug: "javascript", count: 1 },
       { slug: "react", count: 2 },
+    ]);
+  });
+});
+
+describe("lastChanged", () => {
+  it("prefers updatedAt over publishedAt", () => {
+    expect(lastChanged(post("a", { updatedAt: new Date("2026-10-05") }))).toEqual(
+      new Date("2026-10-05"),
+    );
+    expect(lastChanged(post("b"))).toEqual(new Date("2026-10-01"));
+  });
+});
+
+describe("blogSitemapEntries", () => {
+  const posts = [
+    post("new", { topic: "react", publishedAt: new Date("2026-10-08") }),
+    post("edited", {
+      topic: "javascript",
+      publishedAt: new Date("2026-09-01"),
+      updatedAt: new Date("2026-10-09"),
+    }),
+    post("old", { topic: "react", publishedAt: new Date("2026-08-01") }),
+  ];
+  const entries = blogSitemapEntries(posts, ["react", "javascript"], 2);
+  const byPath = new Map(entries.map((e) => [e.path, e.lastModified?.toISOString().slice(0, 10)]));
+
+  it("lists index pages, topic pages and posts, but never tag pages", () => {
+    expect([...byPath.keys()]).toEqual([
+      "/blog",
+      "/blog/page/2",
+      "/blog/topic/react",
+      "/blog/topic/javascript",
+      "/blog/new",
+      "/blog/edited",
+      "/blog/old",
+    ]);
+  });
+
+  it("dates each page by its newest change", () => {
+    expect(byPath.get("/blog")).toBe("2026-10-09");
+    expect(byPath.get("/blog/topic/react")).toBe("2026-10-08");
+    expect(byPath.get("/blog/edited")).toBe("2026-10-09");
+  });
+
+  it("still lists /blog when there are no posts", () => {
+    expect(blogSitemapEntries([], []).map((e) => e.path)).toEqual(["/blog"]);
+  });
+});
+
+describe("rssItems", () => {
+  it("maps posts to feed items with topic label and tags as categories", () => {
+    const items = rssItems([post("x", { topic: "react", tags: ["hooks"] })], (slug) =>
+      slug.toUpperCase(),
+    );
+    expect(items).toEqual([
+      {
+        title: "Post x",
+        description: "A description long enough to pass the schema rules for search engines.",
+        pubDate: new Date("2026-10-01"),
+        link: "/blog/x",
+        categories: ["REACT", "hooks"],
+      },
     ]);
   });
 });

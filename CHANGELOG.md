@@ -14,6 +14,7 @@ Process: [docs/release-process.md](docs/release-process.md)
 - Three articles: `useEffect` in Strict Mode, `map(parseInt)`, and deploy vs release
 - SEO: canonical URLs, Open Graph and Twitter link previews with a branded image, structured
   data for articles and breadcrumbs; tag pages kept out of search results
+- Sitemap with last-modified dates, environment-aware robots.txt, and an RSS feed of articles
 
 ### Fixed
 
