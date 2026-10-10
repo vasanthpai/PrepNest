@@ -25,10 +25,11 @@ that environment. A production deploy gets the production token only **after app
 
 ## GitHub environments
 
-| Environment  | Deploys allowed from | Protection                         |
-| ------------ | -------------------- | ---------------------------------- |
-| `staging`    | branch `main`        | none: deploys automatically        |
-| `production` | tags `v*`            | **Required reviewer:** @vasanthpai |
+| Environment  | Deploys allowed from | Protection                          |
+| ------------ | -------------------- | ----------------------------------- |
+| `staging`    | branch `main`        | none: deploys automatically         |
+| `production` | tags `v*`            | **Required reviewer:** @vasanthpai  |
+| `preview`    | any branch           | none: PR previews (version uploads) |
 
 ## Recreating from scratch
 
@@ -42,6 +43,7 @@ that environment. A production deploy gets the production token only **after app
    ```bash
    gh secret set CLOUDFLARE_API_TOKEN --env staging --repo vasanthpai/PrepNest
    gh secret set CLOUDFLARE_API_TOKEN --env production --repo vasanthpai/PrepNest
+   gh secret set CLOUDFLARE_API_TOKEN --env preview --repo vasanthpai/PrepNest
    gh variable set CLOUDFLARE_ACCOUNT_ID --env staging --repo vasanthpai/PrepNest --body "<account-id>"
    gh variable set CLOUDFLARE_ACCOUNT_ID --env production --repo vasanthpai/PrepNest --body "<account-id>"
    ```
@@ -53,7 +55,7 @@ Do this once a year, or immediately if the token may have leaked:
 
 1. Cloudflare → Profile → API Tokens → `prepnest-github-actions` → **Roll** (issues a new value,
    invalidates the old one) → copy.
-2. Run the two `gh secret set CLOUDFLARE_API_TOKEN …` commands again with the new value.
+2. Run the three `gh secret set CLOUDFLARE_API_TOKEN …` commands (staging, production, preview) again with the new value.
 3. Re-run the latest staging deploy to confirm it still works.
 
 ## Free plan limits that matter

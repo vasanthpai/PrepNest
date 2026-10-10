@@ -22,12 +22,16 @@
   "env": {
     "staging": {
       "name": "prepnest-staging",
+      // Pull request previews: https://pr-<n>-prepnest-staging.<subdomain>.workers.dev
+      "preview_urls": true,
       "vars": {
         "APP_ENV": "staging",
       },
     },
     "production": {
       "name": "prepnest-production",
+      // Never reachable through preview URLs: production serves only deployed, tagged releases.
+      "preview_urls": false,
       "vars": {
         "APP_ENV": "production",
       },

@@ -37,6 +37,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 5   | Sitemap, robots.txt, RSS                     | [#27](https://github.com/vasanthpai/PrepNest/issues/27) | [05](v0.2/05-sitemap-rss.md)        |
 | 6   | Article search with Pagefind                 | [#28](https://github.com/vasanthpai/PrepNest/issues/28) | [06](v0.2/06-search.md)             |
 | 7   | Browser tests and accessibility checks in CI | [#29](https://github.com/vasanthpai/PrepNest/issues/29) | [07](v0.2/07-e2e-tests.md)          |
+| 8   | Preview deploy per pull request              | [#30](https://github.com/vasanthpai/PrepNest/issues/30) | [08](v0.2/08-preview-deploys.md)    |
 
 ## Template for a new step log
 

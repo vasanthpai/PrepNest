@@ -18,6 +18,7 @@ Process: [docs/release-process.md](docs/release-process.md)
 - Article search (Pagefind): runs in the browser, no server or third-party service
 - Browser tests (Playwright) on phone and desktop, including automated accessibility checks, on
   every pull request
+- A live preview URL for every pull request, posted as a comment
 
 ### Fixed
 

@@ -75,10 +75,11 @@ what makes "redeploy the previous tag" a safe rollback.
 
 **Settings → Environments** (details: [cloudflare-setup.md](cloudflare-setup.md))
 
-| Environment  | Deploys allowed from | Protection rules                  | Secrets / variables                                                 |
-| ------------ | -------------------- | --------------------------------- | ------------------------------------------------------------------- |
-| `staging`    | branch `main`        | none                              | `CLOUDFLARE_API_TOKEN` (secret), `CLOUDFLARE_ACCOUNT_ID` (variable) |
-| `production` | tags `v*`            | Required reviewer **@vasanthpai** | same names, released to a job only after approval                   |
+| Environment  | Deploys allowed from       | Protection rules                  | Secrets / variables                                                      |
+| ------------ | -------------------------- | --------------------------------- | ------------------------------------------------------------------------ |
+| `staging`    | branch `main`              | none                              | `CLOUDFLARE_API_TOKEN` (secret), `CLOUDFLARE_ACCOUNT_ID` (variable)      |
+| `production` | tags `v*`                  | Required reviewer **@vasanthpai** | same names, released to a job only after approval                        |
+| `preview`    | any branch (same-repo PRs) | none                              | same names; used by `preview.yml` (version uploads only, never `deploy`) |
 
 ## Labels and milestones
 
