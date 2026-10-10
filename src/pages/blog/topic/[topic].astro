@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from "astro";
+import { TOPIC_CHIP_CLASSES, topics } from "@/config/topics";
+import { getBlogForBuild, postsByTopic, topicsWithPosts } from "@/features/blog";
+import PostList from "@/features/blog/components/PostList.astro";
+import TopicBar from "@/features/blog/components/TopicBar.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { countLabel } from "@/lib/text";
+
+// One page per topic that has posts: /blog/topic/react, …
+export const getStaticPaths = (async () => {
+  const { enabled, posts } = await getBlogForBuild();
+  if (!enabled) return [];
+  const topicCounts = topicsWithPosts(topics, posts);
+  return topicCounts.map((topic) => ({
+    params: { topic: topic.slug },
+    props: { topic, topicCounts, posts: postsByTopic(posts, topic.slug) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { topic, topicCounts, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`${topic.label} articles`}
+  description={`Practical ${topic.label} articles with runnable examples.`}
+>
+  <section class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
+    <header class="flex flex-col gap-3">
+      <p class="font-mono text-sm text-muted">Topic</p>
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+        <span class:list={["rounded-lg px-2", TOPIC_CHIP_CLASSES[topic.color]]}>{topic.label}</span>
+      </h1>
+      <p class="text-lg text-muted">
+        {`${countLabel(posts.length, "article")} about ${topic.label}.`}
+      </p>
+    </header>
+    <TopicBar topics={topicCounts} current={topic.slug} />
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>

@@ -3,11 +3,15 @@ import TopicChip from "@/components/TopicChip.astro";
 import { type FeatureFlag, isFeatureEnabled } from "@/config/features";
 import { site } from "@/config/site";
 import { topics } from "@/config/topics";
+import { blogPageUrl, getBlogForBuild } from "@/features/blog";
+import PostList from "@/features/blog/components/PostList.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getConfig } from "@/lib/runtime-env";
 
 const { APP_ENV } = getConfig();
 const docsUrl = `${site.repoUrl}/blob/main/docs`;
+const blog = await getBlogForBuild();
+const latestPosts = blog.posts.slice(0, 3);
 
 const pillars: {
   verb: string;
@@ -86,6 +90,23 @@ const stack = [
       </a>
     </div>
   </section>
+
+  <!-- Latest articles (only when the blog is on in this environment) -->
+  {blog.enabled && latestPosts.length > 0 && (
+    <section class="mx-auto max-w-5xl px-4 py-12" aria-labelledby="latest">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <h2 id="latest" class="text-2xl font-bold sm:text-3xl">
+          Latest articles
+        </h2>
+        <a href={blogPageUrl(1)} class="text-sm font-semibold underline hover:text-function">
+          All articles →
+        </a>
+      </div>
+      <div class="mt-6">
+        <PostList posts={latestPosts} headingLevel="h3" />
+      </div>
+    </section>
+  )}
 
   <!-- What's coming -->
   <section class="mx-auto max-w-5xl px-4 py-12" aria-labelledby="pillars">

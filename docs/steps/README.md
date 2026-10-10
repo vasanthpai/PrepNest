@@ -32,6 +32,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | --- | ----------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
 | 1   | Content collection, helpers, sample posts | [#22](https://github.com/vasanthpai/PrepNest/issues/22) | [01](v0.2/01-content-collection.md) |
 | 2   | Post page, typography, code highlighting  | [#24](https://github.com/vasanthpai/PrepNest/issues/24) | [02](v0.2/02-post-page.md)          |
+| 3   | Blog index, topic and tag pages           | [#25](https://github.com/vasanthpai/PrepNest/issues/25) | [03](v0.2/03-blog-index.md)         |
 
 ## Template for a new step log
 

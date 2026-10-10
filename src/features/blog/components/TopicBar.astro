@@ -1,0 +1,39 @@
+---
+import TopicChip from "@/components/TopicChip.astro";
+import type { Topic } from "@/config/topics";
+import { blogPageUrl, topicUrl } from "@/features/blog/service";
+
+interface Props {
+  topics: readonly (Topic & { count: number })[];
+  /** Slug of the topic page being viewed, if any. */
+  current?: string;
+}
+const { topics, current } = Astro.props;
+---
+
+<nav aria-label="Topics">
+  <ul class="flex flex-wrap items-center gap-2">
+    <li>
+      <a
+        href={blogPageUrl(1)}
+        aria-current={current === undefined ? "page" : undefined}
+        class:list={[
+          "inline-flex rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold ring-1 ring-line ring-inset",
+          current === undefined ? "bg-fg text-bg" : "text-muted hover:text-fg",
+        ]}
+      >
+        All
+      </a>
+    </li>
+    {topics.map((topic) => (
+      <li>
+        <TopicChip
+          topic={topic}
+          href={topicUrl(topic.slug)}
+          count={topic.count}
+          current={topic.slug === current}
+        />
+      </li>
+    ))}
+  </ul>
+</nav>

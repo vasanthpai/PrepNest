@@ -2,6 +2,7 @@
 import TopicChip from "@/components/TopicChip.astro";
 import { findTopic } from "@/config/topics";
 import type { BlogPostData } from "@/features/blog/schema";
+import { topicUrl } from "@/features/blog/service";
 import { formatDate, isoDate } from "@/lib/dates";
 
 interface Props {
@@ -15,7 +16,7 @@ const topic = findTopic(data.topic);
 <header class="flex flex-col gap-4">
   {topic && (
     <div>
-      <TopicChip topic={topic} />
+      <TopicChip topic={topic} href={topicUrl(topic.slug)} />
     </div>
   )}
   <h1 class="text-3xl leading-tight font-extrabold tracking-tight sm:text-5xl">{data.title}</h1>

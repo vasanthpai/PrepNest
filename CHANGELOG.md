@@ -7,6 +7,16 @@ Process: [docs/release-process.md](docs/release-process.md)
 
 ## [Unreleased]
 
+### Added
+
+- Blog: MDX posts validated at build time, post pages with code highlighting in the Syntax
+  colours, an index with pagination, topic and tag pages, and latest articles on the home page
+- Three articles: `useEffect` in Strict Mode, `map(parseInt)`, and deploy vs release
+
+### Fixed
+
+- Footer showed "© 2026PrepNest" (missing space)
+
 ## [0.1.0] - 2026-10-09
 
 The foundation: project setup, design system, and a complete delivery pipeline from pull request
