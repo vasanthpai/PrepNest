@@ -4,9 +4,12 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
+import { siteUrlFor } from "./src/config/urls.ts";
 
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
+  // Absolute URL of this environment: canonical links, Open Graph, sitemap.
+  site: siteUrlFor(process.env.CLOUDFLARE_ENV),
   adapter: cloudflare({
     // Optimize images once at build time (free) instead of per request
     // with the Cloudflare Images binding (separate product with its own limits).

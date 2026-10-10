@@ -1,7 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { TOPIC_CHIP_CLASSES, topics } from "@/config/topics";
-import { getBlogForBuild, postsByTopic, topicsWithPosts } from "@/features/blog";
+import {
+  blogPageUrl,
+  getBlogForBuild,
+  postsByTopic,
+  topicsWithPosts,
+  topicUrl,
+} from "@/features/blog";
 import PostList from "@/features/blog/components/PostList.astro";
 import TopicBar from "@/features/blog/components/TopicBar.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -24,6 +30,11 @@ const { topic, topicCounts, posts } = Astro.props;
 <BaseLayout
   title={`${topic.label} articles`}
   description={`Practical ${topic.label} articles with runnable examples.`}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Articles", path: blogPageUrl(1) },
+    { name: topic.label, path: topicUrl(topic.slug) },
+  ]}
 >
   <section class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
     <header class="flex flex-col gap-3">

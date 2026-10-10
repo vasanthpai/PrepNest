@@ -18,7 +18,7 @@ export const getStaticPaths = (async () => {
 const { tag, posts } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag}`} description={`Articles tagged ${tag}.`}>
+<BaseLayout title={`#${tag}`} description={`Articles tagged ${tag}.`} indexable={false}>
   <section class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
     <header class="flex flex-col gap-3">
       <p class="font-mono text-sm text-muted">Tag</p>

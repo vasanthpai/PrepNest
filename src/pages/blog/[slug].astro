@@ -1,7 +1,15 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { render } from "astro:content";
-import { type BlogEntry, blogPageUrl, getBlogForBuild, readingTimeMinutes } from "@/features/blog";
+import { findTopic } from "@/config/topics";
+import {
+  type BlogEntry,
+  blogPageUrl,
+  getBlogForBuild,
+  postUrl,
+  readingTimeMinutes,
+  topicUrl,
+} from "@/features/blog";
 import PostHeader from "@/features/blog/components/PostHeader.astro";
 import PostTags from "@/features/blog/components/PostTags.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -17,9 +25,26 @@ interface Props {
 }
 const { post } = Astro.props;
 const { Content } = await render(post);
+const topicLabel = findTopic(post.data.topic)?.label ?? post.data.topic;
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  article={{
+    publishedAt: post.data.publishedAt,
+    updatedAt: post.data.updatedAt,
+    section: topicLabel,
+    tags: post.data.tags,
+  }}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Articles", path: blogPageUrl(1) },
+    { name: topicLabel, path: topicUrl(post.data.topic) },
+    { name: post.data.title, path: postUrl(post) },
+  ]}
+>
   <article class="mx-auto flex max-w-3xl flex-col gap-10 px-4 pt-10 pb-20 sm:pt-16">
     <PostHeader data={post.data} readingMinutes={readingTimeMinutes(post.body)} />
     <div class="prose-pn prose max-w-none">
