@@ -5,14 +5,15 @@ GitHub Actions workflows live in `.github/workflows/`. CI is the gate in the
 
 ## Workflows
 
-| Workflow              | File                    | Runs on                        | Purpose                                   | Since        |
-| --------------------- | ----------------------- | ------------------------------ | ----------------------------------------- | ------------ |
-| **CI**                | `ci.yml`                | Every PR, every push to `main` | Lint, format, types, tests, build         | v0.1         |
-| **PR title**          | `pr-title.yml`          | PR opened / edited / updated   | Title follows Conventional Commits        | v0.1         |
-| **Deploy staging**    | `deploy-staging.yml`    | Push to `main`                 | Build, migrate, deploy, smoke test        | v0.1 step 15 |
-| **Deploy production** | `deploy-production.yml` | Tag `v*`                       | Approval, migrate, deploy, smoke, release | v0.1 step 16 |
-| **CodeQL**            | GitHub default setup    | PRs, `main`, weekly            | Security analysis of the code             | v0.1         |
-| **Dependabot**        | `dependabot.yml`        | Weekly                         | PRs for dependency and action updates     | v0.1         |
+| Workflow              | File                    | Runs on                         | Purpose                                              | Since           |
+| --------------------- | ----------------------- | ------------------------------- | ---------------------------------------------------- | --------------- |
+| **CI**                | `ci.yml`                | Every PR, every push to `main`  | Lint, format, types, tests, build; **browser tests** | v0.1 (e2e v0.2) |
+| **PR title**          | `pr-title.yml`          | PR opened / edited / updated    | Title follows Conventional Commits                   | v0.1            |
+| **Preview**           | `preview.yml`           | PR opened / updated (same repo) | Live preview URL per PR, smoke test, PR comment      | v0.2            |
+| **Deploy staging**    | `deploy-staging.yml`    | Push to `main`                  | Build, migrate, deploy, smoke test                   | v0.1 step 15    |
+| **Deploy production** | `deploy-production.yml` | Tag `v*`                        | Approval, migrate, deploy, smoke, release            | v0.1 step 16    |
+| **CodeQL**            | GitHub default setup    | PRs, `main`, weekly             | Security analysis of the code                        | v0.1            |
+| **Dependabot**        | `dependabot.yml`        | Weekly                          | PRs for dependency and action updates                | v0.1            |
 
 ## CI: what each check catches
 
@@ -115,3 +116,44 @@ Run it against any environment by hand, e.g. after a rollback.
 
 The production token is only released to the deploy job **after** approval, and the environment
 only accepts runs from `v*` tags, so a branch can never deploy to production.
+
+## End-to-end tests job
+
+The `End-to-end tests` job in `ci.yml` runs in parallel with the quality job:
+
+```
+npm ci → restore cached browsers → playwright install --with-deps --no-shell chromium
+       → npm run build → npm run test:e2e (phone + desktop) → on failure: upload report
+```
+
+- Browsers (~150 MB) are cached by lockfile hash; system libraries install each run.
+- One retry in CI: a test that passes on retry is marked **flaky** in the report, which should be fixed, not ignored.
+- On failure, download **playwright-report** from the run's Artifacts and open `index.html`: each
+  failed test has a screenshot and a full trace (every click, network request and DOM snapshot).
+- `End-to-end tests` is a **required check** on `main` ([github-setup.md](github-setup.md)).
+
+## Preview deploys
+
+`preview.yml` gives every pull request its own live URL:
+`https://pr-<number>-prepnest-staging.prepnest.workers.dev`.
+
+```
+PR push → npm ci → build (CLOUDFLARE_ENV=staging)
+        → wrangler versions upload --preview-alias pr-<n>   (new version, NOT deployed)
+        → smoke test the preview URL → one sticky PR comment (URL, commit, smoke result)
+```
+
+| Design choice                                           | Why                                                                                                                                                |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Version upload with an alias, not `wrangler deploy`     | Live staging keeps serving `main`; the alias always points at the PR's latest push                                                                 |
+| Staging settings                                        | The preview shows what staging will look like after the merge                                                                                      |
+| …but its **own address** (`PREVIEW_PR`)                 | Canonical links, `og:image`, sitemap and RSS point at the preview; the workflow fails if the built address differs from the one Cloudflare assigns |
+| `preview` environment with its own token copy           | `staging` stays restricted to `main`                                                                                                               |
+| Same-repo PRs only                                      | Fork and Dependabot runs get no secrets (GitHub's design)                                                                                          |
+| PR values passed through `env:`, not `${{ }}` in `run:` | Prevents script injection from PR data                                                                                                             |
+| One comment, edited on each push (hidden marker)        | The PR stays readable                                                                                                                              |
+| `preview_urls: false` for production                    | Production is only reachable through tagged deploys                                                                                                |
+
+Previews share staging's bindings. From v0.3 that includes the **staging database**: preview code runs
+against it, so migrations in a PR must stay backward-compatible (they already must, see
+[release-process.md](release-process.md)).

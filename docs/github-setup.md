@@ -22,14 +22,14 @@ recreated. Why: [ADR 0009](decisions/0009-branching-and-releases.md).
 
 ### `main` (target: default branch)
 
-| Rule                                  | Effect                                                                                                                  |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Restrict deletions                    | `main` can't be deleted                                                                                                 |
-| Block force pushes                    | History on `main` can't be rewritten                                                                                    |
-| Require linear history                | No merge commits                                                                                                        |
-| Require a pull request before merging | No direct pushes; 0 approvals (you can't approve your own PR); conversations must be resolved; merge method: **rebase** |
-| Require status checks to pass         | `Lint, types, tests, build` and `Conventional Commits title`; branch must be **up to date** with `main`                 |
-| Bypass list                           | Empty: the rules apply to the owner too                                                                                 |
+| Rule                                  | Effect                                                                                                                                   |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Restrict deletions                    | `main` can't be deleted                                                                                                                  |
+| Block force pushes                    | History on `main` can't be rewritten                                                                                                     |
+| Require linear history                | No merge commits                                                                                                                         |
+| Require a pull request before merging | No direct pushes; 0 approvals (you can't approve your own PR); conversations must be resolved; merge method: **rebase**                  |
+| Require status checks to pass         | `Lint, types, tests, build`, `Conventional Commits title` and `End-to-end tests` (since v0.2); branch must be **up to date** with `main` |
+| Bypass list                           | Empty: the rules apply to the owner too                                                                                                  |
 
 Verified: a direct push to `main` is rejected with
 `GH013: Repository rule violations … Changes must be made through a pull request.`
@@ -75,10 +75,11 @@ what makes "redeploy the previous tag" a safe rollback.
 
 **Settings → Environments** (details: [cloudflare-setup.md](cloudflare-setup.md))
 
-| Environment  | Deploys allowed from | Protection rules                  | Secrets / variables                                                 |
-| ------------ | -------------------- | --------------------------------- | ------------------------------------------------------------------- |
-| `staging`    | branch `main`        | none                              | `CLOUDFLARE_API_TOKEN` (secret), `CLOUDFLARE_ACCOUNT_ID` (variable) |
-| `production` | tags `v*`            | Required reviewer **@vasanthpai** | same names, released to a job only after approval                   |
+| Environment  | Deploys allowed from       | Protection rules                  | Secrets / variables                                                      |
+| ------------ | -------------------------- | --------------------------------- | ------------------------------------------------------------------------ |
+| `staging`    | branch `main`              | none                              | `CLOUDFLARE_API_TOKEN` (secret), `CLOUDFLARE_ACCOUNT_ID` (variable)      |
+| `production` | tags `v*`                  | Required reviewer **@vasanthpai** | same names, released to a job only after approval                        |
+| `preview`    | any branch (same-repo PRs) | none                              | same names; used by `preview.yml` (version uploads only, never `deploy`) |
 
 ## Labels and milestones
 

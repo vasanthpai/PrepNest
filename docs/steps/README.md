@@ -26,6 +26,19 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 
 **Retrospective:** [what went well, what we learned](v0.1/retrospective.md)
 
+## v0.2 Blog
+
+| #   | Step                                         | Ticket                                                  | Log                                 |
+| --- | -------------------------------------------- | ------------------------------------------------------- | ----------------------------------- |
+| 1   | Content collection, helpers, sample posts    | [#22](https://github.com/vasanthpai/PrepNest/issues/22) | [01](v0.2/01-content-collection.md) |
+| 2   | Post page, typography, code highlighting     | [#24](https://github.com/vasanthpai/PrepNest/issues/24) | [02](v0.2/02-post-page.md)          |
+| 3   | Blog index, topic and tag pages              | [#25](https://github.com/vasanthpai/PrepNest/issues/25) | [03](v0.2/03-blog-index.md)         |
+| 4   | SEO, link previews, structured data          | [#26](https://github.com/vasanthpai/PrepNest/issues/26) | [04](v0.2/04-seo.md)                |
+| 5   | Sitemap, robots.txt, RSS                     | [#27](https://github.com/vasanthpai/PrepNest/issues/27) | [05](v0.2/05-sitemap-rss.md)        |
+| 6   | Article search with Pagefind                 | [#28](https://github.com/vasanthpai/PrepNest/issues/28) | [06](v0.2/06-search.md)             |
+| 7   | Browser tests and accessibility checks in CI | [#29](https://github.com/vasanthpai/PrepNest/issues/29) | [07](v0.2/07-e2e-tests.md)          |
+| 8   | Preview deploy per pull request              | [#30](https://github.com/vasanthpai/PrepNest/issues/30) | [08](v0.2/08-preview-deploys.md)    |
+
 ## Template for a new step log
 
 ```markdown

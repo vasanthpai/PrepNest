@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from "astro";
+import { blogPageUrl, getBlogForBuild, postsByTag, tagCounts } from "@/features/blog";
+import PostList from "@/features/blog/components/PostList.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { countLabel } from "@/lib/text";
+
+// One page per tag: /blog/tag/feature-flags, …
+export const getStaticPaths = (async () => {
+  const { enabled, posts } = await getBlogForBuild();
+  if (!enabled) return [];
+  return tagCounts(posts).map(({ tag }) => ({
+    params: { tag },
+    props: { tag, posts: postsByTag(posts, tag) },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`#${tag}`} description={`Articles tagged ${tag}.`} indexable={false}>
+  <section class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
+    <header class="flex flex-col gap-3">
+      <p class="font-mono text-sm text-muted">Tag</p>
+      <h1 class="font-mono text-4xl font-bold tracking-tight sm:text-5xl">#{tag}</h1>
+      <p class="text-lg text-muted">
+        {`${countLabel(posts.length, "article")} · `}
+        <a href={blogPageUrl(1)} class="underline hover:text-function">
+          all articles
+        </a>
+      </p>
+    </header>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>

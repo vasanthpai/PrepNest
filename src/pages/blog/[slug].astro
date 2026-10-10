@@ -1,0 +1,66 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render } from "astro:content";
+import { findTopic } from "@/config/topics";
+import {
+  type BlogEntry,
+  blogPageUrl,
+  getBlogForBuild,
+  postUrl,
+  readingTimeMinutes,
+  topicUrl,
+} from "@/features/blog";
+import PostHeader from "@/features/blog/components/PostHeader.astro";
+import PostTags from "@/features/blog/components/PostTags.astro";
+import ProseTable from "@/features/blog/components/ProseTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// Pre-rendered at build time: one HTML file per visible post in this environment.
+export const getStaticPaths = (async () => {
+  const { posts } = await getBlogForBuild();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: BlogEntry;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const topicLabel = findTopic(post.data.topic)?.label ?? post.data.topic;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  article={{
+    publishedAt: post.data.publishedAt,
+    updatedAt: post.data.updatedAt,
+    section: topicLabel,
+    tags: post.data.tags,
+  }}
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Articles", path: blogPageUrl(1) },
+    { name: topicLabel, path: topicUrl(post.data.topic) },
+    { name: post.data.title, path: postUrl(post) },
+  ]}
+>
+  <!-- data-pagefind-*: only article pages are indexed for search, filterable by topic -->
+  <article
+    class="mx-auto flex max-w-3xl flex-col gap-10 px-4 pt-10 pb-20 sm:pt-16"
+    data-pagefind-body
+    data-pagefind-filter={`topic:${post.data.topic}`}
+  >
+    <PostHeader data={post.data} readingMinutes={readingTimeMinutes(post.body)} />
+    <div class="prose-pn prose max-w-none">
+      <Content components={{ table: ProseTable }} />
+    </div>
+    <footer class="flex flex-col gap-6 border-t border-line pt-6" data-pagefind-ignore>
+      <PostTags tags={post.data.tags} />
+      <a href={blogPageUrl(1)} class="text-sm font-semibold underline hover:text-function">
+        ← All articles
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

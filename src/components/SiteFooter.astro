@@ -1,5 +1,6 @@
 ---
 import type { AppEnv } from "@/config/app-env";
+import { isFeatureEnabled } from "@/config/features";
 import { site } from "@/config/site";
 import { APP_VERSION } from "@/config/version";
 
@@ -8,22 +9,31 @@ interface Props {
 }
 const { env } = Astro.props;
 const year = new Date().getFullYear();
+const blogEnabled = isFeatureEnabled("blog", env);
 ---
 
 <footer class="border-t border-line">
   <div class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
     <p>
-      © {year}
-      {site.name} · Built in public by{" "}
+      {`© ${year} ${site.name}`} · Built in public by{" "}
       <a href={site.author.url} class="underline hover:text-fg">
         {site.author.name}
       </a>
     </p>
-    <p class="font-mono text-xs">
+    <p class="flex flex-wrap items-center gap-x-1.5 font-mono text-xs">
       <a href={site.repoUrl} class="hover:text-fg">
         source
-      </a>{" "}
-      · v{APP_VERSION} · {env}
+      </a>
+      {blogEnabled && <span aria-hidden="true">·</span>}
+      {blogEnabled && (
+        <a href="/rss.xml" class="hover:text-fg">
+          rss
+        </a>
+      )}
+      <span aria-hidden="true">·</span>
+      <span>{`v${APP_VERSION}`}</span>
+      <span aria-hidden="true">·</span>
+      <span>{env}</span>
     </p>
   </div>
 </footer>

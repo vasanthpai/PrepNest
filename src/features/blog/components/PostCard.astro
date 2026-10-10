@@ -1,0 +1,38 @@
+---
+import TopicChip from "@/components/TopicChip.astro";
+import { findTopic } from "@/config/topics";
+import { type BlogPost, postUrl, readingTimeMinutes } from "@/features/blog/service";
+import { formatDate, isoDate } from "@/lib/dates";
+
+interface Props {
+  post: BlogPost;
+  /** Heading level, so cards fit the page outline (h2 on list pages, h3 under a section heading). */
+  headingLevel?: "h2" | "h3";
+}
+const { post, headingLevel = "h2" } = Astro.props;
+const topic = findTopic(post.data.topic);
+const Heading = headingLevel;
+---
+
+<!--
+  The whole card is clickable, but there is only ONE link (the title): its ::after covers the card.
+  Screen readers hear one clean link, and keyboard focus outlines the whole card.
+-->
+<article class="relative flex flex-col gap-3 rounded-xl border border-line bg-surface p-5 transition-colors focus-within:outline-2 focus-within:outline-focus hover:border-muted">
+  {topic && (
+    <div>
+      <TopicChip topic={topic} />
+    </div>
+  )}
+  <Heading class="font-display text-xl leading-snug font-bold">
+    <a href={postUrl(post)} class="after:absolute after:inset-0 focus-visible:outline-none">
+      {post.data.title}
+    </a>
+  </Heading>
+  <p class="text-muted">{post.data.description}</p>
+  <p class="mt-auto font-mono text-xs text-muted">
+    <time datetime={isoDate(post.data.publishedAt)}>{formatDate(post.data.publishedAt)}</time>
+    {" · "}
+    {`${readingTimeMinutes(post.body)} min read`}
+  </p>
+</article>

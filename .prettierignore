@@ -7,3 +7,6 @@ playwright-report/
 test-results/
 package-lock.json
 worker-configuration.d.ts
+
+# Pre-formatted image template: reformatting would change the rendered image
+scripts/og/

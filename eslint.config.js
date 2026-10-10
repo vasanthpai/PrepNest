@@ -49,6 +49,9 @@ export default defineConfig([
       ],
       "@typescript-eslint/consistent-type-imports": "error",
       "no-console": ["warn", { allow: ["warn", "error"] }],
+      // Scrollable boxes must be keyboard-focusable (axe "scrollable-region-focusable"). The
+      // accessible pattern is a labelled region: role="region" aria-label="…" tabindex="0".
+      "astro/jsx-a11y/no-noninteractive-tabindex": ["error", { roles: ["tabpanel", "region"] }],
     },
   },
 

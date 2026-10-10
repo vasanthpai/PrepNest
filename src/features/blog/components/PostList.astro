@@ -1,0 +1,24 @@
+---
+import PostCard from "@/features/blog/components/PostCard.astro";
+import type { BlogPost } from "@/features/blog/service";
+
+interface Props {
+  posts: readonly BlogPost[];
+  headingLevel?: "h2" | "h3";
+}
+const { posts, headingLevel = "h2" } = Astro.props;
+---
+
+{posts.length > 0 ? (
+  <ul class="grid gap-4 md:grid-cols-2">
+    {posts.map((post) => (
+      <li class="flex">
+        <PostCard post={post} headingLevel={headingLevel} />
+      </li>
+    ))}
+  </ul>
+) : (
+  <p class="rounded-xl border border-dashed border-line p-8 text-center text-muted">
+    No articles here yet. New ones are on the way.
+  </p>
+)}
