@@ -4,7 +4,9 @@ export { type BlogPostData, blogPostSchema } from "@/features/blog/schema";
 export {
   type BlogPost,
   blogPageUrl,
+  blogSitemapEntries,
   isVisible,
+  lastChanged,
   newestFirst,
   postsByTag,
   postsByTopic,
@@ -13,6 +15,8 @@ export {
   publishedPosts,
   POSTS_PER_PAGE,
   readingTimeMinutes,
+  type RssItem,
+  rssItems,
   tagCounts,
   tagUrl,
   topicsWithPosts,

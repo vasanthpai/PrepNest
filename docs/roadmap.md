@@ -42,7 +42,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 2   | Post page: article layout, typography, code highlighting        | ✅     |
 | 3   | Blog index with pagination, topic and tag pages                 | ✅     |
 | 4   | SEO: `<Seo>` component, canonical, Open Graph, structured data  | ✅     |
-| 5   | Sitemap, robots.txt, RSS                                        | ⏳     |
+| 5   | Sitemap, robots.txt, RSS                                        | ✅     |
 | 6   | Pagefind search                                                 | ⏳     |
 | 7   | Playwright e2e tests in CI                                      | ⏳     |
 | 8   | Preview deploy per PR                                           | ⏳     |

@@ -1,5 +1,6 @@
 import type { AppEnv } from "@/config/app-env";
 import type { BlogPostData } from "@/features/blog/schema";
+import type { SitemapEntry } from "@/lib/sitemap";
 
 /**
  * The minimum a post needs for the logic below (id = file name = URL slug). Astro's
@@ -104,4 +105,62 @@ export function topicsWithPosts<T extends { slug: string }>(
   return topicList
     .map((topic) => ({ ...topic, count: postsByTopic(posts, topic.slug).length }))
     .filter((topic) => topic.count > 0);
+}
+
+/** When a post's content last changed. */
+export function lastChanged(post: BlogPost): Date {
+  return post.data.updatedAt ?? post.data.publishedAt;
+}
+
+function newestChange(posts: readonly BlogPost[]): Date | undefined {
+  return posts.reduce<Date | undefined>((newest, post) => {
+    const changed = lastChanged(post);
+    return newest === undefined || changed > newest ? changed : newest;
+  }, undefined);
+}
+
+/**
+ * Blog pages for the sitemap: index pages, topic pages and posts, each with a last-modified date.
+ * Tag pages are left out on purpose: they are `noindex` (see docs/seo.md).
+ */
+export function blogSitemapEntries(
+  posts: readonly BlogPost[],
+  topicSlugs: readonly string[],
+  postsPerPage: number = POSTS_PER_PAGE,
+): SitemapEntry[] {
+  const pages = Math.max(1, Math.ceil(posts.length / postsPerPage));
+  const newest = newestChange(posts);
+  return [
+    ...Array.from({ length: pages }, (_, i) => ({
+      path: blogPageUrl(i + 1),
+      lastModified: newest,
+    })),
+    ...topicSlugs.map((slug) => ({
+      path: topicUrl(slug),
+      lastModified: newestChange(postsByTopic(posts, slug)),
+    })),
+    ...posts.map((post) => ({ path: postUrl(post), lastModified: lastChanged(post) })),
+  ];
+}
+
+export interface RssItem {
+  title: string;
+  description: string;
+  pubDate: Date;
+  link: string;
+  categories: string[];
+}
+
+/** RSS items, in the order given (newest first from publishedPosts). */
+export function rssItems(
+  posts: readonly BlogPost[],
+  topicLabel: (slug: string) => string,
+): RssItem[] {
+  return posts.map((post) => ({
+    title: post.data.title,
+    description: post.data.description,
+    pubDate: post.data.publishedAt,
+    link: postUrl(post),
+    categories: [topicLabel(post.data.topic), ...post.data.tags],
+  }));
 }

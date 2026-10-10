@@ -48,6 +48,22 @@ JSON-LD is serialized with `<` escaped, so content can never close the `<script>
 
 Pass `indexable={false}` to `BaseLayout` to mark a page `noindex, follow` in production.
 
+## Sitemap, robots.txt and RSS
+
+| File           | Production                                 | Staging / local                   | Source                                       |
+| -------------- | ------------------------------------------ | --------------------------------- | -------------------------------------------- |
+| `/robots.txt`  | `Allow: /` + `Sitemap: …/sitemap.xml`      | `Disallow: /`                     | `src/lib/robots.ts`                          |
+| `/sitemap.xml` | Home, blog index pages, topic pages, posts | Same (but robots blocks crawling) | `src/lib/sitemap.ts`, `blogSitemapEntries()` |
+| `/rss.xml`     | All visible articles, newest first         | Only when the `blog` flag is on   | `src/pages/[feed].xml.ts`                    |
+
+- **Custom sitemap, not `@astrojs/sitemap`:** we need `lastmod` from post dates, must leave out
+  `noindex` tag pages, and want the exact same URLs as the canonicals (shared `canonicalUrl()`).
+  The trade-off: a **new indexable route must be added to the sitemap by hand** (`blogSitemapEntries`
+  or `sitemap.xml.ts`).
+- `lastmod` is each page's newest change: a post's `updatedAt ?? publishedAt`; for index and topic
+  pages, their newest post.
+- The RSS feed is linked from `<head>` (`rel="alternate"`, so readers auto-detect it) and the footer.
+
 ## The link preview image
 
 `public/og/default.png` (1200×630, ~70 KB) is rendered from `scripts/og/default.html` with a headless

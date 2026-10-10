@@ -6,6 +6,7 @@ import EnvBanner from "@/components/EnvBanner.astro";
 import Seo, { type Props as SeoProps } from "@/components/Seo.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
+import { isFeatureEnabled } from "@/config/features";
 import { site } from "@/config/site";
 import { getConfig } from "@/lib/runtime-env";
 
@@ -20,6 +21,7 @@ interface Props extends Omit<SeoProps, "description"> {
 
 const { description = site.description, indexable = true, ...seo } = Astro.props;
 const { APP_ENV } = getConfig();
+const blogEnabled = isFeatureEnabled("blog", APP_ENV);
 ---
 
 <!doctype html>
@@ -37,6 +39,14 @@ const { APP_ENV } = getConfig();
       !indexable && <meta name="robots" content="noindex, follow" />
     )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {blogEnabled && (
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        title={`${site.name} articles`}
+        href="/rss.xml"
+      />
+    )}
     <!-- Apply the saved theme before first paint, so there's no flash of the wrong theme. -->
     <script is:inline>
       try {
