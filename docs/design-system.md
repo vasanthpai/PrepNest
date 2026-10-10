@@ -17,13 +17,17 @@ Use the Tailwind utilities on the left. They switch between light and dark autom
 | `muted`                             | Secondary text                        | `#5a606d` | `#a3a9b6` |
 | `line`                              | Borders, dividers                     | `#dfe2e8` | `#2c3039` |
 | `code`                              | Code block background                 | `#eef0f4` | `#0e1015` |
-| `keyword`                           | Topic colour; "Quiz"; selection       | `#6d3df2` | `#b39bff` |
-| `function`                          | Topic colour; "Learn"; links on hover | `#0a6fc2` | `#6cb6ff` |
-| `string`                            | Topic colour; "Ship"; success         | `#12784a` | `#5fd39a` |
-| `number`                            | Topic colour; timers; env banner      | `#b05000` | `#ffb26b` |
+| `keyword`                           | Topic colour; "Quiz"; selection       | `#6136d7` | `#b39bff` |
+| `function`                          | Topic colour; "Learn"; links on hover | `#085ca1` | `#6cb6ff` |
+| `string`                            | Topic colour; "Ship"; success         | `#106840` | `#5fd39a` |
+| `number`                            | Topic colour; timers; env banner      | `#944300` | `#ffb26b` |
 | `comment`                           | Code comments                         | `#666c78` | `#858c9a` |
 
-All text colours meet **WCAG AA (4.5:1)** on `bg` and `surface` in both themes.
+All text colours meet **WCAG AA (4.5:1)** on `bg` and `surface` in both themes, **and on the
+12–20% tints of themselves** used by chips and banners (e.g. `text-number` on `bg-number/15`).
+The light-mode syntax colours were darkened in v0.2 step 7 after the automated accessibility tests
+found chips at 3.6–4.0:1 on their tints. Those tests (`e2e/accessibility.spec.ts`) now check this on
+every pull request.
 Opacity works too: `bg-keyword/12` is a 12% tint for chips and selected states.
 
 ### Rules
@@ -78,6 +82,19 @@ Blog posts use Tailwind's typography plugin (`prose`) with PrepNest's tokens (`p
 | Code blocks | `code` background, 1px `line` border, rounded, 14px, scroll sideways |
 | Tables      | Scroll sideways inside their own box on phones                       |
 | Quotes      | `keyword` left border                                                |
+
+## Scrollable boxes
+
+Anything that scrolls sideways (wide tables, code) must be reachable with the keyboard, or keyboard
+users can't see the hidden part. The pattern:
+
+```html
+<div role="region" aria-label="Table, scrolls sideways" tabindex="0">…</div>
+```
+
+- Article tables get this automatically from `ProseTable` (MDX component mapping).
+- Shiki code blocks already have `tabindex="0"`; hand-written `<pre>` blocks need the pattern above.
+- ESLint allows `tabindex` on `role="region"` for exactly this reason.
 
 ## Code highlighting
 

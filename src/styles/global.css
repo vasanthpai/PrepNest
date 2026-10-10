@@ -17,12 +17,12 @@
   --pn-muted: #5a606d;
   --pn-line: #dfe2e8;
   --pn-code: #eef0f4;
-  --pn-keyword: #6d3df2;
-  --pn-function: #0a6fc2;
-  --pn-string: #12784a;
-  --pn-number: #b05000;
+  --pn-keyword: #6136d7;
+  --pn-function: #085ca1;
+  --pn-string: #106840;
+  --pn-number: #944300;
   --pn-comment: #666c78;
-  --pn-focus: #0a6fc2;
+  --pn-focus: #085ca1;
   color-scheme: light;
 }
 
@@ -211,11 +211,14 @@
   font-size: 0.875rem;
   line-height: 1.6;
 }
-/* Wide tables scroll inside their own box on phones instead of widening the page */
-.prose-pn table {
-  display: block;
+/* Wide tables scroll inside their own box on phones instead of widening the page (ProseTable) */
+.prose-pn .table-scroll {
   max-width: 100%;
   overflow-x: auto;
+  margin-block: 1.75em;
+}
+.prose-pn .table-scroll > table {
+  margin-block: 0;
   font-size: 0.9375rem;
 }
 

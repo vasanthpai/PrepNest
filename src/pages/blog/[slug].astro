@@ -12,6 +12,7 @@ import {
 } from "@/features/blog";
 import PostHeader from "@/features/blog/components/PostHeader.astro";
 import PostTags from "@/features/blog/components/PostTags.astro";
+import ProseTable from "@/features/blog/components/ProseTable.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 // Pre-rendered at build time: one HTML file per visible post in this environment.
@@ -53,7 +54,7 @@ const topicLabel = findTopic(post.data.topic)?.label ?? post.data.topic;
   >
     <PostHeader data={post.data} readingMinutes={readingTimeMinutes(post.body)} />
     <div class="prose-pn prose max-w-none">
-      <Content />
+      <Content components={{ table: ProseTable }} />
     </div>
     <footer class="flex flex-col gap-6 border-t border-line pt-6" data-pagefind-ignore>
       <PostTags tags={post.data.tags} />
