@@ -35,6 +35,7 @@ export const site: SiteConfig = {
     { label: "Blog", href: "/blog", flag: "blog" },
     { label: "Quizzes", href: "/quizzes", flag: "quizzes" },
     { label: "Courses", href: "/courses", flag: "courses" },
+    { label: "Search", href: "/search", flag: "blog" },
   ],
 };
 

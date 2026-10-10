@@ -35,6 +35,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 3   | Blog index, topic and tag pages           | [#25](https://github.com/vasanthpai/PrepNest/issues/25) | [03](v0.2/03-blog-index.md)         |
 | 4   | SEO, link previews, structured data       | [#26](https://github.com/vasanthpai/PrepNest/issues/26) | [04](v0.2/04-seo.md)                |
 | 5   | Sitemap, robots.txt, RSS                  | [#27](https://github.com/vasanthpai/PrepNest/issues/27) | [05](v0.2/05-sitemap-rss.md)        |
+| 6   | Article search with Pagefind              | [#28](https://github.com/vasanthpai/PrepNest/issues/28) | [06](v0.2/06-search.md)             |
 
 ## Template for a new step log
 

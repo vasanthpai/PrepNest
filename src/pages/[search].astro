@@ -1,0 +1,162 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getBlogForBuild } from "@/features/blog";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// /search, built only when the blog is on (the dynamic route lets us build nothing otherwise).
+export const getStaticPaths = (async () => {
+  const { enabled } = await getBlogForBuild();
+  return enabled ? [{ params: { search: "search" } }] : [];
+}) satisfies GetStaticPaths;
+---
+
+<BaseLayout
+  title="Search"
+  description="Search PrepNest's tech articles."
+  breadcrumbs={[
+    { name: "Home", path: "/" },
+    { name: "Search", path: "/search" },
+  ]}
+  indexable={false}
+>
+  <section class="mx-auto flex max-w-3xl flex-col gap-6 px-4 pt-10 pb-20 sm:pt-16">
+    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Search articles</h1>
+
+    <form id="search-form" role="search" action="/search" method="get" class="flex flex-col gap-2">
+      <label for="search-input" class="font-mono text-xs text-muted">
+        What do you want to learn?
+      </label>
+      <input
+        id="search-input"
+        name="q"
+        type="search"
+        autocomplete="off"
+        spellcheck="false"
+        maxlength="100"
+        placeholder="e.g. parseInt, useEffect, feature flags"
+        class="w-full rounded-xl border border-line bg-surface px-4 py-3 text-lg outline-none placeholder:text-muted focus:border-function focus:ring-2 focus:ring-function/30"
+      />
+    </form>
+
+    <p id="search-status" class="min-h-6 text-sm text-muted" role="status" aria-live="polite"></p>
+    <ol id="search-results" class="flex flex-col gap-4"></ol>
+
+    <noscript>
+      <p class="rounded-xl border border-dashed border-line p-6 text-muted">
+        Search runs in your browser and needs JavaScript. You can still browse
+        <a href="/blog" class="underline">
+          all articles
+        </a>
+        .
+      </p>
+    </noscript>
+  </section>
+</BaseLayout>
+
+<script>
+  import { findTopic, TOPIC_CHIP_CLASSES } from "@/config/topics";
+  import { cleanExcerpt, normalizeQuery, resultsMessage, resultUrl } from "@/lib/search";
+
+  interface PagefindData {
+    url: string;
+    excerpt: string;
+    meta: { title?: string };
+    filters: Record<string, string[]>;
+  }
+  interface Pagefind {
+    init(): Promise<void>;
+    debouncedSearch(
+      query: string,
+      options?: object,
+      debounceMs?: number,
+    ): Promise<{ results: { data(): Promise<PagefindData> }[] } | null>;
+  }
+
+  const form = document.querySelector<HTMLFormElement>("#search-form");
+  const input = document.querySelector<HTMLInputElement>("#search-input");
+  const status = document.querySelector<HTMLElement>("#search-status");
+  const list = document.querySelector<HTMLOListElement>("#search-results");
+  let pagefind: Pagefind | undefined;
+
+  /** Loads the search engine on first use. The index is created by `npm run build`. */
+  async function loadPagefind(): Promise<Pagefind> {
+    if (!pagefind) {
+      const path = "/pagefind/pagefind.js";
+      pagefind = (await import(/* @vite-ignore */ path)) as Pagefind;
+      await pagefind.init();
+    }
+    return pagefind;
+  }
+
+  function renderResult(data: PagefindData): HTMLLIElement {
+    const item = document.createElement("li");
+    item.className =
+      "relative flex flex-col gap-2 rounded-xl border border-line bg-surface p-5 focus-within:outline-2 focus-within:outline-focus hover:border-muted";
+
+    const topic = findTopic(data.filters["topic"]?.[0] ?? "");
+    if (topic) {
+      const chip = document.createElement("span");
+      chip.className = `self-start rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold ${TOPIC_CHIP_CLASSES[topic.color]}`;
+      chip.textContent = topic.label;
+      item.appendChild(chip);
+    }
+
+    const heading = document.createElement("h2");
+    heading.className = "font-display text-xl leading-snug font-bold";
+    const link = document.createElement("a");
+    link.href = resultUrl(data.url);
+    link.className = "after:absolute after:inset-0 focus-visible:outline-none";
+    link.textContent = data.meta.title ?? link.href;
+    heading.appendChild(link);
+
+    const excerpt = document.createElement("p");
+    excerpt.className =
+      "text-muted [&_mark]:rounded [&_mark]:bg-keyword/20 [&_mark]:px-0.5 [&_mark]:text-fg";
+    excerpt.innerHTML = cleanExcerpt(data.excerpt);
+
+    item.appendChild(heading);
+    item.appendChild(excerpt);
+    return item;
+  }
+
+  async function runSearch(raw: string): Promise<void> {
+    if (!status || !list) return;
+    const query = normalizeQuery(raw);
+    const url = new URL(window.location.href);
+    if (query) url.searchParams.set("q", query);
+    else url.searchParams.delete("q");
+    history.replaceState(null, "", url);
+
+    if (!query) {
+      list.replaceChildren();
+      status.textContent = "";
+      return;
+    }
+    try {
+      const engine = await loadPagefind();
+      const search = await engine.debouncedSearch(query, {}, 200);
+      if (search === null) return; // a newer keystroke replaced this search
+      const results = await Promise.all(search.results.slice(0, 10).map((r) => r.data()));
+      list.replaceChildren(...results.map(renderResult));
+      status.textContent = resultsMessage(search.results.length, query);
+    } catch {
+      list.replaceChildren();
+      status.textContent =
+        "Search isn't available here. The index is built by `npm run build`; try `npm run preview`.";
+    }
+  }
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    void runSearch(input?.value ?? "");
+  });
+  input?.addEventListener("input", () => void runSearch(input.value));
+
+  // Shared links like /search?q=flags show results straight away.
+  const initial = normalizeQuery(new URLSearchParams(window.location.search).get("q"));
+  if (input && initial) {
+    input.value = initial;
+    void runSearch(initial);
+  }
+  input?.focus();
+</script>
