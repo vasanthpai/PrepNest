@@ -29,10 +29,21 @@ Every pull request gets its own live URL, posted as a comment and refreshed on e
 | ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Generated config looked like "local" after a staging build | Read a leftover file; since the Wrangler update the generated config is `dist/server/wrangler.json` (not `dist/client`) | Re-checked a fresh build: `name: prepnest-staging`, `preview_urls: true`, `APP_ENV: staging`; production `preview_urls: false` |
 
+## First run on PR #23
+
+| Check                          | Result                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| Preview workflow               | ✅ build, upload, smoke test, comment                                                                         |
+| PR comment                     | One comment: URL `https://pr-23-prepnest-staging.prepnest.workers.dev`, commit, ✅ smoke test                 |
+| Preview `/api/health`          | `{"status":"ok","env":"staging","version":"0.1.0"}`, staging banner                                           |
+| Preview `/blog`                | 404, **as designed**: previews use staging's flags, and `blog` is still off on staging (turned on in step 10) |
+| Live staging after the preview | Unchanged (still `main`; `/blog` 404)                                                                         |
+| Second push                    | Same comment updated (no second comment)                                                                      |
+
 ## Validation
 
 - [x] Generated configs: staging previews on, production off
-- [x] Comment body renders as a table (simulated)
-- [ ] PR #23 gets a comment with a working preview URL; a new push updates the same comment
-- [ ] Smoke test passes against the preview URL
-- [ ] Live staging unchanged (still serves `main`)
+- [x] Comment body renders as a table
+- [x] PR #23 gets a comment with a working preview URL; a new push updates the same comment
+- [x] Smoke test passes against the preview URL
+- [x] Live staging unchanged (still serves `main`)
