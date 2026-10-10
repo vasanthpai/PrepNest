@@ -16,10 +16,14 @@ Process: [docs/release-process.md](docs/release-process.md)
   data for articles and breadcrumbs; tag pages kept out of search results
 - Sitemap with last-modified dates, environment-aware robots.txt, and an RSS feed of articles
 - Article search (Pagefind): runs in the browser, no server or third-party service
+- Browser tests (Playwright) on phone and desktop, including automated accessibility checks, on
+  every pull request
 
 ### Fixed
 
 - Footer showed "© 2026PrepNest" (missing space)
+- Light-mode colour contrast of topic chips and the environment banner (now WCAG AA)
+- Wide tables and code examples can be scrolled with the keyboard
 
 ## [0.1.0] - 2026-10-09
 

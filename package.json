@@ -21,7 +21,9 @@
     "cf-typegen": "wrangler types",
     "check": "npm run lint && npm run format:check && npm run typecheck && npm test",
     "postinstall": "wrangler types",
-    "smoke": "node scripts/smoke-test.ts"
+    "smoke": "node scripts/smoke-test.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
@@ -44,7 +46,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.0",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^24.19.1",
     "eslint": "^10.12.0",
