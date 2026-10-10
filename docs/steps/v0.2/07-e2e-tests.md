@@ -37,6 +37,16 @@ Dark mode already passed.
 | Rehype plugin broke the build                                            | Astro 7's default Markdown engine (Sätteri) doesn't run rehype plugins without the legacy processor | MDX component mapping instead                     |
 | ESLint `no-noninteractive-tabindex` vs axe `scrollable-region-focusable` | Two tools, opposite advice for bare `tabindex`                                                      | The pattern both accept: labelled `role="region"` |
 
+## Security finding (CodeQL, on this step's push)
+
+| Alert                                                                         | Cause                                                                    | Fix                                                                                          |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| High: `js/incomplete-multi-character-sanitization` in `cleanExcerpt` (step 6) | Deleting tags with one regex can be bypassed: `<<b>script>` → `<script>` | Escape everything except exact `<mark>`/`</mark>`; bypass and "only `<mark>` tags out" tests |
+
+Not exploitable in practice (Pagefind already escapes article text), but the sanitiser itself was
+wrong. A first rewrite used NUL-byte placeholders, which ended up as raw NUL characters in the source
+file; replaced by splitting on the markers (no placeholders).
+
 ## Proof it works
 
 | Check                                                     | Result                                                                 |

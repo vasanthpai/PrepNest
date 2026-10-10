@@ -24,19 +24,30 @@ describe("normalizeQuery", () => {
 });
 
 describe("cleanExcerpt", () => {
-  it("keeps <mark> highlights", () => {
-    expect(cleanExcerpt("why <mark>parseInt</mark> returns")).toBe(
-      "why <mark>parseInt</mark> returns",
+  it("keeps <mark> highlights and existing entities", () => {
+    expect(cleanExcerpt("why <mark>parseInt</mark> returns &lt;b&gt;")).toBe(
+      "why <mark>parseInt</mark> returns &lt;b&gt;",
     );
   });
 
   it.each([
-    ['<img src=x onerror="alert(1)">hi', "hi"],
-    ["<script>alert(1)</script>ok", "alert(1)ok"],
-    ['<mark onclick="x">a</mark>', "a</mark>"],
-    ["<b>bold</b> <MARK>m</MARK>", "bold <MARK>m</MARK>"],
-  ])("drops every other tag: %s", (input, expected) => {
+    ['<img src=x onerror="alert(1)">hi', '&lt;img src=x onerror="alert(1)"&gt;hi'],
+    ["<script>alert(1)</script>", "&lt;script&gt;alert(1)&lt;/script&gt;"],
+    // The bypass CodeQL flagged in the old "delete the tags" version:
+    [
+      "<<b>script>alert(1)<</b>/script>",
+      "&lt;&lt;b&gt;script&gt;alert(1)&lt;&lt;/b&gt;/script&gt;",
+    ],
+    ['<mark onclick="x">a</mark>', '&lt;mark onclick="x"&gt;a</mark>'],
+    ["<MARK>m</MARK>", "&lt;MARK&gt;m&lt;/MARK&gt;"],
+  ])("turns every other tag into harmless text: %s", (input, expected) => {
     expect(cleanExcerpt(input)).toBe(expected);
+  });
+
+  it("never outputs a tag other than <mark> or </mark>", () => {
+    const nasty = "<<scr<b>ipt>><svg/onload=alert(1)><mark><iframe></mark>";
+    const tags = cleanExcerpt(nasty).match(/<[^>]*>/g) ?? [];
+    expect(tags.every((tag) => tag === "<mark>" || tag === "</mark>")).toBe(true);
   });
 });
 

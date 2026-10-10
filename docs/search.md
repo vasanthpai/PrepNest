@@ -34,8 +34,14 @@ index fragments (1–2 KB). Measured in v0.2 step 6.
 ## Safety
 
 Pagefind's excerpts are HTML with matches wrapped in `<mark>`. Before inserting them,
-`cleanExcerpt()` removes every tag except `<mark>`/`</mark>` (tested with `<img onerror>` and
-`<script>` inputs). Everything else is created with `textContent`, never `innerHTML`.
+`cleanExcerpt()` splits on the exact `<mark>`/`</mark>` markers and **escapes every `<` and `>` in
+everything else**, so nothing but a bare highlight can ever be markup. Everything else on the page is
+created with `textContent`, never `innerHTML`.
+
+The first version **deleted** unwanted tags instead. CodeQL flagged it
+(`js/incomplete-multi-character-sanitization`): deleting `<b>` from `<<b>script>` leaves `<script>`.
+Escaping can't be tricked that way; the tests include that bypass and assert that no tag other than
+`<mark>`/`</mark>` is ever produced.
 
 ## Details
 
