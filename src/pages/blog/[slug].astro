@@ -45,12 +45,17 @@ const topicLabel = findTopic(post.data.topic)?.label ?? post.data.topic;
     { name: post.data.title, path: postUrl(post) },
   ]}
 >
-  <article class="mx-auto flex max-w-3xl flex-col gap-10 px-4 pt-10 pb-20 sm:pt-16">
+  <!-- data-pagefind-*: only article pages are indexed for search, filterable by topic -->
+  <article
+    class="mx-auto flex max-w-3xl flex-col gap-10 px-4 pt-10 pb-20 sm:pt-16"
+    data-pagefind-body
+    data-pagefind-filter={`topic:${post.data.topic}`}
+  >
     <PostHeader data={post.data} readingMinutes={readingTimeMinutes(post.body)} />
     <div class="prose-pn prose max-w-none">
       <Content />
     </div>
-    <footer class="flex flex-col gap-6 border-t border-line pt-6">
+    <footer class="flex flex-col gap-6 border-t border-line pt-6" data-pagefind-ignore>
       <PostTags tags={post.data.tags} />
       <a href={blogPageUrl(1)} class="text-sm font-semibold underline hover:text-function">
         ← All articles

@@ -62,7 +62,7 @@ in the keys listed in [environments.md](environments.md).
 | Command                                                      | What it does                                                                      |
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
 | `npm run dev`                                                | Dev server with hot reload, running on Cloudflare's `workerd`                     |
-| `npm run build`                                              | Production build into `dist/`                                                     |
+| `npm run build`                                              | Production build into `dist/`, plus the search index (Pagefind)                   |
 | `npm run preview`                                            | Serve the production build locally on `workerd`                                   |
 | `npm run lint`                                               | ESLint: bugs, bad patterns, accessibility (a11y) issues                           |
 | `npm run lint:fix`                                           | ESLint with auto-fix                                                              |
@@ -121,6 +121,14 @@ A dev or preview server is still running and has `dist/` open. Stop it (Ctrl+C),
 **`Cannot find module 'cloudflare:workers'` in `npm run typecheck` or VS Code.**
 `worker-configuration.d.ts` is missing. It's generated, not committed (ADR 0010), so a fresh clone
 or a `git pull` that crossed that change won't have it. Run `npm run cf-typegen` (or `npm install`).
+
+**Search page says "Search isn't available here" in `npm run dev`.**
+Expected: the search index is created by `npm run build`. Use `npm run build && npm run preview`.
+
+**Downloads fail with `self-signed certificate in certificate chain`, or pages make requests to
+`…kaspersky-labs.com`.** Antivirus software (Kaspersky here) inspects HTTPS traffic and injects a script
+into pages. It's on your machine, not in PrepNest. Prefer adding an exception for `localhost` and
+developer tools over turning certificate checks off.
 
 **`prettier --check` fails on files you did not change.**
 Usually CRLF line endings. Run `npm run format`, and make sure VS Code shows `LF`
