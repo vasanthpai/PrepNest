@@ -59,5 +59,5 @@ file; replaced by splitting on the markers (no placeholders).
 
 - [x] `npm run test:e2e` passes locally
 - [x] A deliberately broken page fails the suite
-- [ ] Passes in CI (first run on this commit)
-- [ ] `End-to-end tests` added as a required check on `main`
+- [x] Passes in CI: End-to-end tests 1m24s; all 6 checks green; 0 CodeQL alerts
+- [x] `End-to-end tests` added as a required check on `main` (ruleset updated via the GitHub API)
