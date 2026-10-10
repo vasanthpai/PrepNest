@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from "astro";
+import { topics } from "@/config/topics";
+import { getBlogForBuild, POSTS_PER_PAGE, topicsWithPosts } from "@/features/blog";
+import Pagination from "@/features/blog/components/Pagination.astro";
+import PostList from "@/features/blog/components/PostList.astro";
+import TopicBar from "@/features/blog/components/TopicBar.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { allPages } from "@/lib/pagination";
+import { countLabel } from "@/lib/text";
+
+// /blog (page 1), /blog/page/2, /blog/page/3, … Pre-rendered; nothing is built if the blog is off.
+export const getStaticPaths = (async () => {
+  const { enabled, posts } = await getBlogForBuild();
+  if (!enabled) return [];
+  const topicCounts = topicsWithPosts(topics, posts);
+  return allPages(posts, POSTS_PER_PAGE).map((page) => ({
+    params: { page: page.page === 1 ? undefined : `page/${page.page}` },
+    props: { page, topicCounts },
+  }));
+}) satisfies GetStaticPaths;
+
+const { page, topicCounts } = Astro.props;
+const title = page.page === 1 ? "Articles" : `Articles, page ${page.page}`;
+---
+
+<BaseLayout title={title} description="Practical tech articles with runnable examples, by topic.">
+  <section class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
+    <header class="flex flex-col gap-3">
+      <p class="font-mono text-sm font-semibold text-function">learn()</p>
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">Articles</h1>
+      <p class="max-w-2xl text-lg text-muted">
+        Practical explanations with code you can run.{" "}
+        {`${countLabel(page.totalItems, "article")} so far.`}
+      </p>
+    </header>
+    <TopicBar topics={topicCounts} />
+    <PostList posts={page.items} />
+    <Pagination page={page} />
+  </section>
+</BaseLayout>

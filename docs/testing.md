@@ -23,6 +23,9 @@ Most tests should be unit tests: they are fast (milliseconds) and pinpoint the b
   services (see [providers.md](providers.md)).
 - **Contract tests** (`*.contract.ts`) define behaviour every implementation of an interface must
   have. They aren't run on their own; each implementation's test file calls them.
+- **Check rendered text, not just source.** In `.astro` templates, whitespace between two `{…}`
+  expressions on separate lines is dropped, so build strings in one expression
+  (`countLabel()`, template strings). Browser tests (step 7) scan pages for glued words.
 - Type-level rules can be tested with `// @ts-expect-error`: `npm run typecheck` fails if the
   line stops being an error.
 

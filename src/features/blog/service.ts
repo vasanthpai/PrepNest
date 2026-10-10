@@ -76,3 +76,32 @@ export function readingTimeMinutes(body: string | undefined): number {
 export function postUrl(post: Pick<BlogPost, "id">): string {
   return `/blog/${post.id}`;
 }
+
+/** Posts per page on the blog index. */
+export const POSTS_PER_PAGE = 10;
+
+/** Page 1 is /blog itself, so it has one canonical URL. */
+export function blogPageUrl(page: number): string {
+  return page === 1 ? "/blog" : `/blog/page/${page}`;
+}
+
+export function topicUrl(slug: string): string {
+  return `/blog/topic/${slug}`;
+}
+
+export function tagUrl(tag: string): string {
+  return `/blog/tag/${tag}`;
+}
+
+/**
+ * Topics that have at least one of the given posts, with counts, in the order defined in
+ * src/config/topics.ts (so the topic bar doesn't reshuffle as posts are added).
+ */
+export function topicsWithPosts<T extends { slug: string }>(
+  topicList: readonly T[],
+  posts: readonly BlogPost[],
+): (T & { count: number })[] {
+  return topicList
+    .map((topic) => ({ ...topic, count: postsByTopic(posts, topic.slug).length }))
+    .filter((topic) => topic.count > 0);
+}

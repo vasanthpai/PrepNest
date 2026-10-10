@@ -3,15 +3,27 @@ import { type Topic, TOPIC_CHIP_CLASSES } from "@/config/topics";
 
 interface Props {
   topic: Topic;
+  /** Makes the chip a link (e.g. to the topic page). */
+  href?: string;
+  /** Shown after the label, e.g. a post count. */
+  count?: number;
+  /** Marks the chip as the page being viewed. */
+  current?: boolean;
 }
-const { topic } = Astro.props;
+const { topic, href, count, current = false } = Astro.props;
+const Tag = href ? "a" : "span";
 ---
 
-<span
+<Tag
+  href={href}
+  aria-current={current ? "page" : undefined}
   class:list={[
-    "inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold",
+    "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-xs font-semibold",
     TOPIC_CHIP_CLASSES[topic.color],
+    href && "hover:underline",
+    current && "ring-2 ring-current ring-offset-2 ring-offset-bg",
   ]}
 >
   {topic.label}
-</span>
+  {count !== undefined && <span class="opacity-70">{count}</span>}
+</Tag>

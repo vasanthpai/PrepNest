@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { BlogPostData } from "@/features/blog/schema";
 import {
   type BlogPost,
+  blogPageUrl,
   isVisible,
   postsByTag,
   postsByTopic,
@@ -10,6 +11,9 @@ import {
   publishedPosts,
   readingTimeMinutes,
   tagCounts,
+  tagUrl,
+  topicsWithPosts,
+  topicUrl,
 } from "@/features/blog/service";
 
 const NOW = new Date("2026-10-09T12:00:00Z");
@@ -117,8 +121,33 @@ describe("readingTimeMinutes", () => {
   });
 });
 
-describe("postUrl", () => {
-  it("builds the URL from the file name", () => {
+describe("URLs", () => {
+  it("builds the post URL from the file name", () => {
     expect(postUrl({ id: "deploy-is-not-release" })).toBe("/blog/deploy-is-not-release");
+  });
+
+  it("uses /blog for page 1 and /blog/page/N after that", () => {
+    expect([1, 2, 7].map(blogPageUrl)).toEqual(["/blog", "/blog/page/2", "/blog/page/7"]);
+  });
+
+  it("builds topic and tag URLs", () => {
+    expect(topicUrl("system-design")).toBe("/blog/topic/system-design");
+    expect(tagUrl("feature-flags")).toBe("/blog/tag/feature-flags");
+  });
+});
+
+describe("topicsWithPosts", () => {
+  const topicList = [{ slug: "javascript" }, { slug: "react" }, { slug: "devops" }];
+
+  it("keeps the configured order, counts posts, drops empty topics", () => {
+    const posts = [
+      post("a", { topic: "react" }),
+      post("b", { topic: "javascript" }),
+      post("c", { topic: "react" }),
+    ];
+    expect(topicsWithPosts(topicList, posts)).toEqual([
+      { slug: "javascript", count: 1 },
+      { slug: "react", count: 2 },
+    ]);
   });
 });
