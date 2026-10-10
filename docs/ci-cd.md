@@ -143,15 +143,16 @@ PR push → npm ci → build (CLOUDFLARE_ENV=staging)
         → smoke test the preview URL → one sticky PR comment (URL, commit, smoke result)
 ```
 
-| Design choice                                           | Why                                                                                |
-| ------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Version upload with an alias, not `wrangler deploy`     | Live staging keeps serving `main`; the alias always points at the PR's latest push |
-| Staging settings                                        | The preview shows what staging will look like after the merge                      |
-| `preview` environment with its own token copy           | `staging` stays restricted to `main`                                               |
-| Same-repo PRs only                                      | Fork and Dependabot runs get no secrets (GitHub's design)                          |
-| PR values passed through `env:`, not `${{ }}` in `run:` | Prevents script injection from PR data                                             |
-| One comment, edited on each push (hidden marker)        | The PR stays readable                                                              |
-| `preview_urls: false` for production                    | Production is only reachable through tagged deploys                                |
+| Design choice                                           | Why                                                                                                                                                |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Version upload with an alias, not `wrangler deploy`     | Live staging keeps serving `main`; the alias always points at the PR's latest push                                                                 |
+| Staging settings                                        | The preview shows what staging will look like after the merge                                                                                      |
+| …but its **own address** (`PREVIEW_PR`)                 | Canonical links, `og:image`, sitemap and RSS point at the preview; the workflow fails if the built address differs from the one Cloudflare assigns |
+| `preview` environment with its own token copy           | `staging` stays restricted to `main`                                                                                                               |
+| Same-repo PRs only                                      | Fork and Dependabot runs get no secrets (GitHub's design)                                                                                          |
+| PR values passed through `env:`, not `${{ }}` in `run:` | Prevents script injection from PR data                                                                                                             |
+| One comment, edited on each push (hidden marker)        | The PR stays readable                                                                                                                              |
+| `preview_urls: false` for production                    | Production is only reachable through tagged deploys                                                                                                |
 
 Previews share staging's bindings. From v0.3 that includes the **staging database**: preview code runs
 against it, so migrations in a PR must stay backward-compatible (they already must, see

@@ -25,9 +25,10 @@ Every pull request gets its own live URL, posted as a comment and refreshed on e
 
 ## Issues hit and fixes
 
-| Problem                                                    | Cause                                                                                                                   | Fix                                                                                                                            |
-| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Generated config looked like "local" after a staging build | Read a leftover file; since the Wrangler update the generated config is `dist/server/wrangler.json` (not `dist/client`) | Re-checked a fresh build: `name: prepnest-staging`, `preview_urls: true`, `APP_ENV: staging`; production `preview_urls: false` |
+| Problem                                                                         | Cause                                                                                                                         | Fix                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Generated config looked like "local" after a staging build                      | Read a leftover file; since the Wrangler update the generated config is `dist/server/wrangler.json` (not `dist/client`)       | Re-checked a fresh build: `name: prepnest-staging`, `preview_urls: true`, `APP_ENV: staging`; production `preview_urls: false`                                                                      |
+| **WhatsApp showed no preview image** for a preview link (found on a real phone) | Previews were built with **staging's** site URL, so `og:image` pointed at live staging, which didn't have the image yet (404) | Previews build with their own address (`PREVIEW_PR` → `buildSiteUrl()`, tested); the workflow fails if the built address differs from Cloudflare's; the smoke test now checks that `og:image` loads |
 
 ## First run on PR #23
 

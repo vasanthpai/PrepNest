@@ -21,3 +21,33 @@ export function siteUrlFor(cloudflareEnv: string | undefined): string {
   }
   return SITE_URLS[env as AppEnv];
 }
+
+/**
+ * Address of a pull request preview: the staging Worker's preview alias "pr-<n>", e.g.
+ * https://pr-23-prepnest-staging.prepnest.workers.dev. Previews are built with staging settings
+ * but must use their OWN address for canonical links, link-preview images, sitemap and RSS.
+ */
+export function previewUrlFor(prNumber: string): string {
+  if (!/^[1-9]\d{0,6}$/.test(prNumber)) {
+    throw new Error(`PREVIEW_PR must be a pull request number, got "${prNumber}".`);
+  }
+  const staging = new URL(SITE_URLS.staging);
+  return `${staging.protocol}//pr-${prNumber}-${staging.host}`;
+}
+
+/**
+ * The site URL for a build: a PR preview when PREVIEW_PR is set (preview workflow), otherwise the
+ * environment selected by CLOUDFLARE_ENV.
+ */
+export function buildSiteUrl(env: {
+  CLOUDFLARE_ENV?: string | undefined;
+  PREVIEW_PR?: string | undefined;
+}): string {
+  if (env.PREVIEW_PR) {
+    if (env.CLOUDFLARE_ENV !== "staging") {
+      throw new Error("PREVIEW_PR is only valid together with CLOUDFLARE_ENV=staging.");
+    }
+    return previewUrlFor(env.PREVIEW_PR);
+  }
+  return siteUrlFor(env.CLOUDFLARE_ENV);
+}
