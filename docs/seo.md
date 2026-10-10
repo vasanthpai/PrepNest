@@ -12,6 +12,9 @@ Logic: `src/lib/seo.ts` (pure, tested) · rendering: `src/components/Seo.astro` 
 | production  | `https://prepnest-production.prepnest.workers.dev` | `CLOUDFLARE_ENV=production` at build |
 
 Defined once in `src/config/urls.ts` and passed to Astro's `site` option in `astro.config.mjs`.
+**PR previews** are built with staging settings but their own address
+(`https://pr-<n>-prepnest-staging…`, set by `PREVIEW_PR` in `preview.yml`), so shared preview links
+show the right image.
 An unknown `CLOUDFLARE_ENV` fails the build.
 
 ## What every page has

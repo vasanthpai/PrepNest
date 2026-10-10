@@ -41,10 +41,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Staging settings, but the PREVIEW's own address for canonical links, og:image, sitemap, RSS.
       - name: Build with staging settings
         run: npm run build
         env:
           CLOUDFLARE_ENV: staging
+          PREVIEW_PR: ${{ github.event.pull_request.number }}
 
       - name: Upload preview version
         id: upload
@@ -59,6 +61,13 @@ jobs:
             --message "PR #${PR_NUMBER} at ${HEAD_SHA:0:7}" 2>&1 | tee upload.log
           url=$(grep -oE "https://pr-${PR_NUMBER}-[a-z0-9.-]+\.workers\.dev" upload.log | head -1)
           if [ -z "$url" ]; then echo "::error::No preview alias URL in Wrangler output"; exit 1; fi
+          # The pages were built for an expected address (src/config/urls.ts). If Cloudflare assigned
+          # a different one, link previews and canonicals would point elsewhere: fail loudly.
+          canonical=$(grep -o 'rel="canonical" href="[^"]*"' dist/client/index.html | sed 's/.*href="//; s/"$//')
+          if [ "$canonical" != "$url/" ]; then
+            echo "::error::Built for ${canonical} but Cloudflare serves ${url}/. Update previewUrlFor()."
+            exit 1
+          fi
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
       - name: Smoke test the preview

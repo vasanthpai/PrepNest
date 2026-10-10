@@ -79,6 +79,25 @@ async function checkHome(): Promise<CheckResult> {
   return { name, ok: true, detail: shouldBeNoindex ? "renders, noindex" : "renders, indexable" };
 }
 
+/**
+ * The link-preview image the home page advertises must load. Social apps (WhatsApp, LinkedIn, X)
+ * fetch this exact URL; a 404 means shared links show no image. Caught a real bug in v0.2 step 8.
+ */
+async function checkPreviewImage(): Promise<CheckResult> {
+  const name = "og:image";
+  const html = await (await get("/")).text();
+  const imageUrl = html.match(/<meta property="og:image" content="([^"]+)"/)?.[1];
+  if (!imageUrl) return { name, ok: false, detail: "no og:image on the home page" };
+  if (!imageUrl.startsWith(baseUrl)) {
+    return { name, ok: false, detail: `points at another site: ${imageUrl}` };
+  }
+  const response = await fetch(imageUrl, { signal: AbortSignal.timeout(10_000) });
+  const type = response.headers.get("content-type") ?? "";
+  return response.status === 200 && type.startsWith("image/")
+    ? { name, ok: true, detail: `${type}, ${imageUrl.slice(baseUrl.length)}` }
+    : { name, ok: false, detail: `HTTP ${response.status} ${type} for ${imageUrl}` };
+}
+
 async function checkFavicon(): Promise<CheckResult> {
   const response = await get("/favicon.svg");
   return {
@@ -89,7 +108,7 @@ async function checkFavicon(): Promise<CheckResult> {
 }
 
 async function runAll(): Promise<CheckResult[]> {
-  const checks = [checkHealth, checkHome, checkFavicon];
+  const checks = [checkHealth, checkHome, checkFavicon, checkPreviewImage];
   return Promise.all(
     checks.map((check) =>
       check().catch((error: unknown) => ({
