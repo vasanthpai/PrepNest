@@ -3,20 +3,23 @@ import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/atkinson-hyperlegible-next";
 import "@/styles/global.css";
 import EnvBanner from "@/components/EnvBanner.astro";
+import Seo, { type Props as SeoProps } from "@/components/Seo.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
 import { site } from "@/config/site";
 import { getConfig } from "@/lib/runtime-env";
 
-interface Props {
+interface Props extends Omit<SeoProps, "description"> {
   /** Page title; the site name is appended. Omit on the home page. */
   title?: string;
+  /** Defaults to the site description. */
   description?: string;
+  /** false = ask search engines not to list this page (they still follow its links). */
+  indexable?: boolean;
 }
 
-const { title, description = site.description } = Astro.props;
+const { description = site.description, indexable = true, ...seo } = Astro.props;
 const { APP_ENV } = getConfig();
-const pageTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tagline}`;
 ---
 
 <!doctype html>
@@ -24,10 +27,15 @@ const pageTitle = title ? `${title} · ${site.name}` : `${site.name}: ${site.tag
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={description} />
+    <Seo description={description} {...seo} />
     <meta name="color-scheme" content="light dark" />
-    {APP_ENV !== "production" && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121419" media="(prefers-color-scheme: dark)" />
+    {APP_ENV !== "production" ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      !indexable && <meta name="robots" content="noindex, follow" />
+    )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <!-- Apply the saved theme before first paint, so there's no flash of the wrong theme. -->
     <script is:inline>

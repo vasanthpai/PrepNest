@@ -1,0 +1,112 @@
+<!doctype html>
+<!--
+  Template for public/og/default.png, the link-preview image (1200×630) shown when a PrepNest URL
+  is shared on WhatsApp, LinkedIn, X, Slack… Regenerate with: npm run og:image
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Bricolage";
+        src: url("../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2")
+          format("woff2");
+        font-weight: 200 800;
+      }
+      @font-face {
+        font-family: "Atkinson";
+        src: url("../../node_modules/@fontsource-variable/atkinson-hyperlegible-next/files/atkinson-hyperlegible-next-latin-wght-normal.woff2")
+          format("woff2");
+        font-weight: 200 800;
+      }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        background: #121419;
+        color: #eceef2;
+        font-family: "Atkinson", system-ui, sans-serif;
+        padding: 72px 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+      /* Faint code in the background: a nod to the "Syntax" theme */
+      .code {
+        position: absolute;
+        right: 80px;
+        bottom: 66px;
+        font: 20px/1.7 ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-variant-ligatures: none;
+        color: #4a505c;
+        white-space: pre;
+      }
+      .logo {
+        font-family: "Bricolage";
+        font-weight: 800;
+        font-size: 44px;
+        letter-spacing: -0.02em;
+      }
+      .brace {
+        color: #b39bff;
+        font-family: ui-monospace, Consolas, monospace;
+        font-weight: 600;
+      }
+      h1 {
+        font-family: "Bricolage";
+        font-weight: 800;
+        font-size: 92px;
+        white-space: nowrap;
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .fn {
+        color: #6cb6ff;
+      }
+      .kw {
+        color: #b39bff;
+      }
+      .str {
+        color: #5fd39a;
+      }
+      p {
+        margin-top: 24px;
+        font-size: 30px;
+        color: #a3a9b6;
+        max-width: 860px;
+        line-height: 1.4;
+      }
+      .topics {
+        display: flex;
+        gap: 14px;
+        font: 600 22px ui-monospace, Consolas, monospace;
+        font-variant-ligatures: none;
+      }
+      .topics span {
+        padding: 6px 16px;
+        border-radius: 999px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="code">const learn = () =&gt; read(article);
+const quiz  = () =&gt; practise(code);
+const ship  = () =&gt; build(project);</div>
+    <div class="logo">prep<span class="brace">{</span>nest<span class="brace">}</span></div>
+    <div>
+      <h1><span class="fn">Learn</span> it. <span class="kw">Quiz</span> it. <span class="str">Ship</span> it.</h1>
+      <p>Free tech articles, hands-on quizzes and practical courses for developers and students.</p>
+    </div>
+    <div class="topics">
+      <span style="color: #ffb26b; background: rgba(255, 178, 107, 0.14)">JavaScript</span>
+      <span style="color: #6cb6ff; background: rgba(108, 182, 255, 0.14)">React</span>
+      <span style="color: #5fd39a; background: rgba(95, 211, 154, 0.14)">DevOps</span>
+      <span style="color: #b39bff; background: rgba(179, 155, 255, 0.14)">System Design</span>
+    </div>
+  </body>
+</html>

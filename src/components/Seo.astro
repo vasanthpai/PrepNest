@@ -1,0 +1,40 @@
+---
+import { site } from "@/config/site";
+import { type Breadcrumb, buildSeo, type SeoArticle, serializeJsonLd } from "@/lib/seo";
+
+export interface Props {
+  title?: string | undefined;
+  description: string;
+  type?: "website" | "article";
+  article?: SeoArticle | undefined;
+  breadcrumbs?: readonly Breadcrumb[] | undefined;
+}
+
+const props = Astro.props;
+if (!Astro.site) throw new Error("astro.config.mjs must set `site` (see src/config/urls.ts).");
+
+const seo = buildSeo({
+  ...props,
+  site: Astro.site,
+  path: Astro.url.pathname,
+  image: {
+    path: "/og/default.png",
+    alt: `${site.name}: ${site.tagline}`,
+    width: 1200,
+    height: 630,
+  },
+  siteName: site.name,
+  tagline: site.tagline,
+  locale: site.locale,
+  author: site.author,
+});
+---
+
+<title>{seo.title}</title>
+<link rel="canonical" href={seo.canonical} />
+{seo.meta.map((tag) => (
+  <meta name={tag.name} property={tag.property} content={tag.content} />
+))}
+{seo.jsonLd.map((data) => (
+  <script type="application/ld+json" set:html={serializeJsonLd(data)} />
+))}

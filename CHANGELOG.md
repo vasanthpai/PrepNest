@@ -12,6 +12,8 @@ Process: [docs/release-process.md](docs/release-process.md)
 - Blog: MDX posts validated at build time, post pages with code highlighting in the Syntax
   colours, an index with pagination, topic and tag pages, and latest articles on the home page
 - Three articles: `useEffect` in Strict Mode, `map(parseInt)`, and deploy vs release
+- SEO: canonical URLs, Open Graph and Twitter link previews with a branded image, structured
+  data for articles and breadcrumbs; tag pages kept out of search results
 
 ### Fixed
 
