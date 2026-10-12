@@ -9,7 +9,8 @@ flowchart LR
   B --> PR[Pull request]
   PR -->|CI green| M[main]
   M -->|auto| S[Staging]
-  S -->|manual test OK| R[Release PR: CHANGELOG + version]
+  M -->|auto| R[Release PR drafted by release-please]
+  S -->|manual test OK| R
   R --> TAG[Tag vX.Y.Z]
   TAG -->|approval| P[Production]
   P --> GR[GitHub Release]
@@ -55,11 +56,13 @@ Then test the version's checklist manually on the staging URL. Turn the new feat
 
 ## 5. Release to production
 
-1. **Release PR** from a branch `release/vX.Y.Z`:
-   - Move the `Unreleased` notes in `CHANGELOG.md` under `## [X.Y.Z] - YYYY-MM-DD`
-   - `npm version X.Y.Z --no-git-tag-version` (updates `package.json` and the lockfile)
-   - Turn feature flags on for `production` if this release ships them
-   - Commit: `chore(release): vX.Y.Z`
+1. **Release PR**: release-please keeps one open, titled `chore(release): vX.Y.Z`
+   ([ADR 0011](decisions/0011-release-please-drafts-releases.md)). On every push to `main` it
+   recalculates the version and the new `CHANGELOG.md` section from the commits since the last tag.
+   - Review the CHANGELOG lines; edit them in the PR if needed, **just before merging** (the next
+     push to `main` regenerates the PR).
+   - If this release ships a feature, turn its flag on for `production` in a separate
+     `feat: release <feature>` PR first, so the release PR includes it.
 2. Merge it (CI green; staging redeploys with the final code).
 3. **Tag** the merge commit on `main`:
    ```bash
@@ -70,7 +73,27 @@ Then test the version's checklist manually on the staging URL. Turn the new feat
 4. `deploy-production.yml` starts and **waits for approval** (GitHub → Actions → the run →
    **Review deployments** → `production` → **Approve and deploy**).
 5. After approval: migrations on the **production** database → deploy `prepnest-production` →
-   smoke test → **GitHub Release** created with the CHANGELOG notes.
+   smoke test → **GitHub Release** created with the CHANGELOG notes → the release PR is labelled
+   `autorelease: tagged`, so release-please starts drafting the next one.
+
+A release can still be prepared by hand (branch `release/vX.Y.Z`, `npm version X.Y.Z
+--no-git-tag-version`, CHANGELOG section, commit `chore(release): vX.Y.Z`), e.g. if release-please
+is broken. The production workflow accepts both.
+
+### Release PR token
+
+release-please needs a token whose pull requests trigger CI (the default `GITHUB_TOKEN` doesn't).
+
+1. GitHub → **Settings** → **Developer settings** → **Personal access tokens** →
+   **Fine-grained tokens** → **Generate new token**.
+2. Name `PrepNest release-please`, expiry **1 year**, repository access **Only select
+   repositories** → `PrepNest`.
+3. Repository permissions: **Contents** read and write, **Pull requests** read and write,
+   **Issues** read and write (labels). Metadata read-only is added automatically.
+4. Store it as a repository secret (hidden prompt, never paste it anywhere else):
+   `gh secret set RELEASE_PLEASE_TOKEN`
+5. Put a reminder in your calendar for the expiry date. When it expires, the "Release PR" workflow
+   fails; generate a new token and repeat step 4.
 
 ### Versioning (SemVer)
 
@@ -82,9 +105,11 @@ Then test the version's checklist manually on the staging URL. Turn the new feat
 
 ### CHANGELOG
 
-`CHANGELOG.md` follows [Keep a Changelog](https://keepachangelog.com/): sections **Added**,
-**Changed**, **Fixed**, **Removed**, **Security**, written for people, not copied from commits.
-From v0.3, release-please drafts it from commit messages.
+From v0.3.0, release-please writes each section from commit messages: `feat` → **Added**,
+`fix` → **Fixed**, `perf` → **Performance**, `revert` → **Reverted**. `docs`, `chore`, `ci`,
+`test`, `refactor` and `build` commits are left out. So write commit subjects for readers:
+`feat: sign in with Google`, not `feat: auth stuff`. Sections up to v0.2.1 were written by hand in
+[Keep a Changelog](https://keepachangelog.com/) style.
 
 ## 6. Rollback
 
@@ -142,7 +167,7 @@ Migrations run on staging first (every merge), then production (every tag).
 **Before tagging**
 
 - [ ] Staging smoke test passed and the version's manual checklist is done on staging
-- [ ] `CHANGELOG.md` and `package.json` version updated in the release PR
+- [ ] Release PR reviewed: version and CHANGELOG lines make sense
 - [ ] Feature flags for this release set for production
 - [ ] Migrations are backward-compatible
 
