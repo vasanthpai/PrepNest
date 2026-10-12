@@ -46,7 +46,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 6   | Pagefind search                                                 | ✅     |
 | 7   | Playwright e2e tests in CI                                      | ✅     |
 | 8   | Preview deploy per PR                                           | ✅     |
-| 9   | Lighthouse CI budgets                                           | ⏳     |
+| 9   | Lighthouse CI budgets                                           | ✅     |
 | 10  | Blog flag on in staging → release v0.2.0                        | ⏳     |
 
 ## v0.3 Database & auth ⏳
