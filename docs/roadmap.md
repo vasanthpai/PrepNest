@@ -48,6 +48,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 8   | Preview deploy per PR                                           | ✅     |
 | 9   | Lighthouse CI budgets                                           | ✅     |
 | 10  | Blog flag on in staging → release v0.2.0                        | ✅     |
+| 11  | Google Search Console verification → patch release v0.2.1       | ✅     |
 
 ## v0.3 Database & auth ⏳
 
