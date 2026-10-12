@@ -43,9 +43,18 @@ Measure every pull request with Lighthouse (mobile, slow 4G) and fail CI when a 
 A temporary React counter on the home page → **217 KB JavaScript**; failed `script.size`,
 `total.size` and LCP (plus the antivirus-related checks). Removed afterwards.
 
+## CI result (GitHub Linux runner, mobile, slow 4G, median of 3)
+
+| Page      | Perf | A11y | Best practices | SEO  | LCP    | CLS   | TBT  | JS     | Total  | 3rd-party |
+| --------- | ---- | ---- | -------------- | ---- | ------ | ----- | ---- | ------ | ------ | --------- |
+| `/`       | 1.00 | 1.00 | 1.00           | 1.00 | 1.51 s | 0.000 | 0 ms | 0 KB   | 130 KB | 0         |
+| `/blog`   | 1.00 | 1.00 | 1.00           | 1.00 | 1.51 s | 0.000 | 0 ms | 0 KB   | 124 KB | 0         |
+| Article   | 1.00 | 1.00 | 1.00           | 1.00 | 1.51 s | 0.000 | 0 ms | 0 KB   | 132 KB | 0         |
+| `/search` | 1.00 | 1.00 | 1.00           | 1.00 | 1.66 s | 0.000 | 0 ms | 4.8 KB | 126 KB | 0         |
+
 ## Validation
 
 - [x] Budgets pass locally (except antivirus-caused checks) with real headroom
 - [x] A deliberate regression fails the budgets
-- [ ] Lighthouse passes in CI
-- [ ] Lighthouse added as a required check
+- [x] Lighthouse passes in CI: 100 in all four categories on every page; CLS 0.127 → 0.000
+- [x] Lighthouse added as a required check on `main`
