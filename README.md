@@ -14,16 +14,16 @@ staging: [prepnest-staging.prepnest.workers.dev](https://prepnest-staging.prepne
 
 ## Status
 
-| Version  | Scope                                                    | Status         |
-| -------- | -------------------------------------------------------- | -------------- |
-| **v0.1** | Foundation, design system, CI/CD, staging and production | ✅ Released    |
-| **v0.2** | Blog: articles, topics, SEO, search                      | 🚧 In progress |
-| v0.3     | Database (Neon + Drizzle) and sign-in (Clerk)            | Planned        |
-| v0.4     | Newsletter and free downloads (Resend, R2)               | Planned        |
-| v0.5     | Quizzes and timed assessments                            | Planned        |
-| v0.6     | Payments (Razorpay, test mode)                           | Planned        |
-| v0.7     | Courses                                                  | Planned        |
-| v1.0     | Portfolio launch: monitoring, security review, drills    | Planned        |
+| Version  | Scope                                                    | Status      |
+| -------- | -------------------------------------------------------- | ----------- |
+| **v0.1** | Foundation, design system, CI/CD, staging and production | ✅ Released |
+| **v0.2** | Blog: articles, topics, SEO, search                      | ✅ Released |
+| v0.3     | Database (Neon + Drizzle) and sign-in (Clerk)            | Planned     |
+| v0.4     | Newsletter and free downloads (Resend, R2)               | Planned     |
+| v0.5     | Quizzes and timed assessments                            | Planned     |
+| v0.6     | Payments (Razorpay, test mode)                           | Planned     |
+| v0.7     | Courses                                                  | Planned     |
+| v1.0     | Portfolio launch: monitoring, security review, drills    | Planned     |
 
 Details: [roadmap](docs/roadmap.md).
 

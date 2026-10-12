@@ -7,6 +7,12 @@ Process: [docs/release-process.md](docs/release-process.md)
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-12
+
+The blog: practical tech articles with search, topics, link previews and feeds, measured at 100 in
+every Lighthouse category on a mid-range phone. Read it at
+<https://prepnest-production.prepnest.workers.dev/blog>.
+
 ### Added
 
 - Blog: MDX posts validated at build time, post pages with code highlighting in the Syntax
@@ -63,5 +69,6 @@ to production. Live at <https://prepnest-production.prepnest.workers.dev>.
   environments, GitHub and Cloudflare setup, design system, providers, testing, roadmap,
   step logs, contributing guide, security policy
 
-[Unreleased]: https://github.com/vasanthpai/PrepNest/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/vasanthpai/PrepNest/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/vasanthpai/PrepNest/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/vasanthpai/PrepNest/releases/tag/v0.1.0
