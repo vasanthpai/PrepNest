@@ -34,7 +34,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 15  | `deploy-staging.yml`, first staging deploy                                     | ✅     |
 | 16  | `deploy-production.yml`, CHANGELOG, tag `v0.1.0`, production deploy            | ✅     |
 
-## v0.2 Blog 🚧
+## v0.2 Blog ✅ (released 2026-10-12)
 
 | #   | Step                                                            | Status |
 | --- | --------------------------------------------------------------- | ------ |
@@ -47,7 +47,7 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 7   | Playwright e2e tests in CI                                      | ✅     |
 | 8   | Preview deploy per PR                                           | ✅     |
 | 9   | Lighthouse CI budgets                                           | ✅     |
-| 10  | Blog flag on in staging → release v0.2.0                        | ⏳     |
+| 10  | Blog flag on in staging → release v0.2.0                        | ✅     |
 
 ## v0.3 Database & auth ⏳
 
