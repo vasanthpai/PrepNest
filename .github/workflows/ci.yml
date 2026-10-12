@@ -97,3 +97,37 @@ jobs:
             playwright-report/
             test-results/
           retention-days: 7
+
+  lighthouse:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js (version from .nvmrc)
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies (exactly as locked)
+        run: npm ci
+
+      - name: Build (site + search index)
+        run: npm run build
+
+      # Uses the runner's preinstalled Chrome. Mobile emulation, slow 4G, 3 runs per page (median).
+      # Budgets and score thresholds: lighthouserc.json, explained in docs/performance.md.
+      - name: Measure with Lighthouse and check budgets
+        run: npx lhci autorun
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 14

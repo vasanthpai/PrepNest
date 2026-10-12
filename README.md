@@ -111,6 +111,7 @@ Requires Node.js 24. Full guide and troubleshooting: [setup](docs/setup.md).
 | [Writing posts](docs/content.md)             | Front matter rules, drafts, style, checklist         |
 | [SEO](docs/seo.md)                           | Canonicals, link previews, structured data, indexing |
 | [Search](docs/search.md)                     | How article search works, its cost, safety           |
+| [Performance](docs/performance.md)           | Lighthouse budgets and the measurements behind them  |
 | [Design system](docs/design-system.md)       | Colours, fonts, components, light/dark mode          |
 | [Providers](docs/providers.md)               | Email, payment and storage interfaces and fakes      |
 | [Testing](docs/testing.md)                   | Test strategy and conventions                        |

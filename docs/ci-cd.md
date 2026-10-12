@@ -157,3 +157,10 @@ PR push → npm ci → build (CLOUDFLARE_ENV=staging)
 Previews share staging's bindings. From v0.3 that includes the **staging database**: preview code runs
 against it, so migrations in a PR must stay backward-compatible (they already must, see
 [release-process.md](release-process.md)).
+
+## Lighthouse job
+
+The `Lighthouse` job in `ci.yml` builds the site and runs `lhci autorun`: 4 pages × 3 runs on mobile
+settings, then checks the scores and budgets in `lighthouserc.json`. Any miss fails the job. Reports:
+a temporary public link in the job log, and the `lighthouse-reports` artifact (14 days).
+Budgets, measured values and how to change them: [performance.md](performance.md).

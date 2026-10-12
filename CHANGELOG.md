@@ -19,6 +19,11 @@ Process: [docs/release-process.md](docs/release-process.md)
 - Browser tests (Playwright) on phone and desktop, including automated accessibility checks, on
   every pull request
 - A live preview URL for every pull request, posted as a comment
+- Lighthouse checks with performance budgets on every pull request
+
+### Changed
+
+- CSS is inlined into each page: first paint about 150 ms sooner on slow mobile data
 
 ### Fixed
 
