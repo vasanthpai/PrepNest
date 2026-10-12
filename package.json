@@ -23,7 +23,8 @@
     "postinstall": "wrangler types",
     "smoke": "node scripts/smoke-test.ts",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "lighthouse": "lhci collect && lhci assert"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
@@ -48,6 +49,7 @@
     "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.64.0",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^24.19.1",

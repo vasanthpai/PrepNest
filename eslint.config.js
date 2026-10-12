@@ -16,6 +16,7 @@ export default defineConfig([
     "coverage/",
     "playwright-report/",
     "test-results/",
+    ".lighthouseci/",
     "worker-configuration.d.ts",
   ]),
 
