@@ -83,6 +83,22 @@ Playwright in v0.2 step 7. Per-article images are a possible later improvement.
   [opengraph.xyz](https://www.opengraph.xyz/) (previews).
 - Staging pages are `noindex` on purpose; use production URLs for search tools.
 
+## Google Search Console
+
+The production site is a **URL-prefix property** for
+`https://prepnest-production.prepnest.workers.dev/`. A Domain property would need a DNS TXT record,
+which isn't possible on `workers.dev`.
+
+- **Verified with the HTML file method.** The Worker serves `/googlef33373e4667df5d9.html` from
+  `src/pages/googlef33373e4667df5d9.ts` (logic in `src/lib/site-verification.ts`), and only in
+  production. Staging, previews and local return 404.
+- **Not a file in `public/`:** Cloudflare would answer `/name.html` with a 307 redirect to `/name`.
+- **The route file has no `.html`:** with `build.format: "file"`, Astro strips `.html` from the
+  request path before matching routes.
+- **Never remove the route.** Google re-checks it, and the smoke test checks it after every
+  deploy.
+- **Sitemap submitted:** `https://prepnest-production.prepnest.workers.dev/sitemap.xml`.
+
 ## Gotcha found while building this
 
 With `build.format: "file"`, Astro reports build-time paths as `/index.html` and

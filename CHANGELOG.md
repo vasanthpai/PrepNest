@@ -7,6 +7,11 @@ Process: [docs/release-process.md](docs/release-process.md)
 
 ## [Unreleased]
 
+### Added
+
+- Google Search Console verification for the production site, checked by the smoke test after
+  every deploy
+
 ## [0.2.0] - 2026-10-12
 
 The blog: practical tech articles with search, topics, link previews and feeds, measured at 100 in
