@@ -49,10 +49,22 @@ Production during this time: still v0.1.0, `/blog` 404.
 | RSS                        | 3 items                                                                |
 | Release verify (simulated) | `package.json` = 0.2.0; CHANGELOG `[0.2.0]` present; notes extract     |
 
+## Production (2026-10-12)
+
+| Check          | Result                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------- |
+| Tag `v0.2.0`   | Annotated, on `4ff7dbb chore(release): v0.2.0`                                              |
+| Production run | Verify ✅ → approved by @vasanthpai → Deploy ✅ → Publish Release ✅                        |
+| Smoke test     | health `env=production version=0.2.0`, home indexable, favicon, og:image                    |
+| Live routes    | `/`, `/blog`, article, topic, tag, `/search`, RSS, sitemap, robots: all 200                 |
+| Search engines | `robots.txt` allows + sitemap (8 URLs); article indexable, `BlogPosting` + `BreadcrumbList` |
+| GitHub Release | [v0.2.0](https://github.com/vasanthpai/PrepNest/releases/tag/v0.2.0), Latest                |
+| Milestone v0.2 | Closed (12/12)                                                                              |
+
 ## Validation
 
 - [x] Staging checklist passed
 - [x] Production build verified before tagging
-- [ ] Tag `v0.2.0`, approval, production deploy, smoke test, GitHub Release
-- [ ] Live checks on production: Rich Results Test, link preview, sitemap
-- [ ] Milestone v0.2 closed
+- [x] Tag `v0.2.0`, approval, production deploy, smoke test, GitHub Release
+- [x] Live checks on production
+- [x] Milestone v0.2 closed
