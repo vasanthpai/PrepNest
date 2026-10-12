@@ -51,7 +51,9 @@ Opacity works too: `bg-keyword/12` is a 12% tint for chips and selected states.
 
 - **Atkinson Hyperlegible** was designed for readers with low vision: look-alike characters
   (`I l 1`, `O 0`) are clearly different, which matters for code and quiz answers.
-- Both fonts are **self-hosted variable fonts** (`@fontsource-variable/*`): one file per font
+- Both fonts are **self-hosted variable fonts**, loaded through **Astro's Fonts API** (`astro.config.mjs` →
+  `fonts`; files from `@fontsource-variable/*`), preloaded, with metric-matched fallbacks and
+  `font-display: optional` so text never jumps when a font arrives (v0.2 step 9). One file per font
   covers every weight. English pages download only the Latin subset: **2 files, ~75 KB total**.
 - Code uses the device's own monospace font: zero download.
 

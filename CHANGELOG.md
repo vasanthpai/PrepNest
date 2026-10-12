@@ -24,10 +24,13 @@ Process: [docs/release-process.md](docs/release-process.md)
 ### Changed
 
 - CSS is inlined into each page: first paint about 150 ms sooner on slow mobile data
+- Fonts are preloaded with size-matched fallbacks and never swap late, so text no longer jumps
+  while a page loads
 
 ### Fixed
 
 - Footer showed "© 2026PrepNest" (missing space)
+- Home headline showed "Quiz it.Ship it." (missing space)
 - Light-mode colour contrast of topic chips and the environment banner (now WCAG AA)
 - Wide tables and code examples can be scrolled with the keyboard
 
