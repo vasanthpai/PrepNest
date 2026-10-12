@@ -1,0 +1,45 @@
+# Keeps a release PR ("chore(release): vX.Y.Z") up to date from the Conventional Commits on main:
+# version bump in package.json / package-lock.json and a new CHANGELOG section.
+#
+# It only DRAFTS. Releasing is unchanged: a maintainer merges the release PR, pushes the tag and
+# approves the production deploy (docs/release-process.md). After that deploy, deploy-production.yml
+# marks the PR "autorelease: tagged" so release-please starts the next release PR.
+name: Release PR
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release-pr:
+    name: Update release PR
+    # Never on forks: they have no token and must not open release PRs here.
+    if: github.repository == 'vasanthpai/PrepNest'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check the token is set
+        env:
+          TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Secret RELEASE_PLEASE_TOKEN is missing. See docs/release-process.md (Release PR token)."
+            exit 1
+          fi
+
+      # A personal token, not GITHUB_TOKEN: pull requests opened with GITHUB_TOKEN don't trigger
+      # workflows, so the required checks would never run on the release PR.
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          skip-github-release: true

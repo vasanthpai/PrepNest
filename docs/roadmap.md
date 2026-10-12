@@ -10,7 +10,7 @@ Legend: ✅ done · 🚧 in progress · ⏳ planned
 
 ```
 feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to staging → manual test
-→ release PR (CHANGELOG) → tag vX.Y.0 → approval → production deploy → GitHub Release
+→ release PR (drafted by release-please from v0.3) → tag vX.Y.0 → approval → production deploy → GitHub Release
 ```
 
 ## v0.1 Foundation & pipeline ✅ (released 2026-10-09)
@@ -50,11 +50,24 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 10  | Blog flag on in staging → release v0.2.0                        | ✅     |
 | 11  | Google Search Console verification → patch release v0.2.1       | ✅     |
 
-## v0.3 Database & auth ⏳
+## v0.3 Database & auth 🚧
 
-Neon (dev / staging / main branches) · Drizzle + migrations in the deploy pipeline · `users`,
-`webhook_events` · Clerk (Google + email) · auth middleware, `/dashboard` · verified, idempotent
-Clerk webhook + tests · release-please for automated changelog
+| #   | Step                                                                                | Status |
+| --- | ----------------------------------------------------------------------------------- | ------ |
+| 1   | release-please drafts release PRs (tagging stays manual)                            | 🚧     |
+| 2   | Neon project with `dev`, `staging`, `main` branches; ADR                            | ⏳     |
+| 3   | Drizzle schema (`users`, `webhook_events`), data layer, tests on PGlite             | ⏳     |
+| 4   | Migrations in CI and deploy pipelines; database check in health and smoke test      | ⏳     |
+| 5   | Clerk (Google + email), `auth` flag, sign-in and sign-up pages; Clerk JS only there | ⏳     |
+| 6   | Auth middleware, `/dashboard`, user row created on first sign-in                    | ⏳     |
+| 7   | Clerk webhook: verified signatures, each event processed once                       | ⏳     |
+| 8   | Privacy page and account deletion (needed once real people sign up)                 | ⏳     |
+| 9   | Analytics: Cloudflare Web Analytics + server-side product events                    | ⏳     |
+| 10  | Sign-in journey e2e tests in CI                                                     | ⏳     |
+| 11  | `auth` flag on staging → release v0.3.0                                             | ⏳     |
+
+Decisions: two Clerk applications (staging and production) so test sign-ups never mix with real
+ones; PR previews share the staging database (migrations must be backward-compatible).
 
 ## v0.4 Email capture ⏳
 
@@ -65,7 +78,8 @@ Resend email provider · signup form + Turnstile · double opt-in · free cheat-
 
 Questions with code blocks · quizzes embedded in blog posts · timed assessments (server timer, palette,
 mark for review, autosave, survives refresh, auto-submit) · server-side scoring (answers never sent
-before submit) · topic-wise results · admin CSV import · unit + e2e tests
+before submit) · topic-wise results · admin CSV import · unit + e2e tests · **"Explain my mistake"**
+(AI, Cloudflare Workers AI behind a provider interface; signed-in users, daily limit, cached)
 
 ## v0.6 Payments (Razorpay test mode) ⏳
 
@@ -77,7 +91,14 @@ check · idempotent webhook → enrollment · `hasAccess()` · receipt email · 
 `courses`, `lessons`, `lesson_progress` · sales page · player (unlisted YouTube, gated) · signed R2
 URLs for PDFs · progress tracking · tests
 
+## v0.8 AI ⏳
+
+"Ask the blog": answers built only from our articles, with links (vector search over posts) ·
+AI-drafted quiz questions from an article, reviewed by an admin before publishing · study plan from
+topic-wise results · per-user limits, spend limits, AI answers labelled
+
 ## v1.0 Portfolio launch ⏳
 
 Sentry · rate limiting · security headers + CSP · security review · uptime monitoring · backup/restore
-and rollback drills · demo data + demo login · mobile Lighthouse 90+ · polished README
+and rollback drills · demo data + demo login · mobile Lighthouse 90+ · polished README ·
+custom domain · legal pages reviewed (terms, refunds, grievance contact)
