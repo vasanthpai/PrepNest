@@ -127,6 +127,8 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: write
+      issues: write # labels on pull requests use the issues API
+      pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -147,3 +149,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
         run: gh release create "$TAG" --title "$TAG" --notes-file release-notes.md --verify-tag --latest
+
+      # release-please only drafts (skip-github-release), so it never learns the release happened.
+      # It refuses to open the next release PR while a merged one is still "autorelease: pending".
+      - name: Mark the release PR as tagged
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          pr=$(gh pr list --state merged --label "autorelease: pending" --limit 20 \
+            --json number,title --jq ".[] | select(.title == \"chore(release): $TAG\") | .number" | head -1)
+          if [ -z "$pr" ]; then
+            echo "No release-please PR for $TAG (released by hand); nothing to mark."
+            exit 0
+          fi
+          gh pr edit "$pr" --remove-label "autorelease: pending" --add-label "autorelease: tagged"
+          echo "Marked PR #$pr as autorelease: tagged."
