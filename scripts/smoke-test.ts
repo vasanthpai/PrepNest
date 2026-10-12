@@ -107,8 +107,32 @@ async function checkFavicon(): Promise<CheckResult> {
   };
 }
 
+/**
+ * Google Search Console re-checks this file regularly; if it stops answering, the production
+ * property loses its verification. Production must return it directly (no redirect); other
+ * environments must not, so they never claim the production property.
+ * Keep in sync with GOOGLE_VERIFICATION_FILE in src/lib/site-verification.ts.
+ */
+async function checkSearchConsoleFile(): Promise<CheckResult> {
+  const file = "googlef33373e4667df5d9.html";
+  const name = "Search Console";
+  const response = await fetch(`${baseUrl}/${file}`, {
+    redirect: "manual",
+    signal: AbortSignal.timeout(10_000),
+  });
+  const body = (await response.text()).trim();
+  if (expectedEnv !== "production") {
+    return response.status === 404
+      ? { name, ok: true, detail: "404 outside production" }
+      : { name, ok: false, detail: `HTTP ${response.status} outside production (want 404)` };
+  }
+  return response.status === 200 && body === `google-site-verification: ${file}`
+    ? { name, ok: true, detail: `/${file} verified` }
+    : { name, ok: false, detail: `HTTP ${response.status}, body "${body.slice(0, 60)}"` };
+}
+
 async function runAll(): Promise<CheckResult[]> {
-  const checks = [checkHealth, checkHome, checkFavicon, checkPreviewImage];
+  const checks = [checkHealth, checkHome, checkFavicon, checkPreviewImage, checkSearchConsoleFile];
   return Promise.all(
     checks.map((check) =>
       check().catch((error: unknown) => ({

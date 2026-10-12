@@ -40,6 +40,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 8   | Preview deploy per pull request              | [#30](https://github.com/vasanthpai/PrepNest/issues/30) | [08](v0.2/08-preview-deploys.md)    |
 | 9   | Lighthouse CI with performance budgets       | [#33](https://github.com/vasanthpai/PrepNest/issues/33) | [09](v0.2/09-lighthouse.md)         |
 | 10  | Release the blog (staging, then v0.2.0)      | [#31](https://github.com/vasanthpai/PrepNest/issues/31) | [10](v0.2/10-release.md)            |
+| 11  | Google Search Console verification (v0.2.1)  | [#36](https://github.com/vasanthpai/PrepNest/issues/36) | [11](v0.2/11-search-console.md)     |
 
 **Retrospective:** [v0.2: what went well, what we learned](v0.2/retrospective.md)
 
