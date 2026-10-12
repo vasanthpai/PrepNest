@@ -1,6 +1,5 @@
 ---
-import "@fontsource-variable/bricolage-grotesque";
-import "@fontsource-variable/atkinson-hyperlegible-next";
+import { Font } from "astro:assets";
 import "@/styles/global.css";
 import EnvBanner from "@/components/EnvBanner.astro";
 import Seo, { type Props as SeoProps } from "@/components/Seo.astro";
@@ -30,6 +29,9 @@ const blogEnabled = isFeatureEnabled("blog", APP_ENV);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Seo description={description} {...seo} />
+    <!-- Fonts: @font-face + metric-matched fallbacks + preload (astro.config.mjs → fonts) -->
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-atkinson" preload />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#121419" media="(prefers-color-scheme: dark)" />

@@ -34,7 +34,7 @@ export function watchForProblems(page: Page): string[] {
   return problems;
 }
 
-/** Visible text where a number or year is glued to the next word ("3articles", "2026PrepNest"). */
+/** Visible text glued together by lost whitespace: "3articles", "2026PrepNest", "it.Ship". */
 export async function gluedWords(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     let text = document.body.innerText;
@@ -42,9 +42,13 @@ export async function gluedWords(page: Page): Promise<string[]> {
     for (const el of document.querySelectorAll<HTMLElement>("pre, code")) {
       text = text.split(el.innerText).join(" ");
     }
-    return [...text.matchAll(/\b\d+(?:articles?|results?|PrepNest|min)\b|\b\d{4}[A-Z][a-z]+/g)].map(
-      (match) => match[0],
-    );
+    const patterns = [
+      // a number glued to a word: "3articles", "2026PrepNest"
+      /\b\d+(?:articles?|results?|PrepNest|min)\b|\b\d{4}[A-Z][a-z]+/g,
+      // a sentence glued to the next one: "it.Ship"
+      /\b[a-z]{2,}[.!?][A-Z][a-z]+/g,
+    ];
+    return patterns.flatMap((pattern) => [...text.matchAll(pattern)].map((match) => match[0]));
   });
 }
 

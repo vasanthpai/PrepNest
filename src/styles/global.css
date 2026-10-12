@@ -77,11 +77,14 @@
   --color-focus: var(--pn-focus);
 }
 
+@theme inline {
+  /* Self-hosted variable fonts from Astro's Fonts API (astro.config.mjs), each with a
+     metric-matched fallback so text doesn't shift when the real font arrives. 2 font files. */
+  --font-display: var(--font-bricolage);
+  --font-sans: var(--font-atkinson);
+}
+
 @theme {
-  /* Self-hosted variable fonts: one file each covers every weight (2 font files total). */
-  --font-display: "Bricolage Grotesque Variable", system-ui, sans-serif;
-  --font-sans:
-    "Atkinson Hyperlegible Next Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
   /* Code uses the device's own monospace font: zero download. */
   --font-mono:
     ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;

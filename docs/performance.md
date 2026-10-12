@@ -34,11 +34,12 @@ with the reason.
 
 ## Decisions made from measurements
 
-| Change                                                | Before → after (slow 4G)                            | Trade-off                                                                           |
-| ----------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| CSS inlined into HTML (`inlineStylesheets: "always"`) | FCP/LCP ~1.97 s → ~1.81 s; home LCP 2.12 s → 1.82 s | ~2 KB more per page (CSS not cached separately); right for first visits from search |
-| No trailing-slash redirects (v0.2 step 2)             | One fewer round trip per internal link              | None                                                                                |
-| System font for code, 2 variable fonts                | 74 KB fonts total, cached after first visit         | None                                                                                |
+| Change                                                                                 | Before → after (slow 4G)                                                       | Trade-off                                                                                                 |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| CSS inlined into HTML (`inlineStylesheets: "always"`)                                  | FCP/LCP ~1.97 s → ~1.81 s; home LCP 2.12 s → 1.82 s                            | ~2 KB more per page (CSS not cached separately); right for first visits from search                       |
+| No trailing-slash redirects (v0.2 step 2)                                              | One fewer round trip per internal link                                         | None                                                                                                      |
+| System font for code, 2 variable fonts                                                 | 74 KB fonts total, cached after first visit                                    | None                                                                                                      |
+| Fonts via Astro Fonts API: preload, metric-matched fallbacks, `font-display: optional` | CI CLS 0.127 → (re-measured in CI); CLS 0.000 locally with fonts delayed 1.5 s | On a slow first visit the page may keep the fallback font (no swap); the font is cached for the next page |
 
 ## Running it locally
 
