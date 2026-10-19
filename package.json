@@ -27,9 +27,9 @@
     "lighthouse": "lhci collect && lhci assert"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.4",
-    "@astrojs/mdx": "^8.0.3",
-    "@astrojs/react": "^7.0.1",
+    "@astrojs/cloudflare": "^14.4.0",
+    "@astrojs/mdx": "^8.1.0",
+    "@astrojs/react": "^7.1.0",
     "@astrojs/rss": "^4.0.19",
     "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
@@ -37,8 +37,8 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.8",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "^4.3.3",
     "zod": "^4.6.5"
   },
