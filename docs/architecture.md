@@ -20,7 +20,7 @@ run code per request.
           ├─ Clerk (v0.3)              auth
           ├─ Resend (v0.4)             email        ─┐
           ├─ Cloudflare R2 (v0.4)      file storage  ├─ through provider interfaces
-          └─ Razorpay (v0.6)           payments     ─┘
+          └─ Razorpay (v0.8)           payments     ─┘
 ```
 
 ## Folder structure

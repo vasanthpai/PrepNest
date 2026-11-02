@@ -32,8 +32,8 @@ The environment is chosen at **build** time. Each environment gets its own build
 | `CLERK_WEBHOOK_SIGNING_SECRET` | yes    | v0.3  | Clerk → Webhooks → endpoint          | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `RESEND_API_KEY`               | yes    | v0.4  | Resend → API Keys                    | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `TURNSTILE_SECRET_KEY`         | yes    | v0.4  | Cloudflare → Turnstile               | `.dev.vars` | wrangler secret   | wrangler secret   |
-| `RAZORPAY_KEY_SECRET`          | yes    | v0.6  | Razorpay (test mode) → API Keys      | `.dev.vars` | wrangler secret   | wrangler secret   |
-| `RAZORPAY_WEBHOOK_SECRET`      | yes    | v0.6  | Razorpay → Webhooks                  | `.dev.vars` | wrangler secret   | wrangler secret   |
+| `RAZORPAY_KEY_SECRET`          | yes    | v0.8  | Razorpay (test mode) → API Keys      | `.dev.vars` | wrangler secret   | wrangler secret   |
+| `RAZORPAY_WEBHOOK_SECRET`      | yes    | v0.8  | Razorpay → Webhooks                  | `.dev.vars` | wrangler secret   | wrangler secret   |
 
 "GitHub env secret / var" = stored on the GitHub **environment** (`staging`, `production`), so only jobs running in that environment can read it. Setup: [cloudflare-setup.md](cloudflare-setup.md).
 Rows from v0.3 onwards are planned; they are added to the schema when their version starts.

@@ -21,8 +21,11 @@ staging: [prepnest-staging.prepnest.workers.dev](https://prepnest-staging.prepne
 | v0.3     | Database (Neon + Drizzle) and sign-in (Clerk)            | Planned     |
 | v0.4     | Newsletter and free downloads (Resend, R2)               | Planned     |
 | v0.5     | Quizzes and timed assessments                            | Planned     |
-| v0.6     | Payments (Razorpay, test mode)                           | Planned     |
-| v0.7     | Courses                                                  | Planned     |
+| v0.6     | Playground: learning games, first full game              | Planned     |
+| v0.7     | Second game and leaderboards                             | Planned     |
+| v0.8     | Payments (Razorpay, test mode)                           | Planned     |
+| v0.9     | Courses                                                  | Planned     |
+| v0.10    | AI: ask the blog, quiz drafts, study plans               | Planned     |
 | v1.0     | Portfolio launch: monitoring, security review, drills    | Planned     |
 
 Details: [roadmap](docs/roadmap.md).
@@ -39,7 +42,7 @@ flowchart TB
   W --> P{{Provider interfaces}}
   P --> RS[Resend email · v0.4]
   P --> R2[R2 storage · v0.4]
-  P --> RZ[Razorpay · v0.6]
+  P --> RZ[Razorpay · v0.8]
 ```
 
 - **Astro** pre-renders content pages at build time; **React islands** only where interaction is
