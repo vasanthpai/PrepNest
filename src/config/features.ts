@@ -17,8 +17,8 @@ export const FEATURE_FLAGS = {
   auth: { local: false, staging: false, production: false }, // v0.3
   newsletter: { local: false, staging: false, production: false }, // v0.4
   quizzes: { local: false, staging: false, production: false }, // v0.5
-  payments: { local: false, staging: false, production: false }, // v0.6
-  courses: { local: false, staging: false, production: false }, // v0.7
+  payments: { local: false, staging: false, production: false }, // v0.8
+  courses: { local: false, staging: false, production: false }, // v0.9
 } as const satisfies FlagTable;
 
 export type FeatureFlag = keyof typeof FEATURE_FLAGS;

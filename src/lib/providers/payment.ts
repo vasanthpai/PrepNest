@@ -1,7 +1,7 @@
 import type { Paise } from "@/lib/money";
 
 /**
- * Taking payments. Real implementation: Razorpay in TEST mode (v0.6). Tests: FakePaymentProvider.
+ * Taking payments. Real implementation: Razorpay in TEST mode (v0.8). Tests: FakePaymentProvider.
  *
  * Flow: server creates an order (amount from OUR database, never from the browser)
  * → browser checkout → server verifies the payment signature

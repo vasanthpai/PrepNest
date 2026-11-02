@@ -69,6 +69,13 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 Decisions: two Clerk applications (staging and production) so test sign-ups never mix with real
 ones; PR previews share the staging database (migrations must be backward-compatible).
 
+## v0.3.1 Game prototype ⏳
+
+A small "Be the algorithm: binary search" game inside a blog post: about 10 levels, one React island,
+no accounts and no database. A few people play it, and what they say decides v0.6. Small enough to
+ship on its own, right after v0.3.0 (a `Release-As: 0.3.1` commit footer keeps the version numbers
+below as planned).
+
 ## v0.4 Email capture ⏳
 
 `topics` (JavaScript, React, DevOps, …) · `subscribers`, `lead_magnets` · R2 storage provider ·
@@ -81,17 +88,37 @@ mark for review, autosave, survives refresh, auto-submit) · server-side scoring
 before submit) · topic-wise results · admin CSV import · unit + e2e tests · **"Explain my mistake"**
 (AI, Cloudflare Workers AI behind a provider interface; signed-in users, daily limit, cached)
 
-## v0.6 Payments (Razorpay test mode) ⏳
+## v0.6 Playground ⏳
+
+Learning games that don't exist elsewhere, each linked to an article and a quiz · game engine: rules
+in pure TypeScript (every level unit-tested against a reference implementation), drawing in a React
+island · first full game · progress saved to the account · keyboard and touch play, no meaning by
+colour alone, reduced motion · own Lighthouse budget, so the blog stays free of JavaScript
+
+**Go or no-go:** decided from the v0.3.1 prototype. If people don't find it fun, change the game or
+drop this version before building the engine.
+
+## v0.7 Second game and leaderboards ⏳
+
+Second game (candidates below) · leaderboards · shareable results
+
+Game ideas: **Be the algorithm** (perform each step of an algorithm yourself) · **Scale or fail**
+(system design as waves of traffic against your budget) · **Firewall inspector** (allow or block
+requests from a growing rulebook) · **A packet's journey** (from URL to rendered page) · **Event loop
+juggler** (order tasks the way the JavaScript engine runs them) · **Deadlock detective** (control the
+thread scheduler)
+
+## v0.8 Payments (Razorpay test mode) ⏳
 
 `products`, `product_items`, `orders`, `enrollments` · prices from DB only · checkout · signature
 check · idempotent webhook → enrollment · `hasAccess()` · receipt email · demo legal pages · tests
 
-## v0.7 Courses ⏳
+## v0.9 Courses ⏳
 
 `courses`, `lessons`, `lesson_progress` · sales page · player (unlisted YouTube, gated) · signed R2
 URLs for PDFs · progress tracking · tests
 
-## v0.8 AI ⏳
+## v0.10 AI ⏳
 
 "Ask the blog": answers built only from our articles, with links (vector search over posts) ·
 AI-drafted quiz questions from an article, reviewed by an admin before publishing · study plan from
