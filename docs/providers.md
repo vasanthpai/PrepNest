@@ -24,7 +24,7 @@ Feature code never talks to a vendor SDK directly. It depends on an **interface*
 | Interface         | Methods                                                  | Real implementation       | Fake                      |
 | ----------------- | -------------------------------------------------------- | ------------------------- | ------------------------- |
 | `EmailProvider`   | `send(message)`                                          | Resend (v0.4)             | `FakeEmailProvider`       |
-| `PaymentProvider` | `createOrder`, `verifyPaymentSignature`, `verifyWebhook` | Razorpay test mode (v0.6) | `FakePaymentProvider`     |
+| `PaymentProvider` | `createOrder`, `verifyPaymentSignature`, `verifyWebhook` | Razorpay test mode (v0.8) | `FakePaymentProvider`     |
 | `StorageProvider` | `put`, `get`, `delete`, `getDownloadUrl`                 | Cloudflare R2 (v0.4)      | `InMemoryStorageProvider` |
 
 All failures from an outside service are thrown as `ProviderError`, with the provider name and a

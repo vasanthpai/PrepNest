@@ -34,6 +34,6 @@ src/features/quizzes/
 | `topics/`     | v0.4    | Tech topics (JavaScript, React, DevOps…)     |
 | `newsletter/` | v0.4    | Subscribers, double opt-in, free downloads   |
 | `quizzes/`    | v0.5    | Questions, attempts, server-side scoring     |
-| `payments/`   | v0.6    | Products, orders, enrollments, `hasAccess()` |
-| `courses/`    | v0.7    | Courses, lessons, progress                   |
+| `payments/`   | v0.8    | Products, orders, enrollments, `hasAccess()` |
+| `courses/`    | v0.9    | Courses, lessons, progress                   |
 | `admin/`      | v0.5    | Admin-only guards and tools                  |

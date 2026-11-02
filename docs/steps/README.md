@@ -44,6 +44,12 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 
 **Retrospective:** [v0.2: what went well, what we learned](v0.2/retrospective.md)
 
+## v0.3 Database & auth
+
+| #   | Step                                  | Ticket                                                  | Log                             |
+| --- | ------------------------------------- | ------------------------------------------------------- | ------------------------------- |
+| 1   | Draft release PRs with release-please | [#39](https://github.com/vasanthpai/PrepNest/issues/39) | [01](v0.3/01-release-please.md) |
+
 ## Template for a new step log
 
 ```markdown
