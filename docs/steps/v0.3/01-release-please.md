@@ -31,7 +31,7 @@ You: review the PR → Rebase and merge → push tag vX.Y.Z → approve producti
 | `CHANGELOG.md`, `.prettierignore`         | Manual `[Unreleased]` section removed; file excluded from Prettier                |
 | `docs/release-process.md`                 | New release PR flow, token setup, how commit types map to CHANGELOG sections      |
 | `docs/decisions/0011-…`                   | Why release-please, why it doesn't tag, why a personal token                      |
-| `docs/roadmap.md`                         | v0.3 plan; AI in v0.5 and v0.8; analytics, privacy, account deletion in v0.3      |
+| `docs/roadmap.md`                         | v0.3 plan; AI in v0.5 and v0.10; analytics, privacy, account deletion in v0.3     |
 | Labels                                    | `autorelease: pending`, `autorelease: tagged` created                             |
 
 ## Three things that would have broken it
