@@ -33,3 +33,31 @@ describe("parseEnv", () => {
     expect(() => parseEnv(undefined)).toThrow(/Invalid environment configuration/);
   });
 });
+
+describe("DATABASE_URL", () => {
+  const url = "postgresql://app:s3cr3t-Pa55@ep-x-pooler.example.neon.tech/neondb?sslmode=require";
+
+  it("is optional (Worker secrets don't exist while CI builds the site)", () => {
+    expect(parseEnv({ APP_ENV: "staging" }).DATABASE_URL).toBeUndefined();
+  });
+
+  it("treats an empty value as missing", () => {
+    expect(parseEnv({ APP_ENV: "local", DATABASE_URL: "" }).DATABASE_URL).toBeUndefined();
+  });
+
+  it("accepts a Postgres connection string", () => {
+    expect(parseEnv({ APP_ENV: "local", DATABASE_URL: url }).DATABASE_URL).toBe(url);
+  });
+
+  it("rejects anything else by name, without echoing the value", () => {
+    const wrong = "mysql://app:s3cr3t-Pa55@host/db";
+    let message = "";
+    try {
+      parseEnv({ APP_ENV: "local", DATABASE_URL: wrong });
+    } catch (error) {
+      message = String(error);
+    }
+    expect(message).toContain("DATABASE_URL");
+    expect(message).not.toContain("s3cr3t-Pa55");
+  });
+});

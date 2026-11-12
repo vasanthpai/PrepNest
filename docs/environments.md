@@ -36,7 +36,8 @@ The environment is chosen at **build** time. Each environment gets its own build
 | `RAZORPAY_WEBHOOK_SECRET`      | yes    | v0.8  | Razorpay → Webhooks                  | `.dev.vars` | wrangler secret   | wrangler secret   |
 
 "GitHub env secret / var" = stored on the GitHub **environment** (`staging`, `production`), so only jobs running in that environment can read it. Setup: [cloudflare-setup.md](cloudflare-setup.md).
-Rows from v0.3 onwards are planned; they are added to the schema when their version starts.
+`DATABASE_URL` is in the schema (optional at build time, required by `/api/health` once deployed).
+The other rows from v0.3 onwards are added to the schema when their step starts.
 
 ## Database (Neon)
 

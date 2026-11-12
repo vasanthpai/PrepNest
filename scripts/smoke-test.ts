@@ -47,10 +47,15 @@ async function get(path: string): Promise<Response> {
 async function checkHealth(): Promise<CheckResult> {
   const name = "GET /api/health";
   const response = await get("/api/health");
-  if (response.status !== 200) return { name, ok: false, detail: `HTTP ${response.status}` };
-  const body = (await response.json()) as Record<string, unknown>;
+  // A degraded report comes with 503 and still has a body that says why.
+  const body = (await response.json().catch(() => ({}))) as Record<string, unknown>;
   const problems: string[] = [];
+  if (response.status !== 200) problems.push(`HTTP ${response.status}`);
   if (body["status"] !== "ok") problems.push(`status=${String(body["status"])}`);
+  // Every deployed environment must reach its database (v0.3); a local build may have none.
+  if (expectedEnv !== "local" && body["database"] !== "ok") {
+    problems.push(`database=${String(body["database"])}`);
+  }
   if (body["env"] !== expectedEnv)
     problems.push(`env=${String(body["env"])} (want ${expectedEnv})`);
   if (body["version"] !== expectedVersion)
@@ -58,7 +63,11 @@ async function checkHealth(): Promise<CheckResult> {
   if (!response.headers.get("cache-control")?.includes("no-store")) problems.push("not no-store");
   return problems.length
     ? { name, ok: false, detail: problems.join(", ") }
-    : { name, ok: true, detail: `env=${expectedEnv} version=${expectedVersion}` };
+    : {
+        name,
+        ok: true,
+        detail: `env=${expectedEnv} version=${expectedVersion} database=${String(body["database"])}`,
+      };
 }
 
 async function checkHome(): Promise<CheckResult> {

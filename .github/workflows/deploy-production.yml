@@ -1,5 +1,5 @@
 # Deploys a release tag (vX.Y.Z) to production, after a maintainer approves it.
-#   tag pushed → verify → [approval] → build → deploy → smoke test → GitHub Release
+#   tag pushed → verify → [approval] → build → migrate → deploy → smoke test → GitHub Release
 #
 # Rollback: Actions → Deploy production → Run workflow → "Use workflow from" → Tags → the PREVIOUS
 # tag. It re-deploys that exact release (after approval) without creating a new GitHub Release.
@@ -84,12 +84,13 @@ jobs:
         env:
           CLOUDFLARE_ENV: production
 
-      # v0.3: database migrations run here, BEFORE the new code goes live.
-      # They must be backward-compatible so the previous tag still works (rollback).
-      # - name: Migrate production database
-      #   run: npm run db:migrate
-      #   env:
-      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # After approval and BEFORE the new code goes live. Migrations must be backward-compatible,
+      # so the previous tag still works on the new schema (rollback = redeploy that tag; a rollback
+      # run applies nothing, because its migrations are already recorded as applied).
+      - name: Migrate production database
+        run: npm run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy to Cloudflare
         id: deploy
