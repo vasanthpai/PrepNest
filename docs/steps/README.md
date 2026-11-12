@@ -46,10 +46,11 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 
 ## v0.3 Database & auth
 
-| #   | Step                                  | Ticket                                                  | Log                             |
-| --- | ------------------------------------- | ------------------------------------------------------- | ------------------------------- |
-| 1   | Draft release PRs with release-please | [#39](https://github.com/vasanthpai/PrepNest/issues/39) | [01](v0.3/01-release-please.md) |
-| 2   | Connect to Neon Postgres              | [#54](https://github.com/vasanthpai/PrepNest/issues/54) | [02](v0.3/02-neon.md)           |
+| #   | Step                                        | Ticket                                                  | Log                             |
+| --- | ------------------------------------------- | ------------------------------------------------------- | ------------------------------- |
+| 1   | Draft release PRs with release-please       | [#39](https://github.com/vasanthpai/PrepNest/issues/39) | [01](v0.3/01-release-please.md) |
+| 2   | Connect to Neon Postgres                    | [#54](https://github.com/vasanthpai/PrepNest/issues/54) | [02](v0.3/02-neon.md)           |
+| 3   | Database schema and data layer with Drizzle | [#56](https://github.com/vasanthpai/PrepNest/issues/56) | [03](v0.3/03-data-layer.md)     |
 
 ## Template for a new step log
 
