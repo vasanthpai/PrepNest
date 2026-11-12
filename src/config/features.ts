@@ -14,7 +14,7 @@ export type FlagTable = Record<string, Record<AppEnv, boolean>>;
 
 export const FEATURE_FLAGS = {
   blog: { local: true, staging: true, production: true }, // released in v0.2.0
-  auth: { local: false, staging: false, production: false }, // v0.3
+  auth: { local: true, staging: false, production: false }, // v0.3 (ADR 0013)
   newsletter: { local: false, staging: false, production: false }, // v0.4
   quizzes: { local: false, staging: false, production: false }, // v0.5
   payments: { local: false, staging: false, production: false }, // v0.8

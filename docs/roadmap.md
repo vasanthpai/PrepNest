@@ -57,9 +57,9 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 | 1   | release-please drafts release PRs (tagging stays manual)                            | ✅     |
 | 2   | Neon project with `dev`, `staging`, `main` branches; ADR                            | ✅     |
 | 3   | Drizzle schema (`users`, `webhook_events`), data layer, tests on PGlite             | ✅     |
-| 4   | Migrations in CI and deploy pipelines; database check in health and smoke test      | 🚧     |
-| 5   | Clerk (Google + email), `auth` flag, sign-in and sign-up pages; Clerk JS only there | ⏳     |
-| 6   | Auth middleware, `/dashboard`, user row created on first sign-in                    | ⏳     |
+| 4   | Migrations in CI and deploy pipelines; database check in health and smoke test      | ✅     |
+| 5   | Clerk (Google + email), `auth` flag, sign-in and sign-up pages; Clerk JS only there | 🚧     |
+| 6   | Auth middleware, `/dashboard`, user row created on first sign-in                    | 🚧     |
 | 7   | Clerk webhook: verified signatures, each event processed once                       | ⏳     |
 | 8   | Privacy page and account deletion (needed once real people sign up)                 | ⏳     |
 | 9   | Analytics: Cloudflare Web Analytics + server-side product events                    | ⏳     |
