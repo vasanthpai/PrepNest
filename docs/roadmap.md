@@ -54,8 +54,8 @@ feature/vX.Y-name → PR → CI green → merge to main → auto-deploy to stagi
 
 | #   | Step                                                                                | Status |
 | --- | ----------------------------------------------------------------------------------- | ------ |
-| 1   | release-please drafts release PRs (tagging stays manual)                            | 🚧     |
-| 2   | Neon project with `dev`, `staging`, `main` branches; ADR                            | ⏳     |
+| 1   | release-please drafts release PRs (tagging stays manual)                            | ✅     |
+| 2   | Neon project with `dev`, `staging`, `main` branches; ADR                            | 🚧     |
 | 3   | Drizzle schema (`users`, `webhook_events`), data layer, tests on PGlite             | ⏳     |
 | 4   | Migrations in CI and deploy pipelines; database check in health and smoke test      | ⏳     |
 | 5   | Clerk (Google + email), `auth` flag, sign-in and sign-up pages; Clerk JS only there | ⏳     |

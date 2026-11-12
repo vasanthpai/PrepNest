@@ -54,8 +54,9 @@ cp .dev.vars.example .dev.vars   # Windows PowerShell: Copy-Item .dev.vars.examp
 npm run dev        # http://localhost:4321
 ```
 
-`.dev.vars` holds local secrets and is git-ignored. In v0.1 it needs no values. From v0.3, fill
-in the keys listed in [environments.md](environments.md).
+`.dev.vars` holds local secrets and is git-ignored. From v0.3 it needs `DATABASE_URL` (your Neon
+`dev` branch, pooled; see [environments.md](environments.md#database-neon)). Check it with
+`npm run db:ping`.
 
 ## 3. Useful scripts
 
@@ -72,6 +73,7 @@ in the keys listed in [environments.md](environments.md).
 | `npm test`                                                   | Vitest: run all unit tests once (used in CI)                                      |
 | `npm run test:watch`                                         | Vitest in watch mode: re-runs tests as you edit                                   |
 | `npm run cf-typegen`                                         | Regenerate `worker-configuration.d.ts` (also runs automatically on `npm install`) |
+| `npm run db:ping`                                            | Check `DATABASE_URL` reaches the database (never prints it)                       |
 | `npm run check`                                              | All checks CI runs except the build, in one command                               |
 | `npm run smoke -- --url <url> --env <env> --version <x.y.z>` | Smoke test a running site (see ci-cd.md)                                          |
 

@@ -7,10 +7,12 @@
 # Staging/production secrets are set with: npx wrangler secret put <NAME> --env <staging|production>
 # Full list and where each value comes from: docs/environments.md
 #
-# No secrets are needed yet (v0.1). Uncomment as each version adds them.
+# Uncomment each line as its version needs it, and fill in your own value.
+# Check the database connection with: npm run db:ping
 
 # --- v0.3 Database + auth ---
-# DATABASE_URL=postgresql://<user>:<password>@<host>/<db>?sslmode=require
+# Neon -> Connect -> branch "dev", connection pooling ON
+# DATABASE_URL=postgresql://<user>:<password>@<host>-pooler.<region>.aws.neon.tech/neondb?sslmode=require
 # CLERK_SECRET_KEY=sk_test_...
 # CLERK_WEBHOOK_SIGNING_SECRET=whsec_...
 

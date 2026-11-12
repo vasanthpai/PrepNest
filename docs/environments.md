@@ -27,7 +27,7 @@ The environment is chosen at **build** time. Each environment gets its own build
 | `APP_ENV`                      | no     | v0.1  | Fixed per environment                | `local`     | `staging`         | `production`      |
 | `CLOUDFLARE_API_TOKEN`         | yes    | v0.1  | Cloudflare → My Profile → API Tokens | —           | GitHub env secret | GitHub env secret |
 | `CLOUDFLARE_ACCOUNT_ID`        | no     | v0.1  | Cloudflare dashboard sidebar         | —           | GitHub env var    | GitHub env var    |
-| `DATABASE_URL`                 | yes    | v0.3  | Neon → branch → Connection string    | `.dev.vars` | wrangler + GitHub | wrangler + GitHub |
+| `DATABASE_URL`                 | yes    | v0.3  | Neon → Connect → branch              | `.dev.vars` | wrangler + GitHub | wrangler + GitHub |
 | `CLERK_SECRET_KEY`             | yes    | v0.3  | Clerk → API keys                     | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `CLERK_WEBHOOK_SIGNING_SECRET` | yes    | v0.3  | Clerk → Webhooks → endpoint          | `.dev.vars` | wrangler secret   | wrangler secret   |
 | `RESEND_API_KEY`               | yes    | v0.4  | Resend → API Keys                    | `.dev.vars` | wrangler secret   | wrangler secret   |
@@ -37,6 +37,26 @@ The environment is chosen at **build** time. Each environment gets its own build
 
 "GitHub env secret / var" = stored on the GitHub **environment** (`staging`, `production`), so only jobs running in that environment can read it. Setup: [cloudflare-setup.md](cloudflare-setup.md).
 Rows from v0.3 onwards are planned; they are added to the schema when their version starts.
+
+## Database (Neon)
+
+One Neon project, one branch per environment ([ADR 0012](decisions/0012-neon-postgres-and-drizzle.md)):
+
+| Environment        | Neon branch      | App (`DATABASE_URL`, **pooled**)                        | Migrations (`DATABASE_URL`, **direct**)       |
+| ------------------ | ---------------- | ------------------------------------------------------- | --------------------------------------------- |
+| local              | `dev`            | `.dev.vars`                                             | `.dev.vars` (pooled is fine locally)          |
+| staging + previews | `staging`        | `npx wrangler secret put DATABASE_URL --env staging`    | `gh secret set DATABASE_URL --env staging`    |
+| production         | default (`main`) | `npx wrangler secret put DATABASE_URL --env production` | `gh secret set DATABASE_URL --env production` |
+
+- **Get a string:** Neon → your project → **Connect** → choose the branch → **Connection pooling**
+  on (app) or off (migrations) → copy. The host of a pooled string contains `-pooler`.
+- **Never paste one into chat, an issue or a command line**: it contains the password. The
+  `wrangler secret put` and `gh secret set` commands ask for it at a hidden prompt.
+- **Check it works:** `npm run db:ping` (uses `.dev.vars`). To check another branch, type its
+  string at a hidden prompt: `read -rs DATABASE_URL && export DATABASE_URL && npm run db:ping; unset DATABASE_URL`.
+  The script prints the host, database, pooling and latency, never the string.
+- **List what's set (names only):** `npx wrangler secret list --env staging`, `gh secret list --env staging`.
+- **Rotate a password:** Neon → Roles → reset password, then update every place in the table.
 
 ## How validation works
 
