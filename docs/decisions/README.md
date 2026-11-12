@@ -20,6 +20,7 @@ and what we rejected. ADRs are never edited after they're accepted. If a decisio
 | [0010](0010-generate-cloudflare-types.md)      | Generate Cloudflare types on install, don't commit them           | Accepted | 2026-10-09 |
 | [0011](0011-release-please-drafts-releases.md) | Draft releases with release-please; keep tagging manual           | Accepted | 2026-10-12 |
 | [0012](0012-neon-postgres-and-drizzle.md)      | Neon Postgres with Drizzle, over HTTP, one branch per environment | Accepted | 2026-11-12 |
+| [0013](0013-clerk-hosted-sign-in.md)           | Sign in with Clerk's hosted pages; Clerk only on auth routes      | Accepted | 2026-11-12 |
 
 ## Template
 

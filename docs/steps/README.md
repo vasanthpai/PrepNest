@@ -52,6 +52,7 @@ Each step from v0.1 step 6 onwards also has a GitHub issue (ticket) and closes i
 | 2   | Connect to Neon Postgres                               | [#54](https://github.com/vasanthpai/PrepNest/issues/54) | [02](v0.3/02-neon.md)                |
 | 3   | Database schema and data layer with Drizzle            | [#56](https://github.com/vasanthpai/PrepNest/issues/56) | [03](v0.3/03-data-layer.md)          |
 | 4   | Migrations in the pipelines; database in health checks | [#58](https://github.com/vasanthpai/PrepNest/issues/58) | [04](v0.3/04-migrations-pipeline.md) |
+| 5–6 | Sign in with Clerk, and the dashboard                  | [#60](https://github.com/vasanthpai/PrepNest/issues/60) | [05](v0.3/05-clerk-sign-in.md)       |
 
 ## Template for a new step log
 

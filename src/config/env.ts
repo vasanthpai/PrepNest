@@ -24,7 +24,28 @@ export const envSchema = z.object({
       .optional(),
   ),
 
-  // v0.3: CLERK_SECRET_KEY, CLERK_WEBHOOK_SIGNING_SECRET
+  /** Clerk application for this environment. Public: wrangler.jsonc vars (ADR 0013). */
+  PUBLIC_CLERK_PUBLISHABLE_KEY: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .string()
+      .regex(/^pk_(test|live)_/, "must be a Clerk publishable key (pk_…)")
+      .optional(),
+  ),
+
+  /**
+   * Clerk secret key: .dev.vars locally, Worker secret when deployed. Optional for the same
+   * reason as DATABASE_URL; without it, sign-in answers 503 instead of crashing.
+   */
+  CLERK_SECRET_KEY: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .string()
+      .regex(/^sk_(test|live)_/, "must be a Clerk secret key (sk_…)")
+      .optional(),
+  ),
+
+  // v0.3: CLERK_WEBHOOK_SIGNING_SECRET
   // v0.4: RESEND_API_KEY, EMAIL_FROM, TURNSTILE_SECRET_KEY
   // v0.8: RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET
 });

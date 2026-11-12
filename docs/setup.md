@@ -54,7 +54,8 @@ cp .dev.vars.example .dev.vars   # Windows PowerShell: Copy-Item .dev.vars.examp
 npm run dev        # http://localhost:4321
 ```
 
-`.dev.vars` holds local secrets and is git-ignored. From v0.3 it needs `DATABASE_URL` (your Neon
+`.dev.vars` holds local secrets and is git-ignored. From v0.3 it needs `CLERK_SECRET_KEY` (sign-in)
+and `DATABASE_URL` (your Neon
 `dev` branch, pooled; see [environments.md](environments.md#database-neon)). Check it with
 `npm run db:ping`.
 

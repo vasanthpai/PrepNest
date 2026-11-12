@@ -13,8 +13,11 @@
   "observability": {
     "enabled": true,
   },
+  // PUBLIC_CLERK_PUBLISHABLE_KEY is public by design (it is sent to browsers). Local and staging use
+  // the "PrepNest staging" Clerk application; production has its own (ADR 0013).
   "vars": {
     "APP_ENV": "local",
+    "PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cGVyZmVjdC10cm91dC05MDAxLmNsZXJrLmFjY291bnRzLmRldiQ",
   },
 
   // Deployed environments. Selected at BUILD time: CLOUDFLARE_ENV=staging npm run build
@@ -26,6 +29,7 @@
       "preview_urls": true,
       "vars": {
         "APP_ENV": "staging",
+        "PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_cGVyZmVjdC10cm91dC05MDAxLmNsZXJrLmFjY291bnRzLmRldiQ",
       },
     },
     "production": {
@@ -34,6 +38,7 @@
       "preview_urls": false,
       "vars": {
         "APP_ENV": "production",
+        "PUBLIC_CLERK_PUBLISHABLE_KEY": "pk_test_d2hvbGUtbHlueC0xMTM4LmNsZXJrLmFjY291bnRzLmRldiQ",
       },
     },
   },

@@ -1,0 +1,54 @@
+---
+import { ensureUser } from "@/features/users";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { authUnavailable } from "@/lib/auth/responses";
+import { formatDate } from "@/lib/dates";
+import { getDb } from "@/lib/db/runtime";
+
+// Personal, so rendered per request and never cached or indexed.
+export const prerender = false;
+
+const unavailable = authUnavailable();
+if (unavailable) return unavailable;
+
+const { userId, redirectToSignIn } = Astro.locals.auth();
+if (!userId) return redirectToSignIn();
+const clerkUser = await Astro.locals.currentUser();
+if (!clerkUser) return redirectToSignIn();
+
+const user = await ensureUser(getDb(), clerkUser);
+Astro.response.headers.set("cache-control", "private, no-store");
+const firstName = user.name?.split(" ")[0];
+---
+
+<BaseLayout title="Dashboard" description="Your PrepNest account." indexable={false}>
+  <section class="mx-auto flex max-w-3xl flex-col gap-8 px-4 pt-10 pb-20 sm:pt-16">
+    <div class="flex flex-col gap-2">
+      <p class="font-mono text-xs text-muted">dashboard()</p>
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+        {firstName ? `Welcome, ${firstName}` : "Welcome"}
+      </h1>
+      <p class="text-muted">Quizzes and courses will show your progress here.</p>
+    </div>
+
+    <dl class="grid gap-4 rounded-xl border border-line bg-surface p-6 sm:grid-cols-2">
+      <div>
+        <dt class="font-mono text-xs text-muted">Signed in as</dt>
+        <dd class="font-semibold break-all">{user.email}</dd>
+      </div>
+      <div>
+        <dt class="font-mono text-xs text-muted">Member since</dt>
+        <dd class="font-semibold">{formatDate(user.createdAt)}</dd>
+      </div>
+    </dl>
+
+    <form method="post" action="/sign-out">
+      <button
+        type="submit"
+        class="rounded-lg border border-line px-4 py-2 font-semibold hover:border-fg focus-visible:outline-2"
+      >
+        Sign out
+      </button>
+    </form>
+  </section>
+</BaseLayout>

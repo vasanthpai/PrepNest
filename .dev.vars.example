@@ -13,6 +13,7 @@
 # --- v0.3 Database + auth ---
 # Neon -> Connect -> branch "dev", connection pooling ON
 # DATABASE_URL=postgresql://<user>:<password>@<host>-pooler.<region>.aws.neon.tech/neondb?sslmode=require
+# Clerk -> "PrepNest staging" application -> Configure -> API keys -> Secret key
 # CLERK_SECRET_KEY=sk_test_...
 # CLERK_WEBHOOK_SIGNING_SECRET=whsec_...
 
