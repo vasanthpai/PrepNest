@@ -74,6 +74,8 @@ npm run dev        # http://localhost:4321
 | `npm run test:watch`                                         | Vitest in watch mode: re-runs tests as you edit                                   |
 | `npm run cf-typegen`                                         | Regenerate `worker-configuration.d.ts` (also runs automatically on `npm install`) |
 | `npm run db:ping`                                            | Check `DATABASE_URL` reaches the database (never prints it)                       |
+| `npm run db:migrate`                                         | Apply database migrations to your `dev` branch (see database.md)                  |
+| `npm run db:generate`                                        | Write a new migration after changing a table                                      |
 | `npm run check`                                              | All checks CI runs except the build, in one command                               |
 | `npm run smoke -- --url <url> --env <env> --version <x.y.z>` | Smoke test a running site (see ci-cd.md)                                          |
 

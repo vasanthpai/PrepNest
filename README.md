@@ -112,6 +112,7 @@ Requires Node.js 24. Full guide and troubleshooting: [setup](docs/setup.md).
 | [Release process](docs/release-process.md)   | Branches, PRs, staging, tags, rollback, hotfixes      |
 | [Release playbook](docs/release-playbook.md) | Reusable CI/CD guide for other projects, all commands |
 | [Environments](docs/environments.md)         | Local / staging / production, every variable          |
+| [Database](docs/database.md)                 | Tables, migrations, changing the schema safely        |
 | [Writing posts](docs/content.md)             | Front matter rules, drafts, style, checklist          |
 | [SEO](docs/seo.md)                           | Canonicals, link previews, structured data, indexing  |
 | [Search](docs/search.md)                     | How article search works, its cost, safety            |

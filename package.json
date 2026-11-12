@@ -25,7 +25,10 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "lighthouse": "lhci collect && lhci assert",
-    "db:ping": "node --env-file-if-exists=.dev.vars scripts/db-ping.ts"
+    "db:ping": "node --env-file-if-exists=.dev.vars scripts/db-ping.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:check": "drizzle-kit check",
+    "db:migrate": "node --env-file-if-exists=.dev.vars scripts/db-migrate.ts"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.4",
@@ -39,6 +42,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "astro": "^7.3.8",
+    "drizzle-orm": "0.45.4",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3",
@@ -50,11 +54,13 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.13.0",
+    "@electric-sql/pglite": "0.5.16",
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.64.0",
     "@tailwindcss/typography": "^0.5.20",
     "@types/node": "^24.19.1",
+    "drizzle-kit": "0.31.11",
     "eslint": "^10.12.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.2.1",

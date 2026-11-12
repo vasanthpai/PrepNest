@@ -31,6 +31,7 @@ src/features/quizzes/
 | ------------- | ------- | -------------------------------------------- |
 | `blog/`       | v0.2    | Post listing, topics, tags, SEO helpers      |
 | `users/`      | v0.3    | User records synced from Clerk               |
+| `webhooks/`   | v0.3    | Received webhooks, each processed once       |
 | `topics/`     | v0.4    | Tech topics (JavaScript, React, DevOps…)     |
 | `newsletter/` | v0.4    | Subscribers, double opt-in, free downloads   |
 | `quizzes/`    | v0.5    | Questions, attempts, server-side scoring     |
