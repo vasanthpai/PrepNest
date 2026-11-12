@@ -41,15 +41,27 @@ Pages never import a repo directly: page → service → repo (`src/features/REA
 
 ## Commands
 
-| Command               | What it does                                                             |
-| --------------------- | ------------------------------------------------------------------------ |
-| `npm run db:generate` | Compare the schema with the last migration and write a new SQL migration |
-| `npm run db:check`    | Check the migration files are consistent (CI runs this from step 4)      |
-| `npm run db:migrate`  | Apply pending migrations to `DATABASE_URL` (locally: your `dev` branch)  |
-| `npm run db:ping`     | Check `DATABASE_URL` reaches the database                                |
+| Command               | What it does                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| `npm run db:generate` | Compare the schema with the last migration and write a new SQL migration                   |
+| `npm run db:check`    | Check the migration files are consistent (CI also fails if the schema changed without one) |
+| `npm run db:migrate`  | Apply pending migrations to `DATABASE_URL` (locally: your `dev` branch)                    |
+| `npm run db:ping`     | Check `DATABASE_URL` reaches the database                                                  |
 
 `db:migrate` records what it applied in `drizzle.__drizzle_migrations` and skips those next time,
 so running it twice is safe.
+
+## Where migrations run
+
+| Where      | When                                           | Connection string                       |
+| ---------- | ---------------------------------------------- | --------------------------------------- |
+| `dev`      | You run `npm run db:migrate`                   | `.dev.vars`                             |
+| staging    | Every deploy of `main`, before the code        | GitHub `staging` env secret (direct)    |
+| production | Every release, after approval, before the code | GitHub `production` env secret (direct) |
+| previews   | Never (they share staging's database)          | —                                       |
+
+After each deploy, the smoke test checks `/api/health` reports `database: ok`, which proves the
+live Worker's own secret works too.
 
 ## Changing the schema
 

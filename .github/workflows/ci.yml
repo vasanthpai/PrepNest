@@ -51,6 +51,18 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      # The migration files must be consistent, and must match the schema in src/. A schema
+      # change without `npm run db:generate` would deploy code whose tables don't exist.
+      - name: Check database migrations
+        run: |
+          npm run db:check
+          npx drizzle-kit generate --name ci-schema-check > /dev/null
+          if [ -n "$(git status --porcelain drizzle)" ]; then
+            git status --short drizzle
+            echo "::error::The schema changed but no migration was generated. Run 'npm run db:generate' and commit drizzle/."
+            exit 1
+          fi
+
       - name: Build
         run: npm run build
 

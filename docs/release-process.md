@@ -47,7 +47,7 @@ git switch -c feature/v0.2-blog
 Every push to `main` runs `deploy-staging.yml`:
 
 1. Build with `CLOUDFLARE_ENV=staging`
-2. Run database migrations on the **staging** database (from v0.3)
+2. Run database migrations on the **staging** database (`npm run db:migrate`)
 3. Deploy the `prepnest-staging` Worker
 4. Smoke test: `GET /api/health` must return `{"status":"ok","env":"staging"}`
 

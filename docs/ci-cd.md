@@ -17,14 +17,15 @@ GitHub Actions workflows live in `.github/workflows/`. CI is the gate in the
 
 ## CI: what each check catches
 
-| Step       | Command                | Catches                                                                   |
-| ---------- | ---------------------- | ------------------------------------------------------------------------- |
-| Install    | `npm ci`               | Lockfile out of sync with `package.json`; also generates Cloudflare types |
-| Lint       | `npm run lint`         | Bugs, unused code, React hooks misuse, accessibility issues               |
-| Formatting | `npm run format:check` | Unformatted files, Windows line endings                                   |
-| Type check | `npm run typecheck`    | Type errors in `.ts`, `.tsx`, `.astro`                                    |
-| Unit tests | `npm test`             | Broken logic (money, flags, config, providers, …)                         |
-| Build      | `npm run build`        | Build errors, **invalid environment config** (fails the pre-render)       |
+| Step       | Command                                     | Catches                                                                   |
+| ---------- | ------------------------------------------- | ------------------------------------------------------------------------- |
+| Install    | `npm ci`                                    | Lockfile out of sync with `package.json`; also generates Cloudflare types |
+| Lint       | `npm run lint`                              | Bugs, unused code, React hooks misuse, accessibility issues               |
+| Formatting | `npm run format:check`                      | Unformatted files, Windows line endings                                   |
+| Type check | `npm run typecheck`                         | Type errors in `.ts`, `.tsx`, `.astro`                                    |
+| Unit tests | `npm test`                                  | Broken logic (money, flags, config, providers, …)                         |
+| Migrations | `npm run db:check` + `drizzle-kit generate` | Inconsistent migration files; a schema change with no migration generated |
+| Build      | `npm run build`                             | Build errors, **invalid environment config** (fails the pre-render)       |
 
 Run the same checks locally with **`npm run check`** (everything except the build).
 
@@ -75,7 +76,7 @@ staging → Run workflow).
 merge to main ──► CI (on main) ──success──► Deploy staging
                                               ├─ check out the exact commit CI tested
                                               ├─ npm ci → build (CLOUDFLARE_ENV=staging)
-                                              ├─ (v0.3) migrate the staging database
+                                              ├─ migrate the staging database (direct URL)
                                               ├─ wrangler deploy → live URL
                                               ├─ smoke test the live URL
                                               └─ summary + GitHub deployment record
@@ -94,11 +95,11 @@ merge to main ──► CI (on main) ──success──► Deploy staging
 
 `npm run smoke -- --url <base-url> --env <env> --version <x.y.z>` checks:
 
-| Check              | Passes when                                                                     |
-| ------------------ | ------------------------------------------------------------------------------- |
-| `GET /api/health`  | 200, `status: ok`, the expected `env` and `version`, `cache-control: no-store`  |
-| `GET /`            | 200, home content present, `noindex` outside production (and not in production) |
-| `GET /favicon.svg` | 200                                                                             |
+| Check              | Passes when                                                                                                     |
+| ------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `GET /api/health`  | 200, `status: ok`, the expected `env` and `version`, `cache-control: no-store`; outside `local`, `database: ok` |
+| `GET /`            | 200, home content present, `noindex` outside production (and not in production)                                 |
+| `GET /favicon.svg` | 200                                                                                                             |
 
 It retries up to 10 times, 3 seconds apart, while the new version reaches every Cloudflare location.
 Run it against any environment by hand, e.g. after a rollback.
@@ -154,9 +155,11 @@ PR push → npm ci → build (CLOUDFLARE_ENV=staging)
 | One comment, edited on each push (hidden marker)        | The PR stays readable                                                                                                                              |
 | `preview_urls: false` for production                    | Production is only reachable through tagged deploys                                                                                                |
 
-Previews share staging's bindings. From v0.3 that includes the **staging database**: preview code runs
-against it, so migrations in a PR must stay backward-compatible (they already must, see
-[release-process.md](release-process.md)).
+Previews share staging's bindings, including the **staging database** (its Worker secret). Preview
+code runs against it, and the preview smoke test requires `database: ok`. Previews **never run
+migrations**: a pull request that adds a migration is previewed against the old schema until it is
+merged, so its new database code may fail on the preview. Migrations must stay backward-compatible
+([release-process.md](release-process.md)).
 
 ## Lighthouse job
 

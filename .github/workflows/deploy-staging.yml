@@ -58,11 +58,13 @@ jobs:
         env:
           CLOUDFLARE_ENV: staging
 
-      # v0.3: database migrations run here, BEFORE the new code goes live:
-      # - name: Migrate staging database
-      #   run: npm run db:migrate
-      #   env:
-      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # BEFORE the new code goes live, so it never runs against tables that don't exist yet.
+      # Uses the staging environment's direct (not pooled) connection string. Previews share this
+      # database but never migrate it (docs/database.md).
+      - name: Migrate staging database
+        run: npm run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy to Cloudflare
         id: deploy

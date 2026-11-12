@@ -11,7 +11,20 @@ import { APP_ENVS } from "@/config/app-env";
 export const envSchema = z.object({
   APP_ENV: z.enum(APP_ENVS),
 
-  // v0.3: DATABASE_URL, CLERK_SECRET_KEY, CLERK_WEBHOOK_SIGNING_SECRET
+  /**
+   * Neon Postgres, pooled (docs/environments.md#database-neon). Optional here because Worker
+   * secrets exist only at runtime, not while CI builds the site. Deployed environments must have
+   * it: /api/health reports "degraded" without it, and the smoke test fails the deploy.
+   */
+  DATABASE_URL: z.preprocess(
+    (value) => (value === "" ? undefined : value),
+    z
+      .string()
+      .regex(/^postgres(ql)?:\/\//, "must be a postgresql:// connection string")
+      .optional(),
+  ),
+
+  // v0.3: CLERK_SECRET_KEY, CLERK_WEBHOOK_SIGNING_SECRET
   // v0.4: RESEND_API_KEY, EMAIL_FROM, TURNSTILE_SECRET_KEY
   // v0.8: RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET
 });
